@@ -1,0 +1,31 @@
+// warning, change after develop max width (1910px)
+@media (max-width: 1930px) {
+
+  .container {
+    width: 1280px;
+  }
+
+  .undispatched .left {
+    width: 234px;
+  }
+  .undispatched .right {
+    width: 80.8%;
+  }
+  .undispatched .right .ganta .top .col-hour {
+    width: 66px;
+  }
+  .undispatched .right .ganta .top .col-hour .list .item {
+    width: 100%;
+
+    &:before {
+      margin-left: 18px;
+    }
+  }
+  .undispatched .right .ganta .top .col-hour .list .item:nth-child(4n):before {
+    width: 2px;
+    margin-left: 18px;
+  }
+  .undispatched .right .ganta .top .col-hour .hour {
+    width: 100% !important;
+  }
+}
