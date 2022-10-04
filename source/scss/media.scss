@@ -1,10 +1,8 @@
 // warning, change after develop max width (1910px)
 @media (max-width: 1930px) {
-
   .container {
     width: 1280px;
   }
-
   .undispatched .left {
     width: 234px;
   }
@@ -27,5 +25,41 @@
   }
   .undispatched .right .ganta .top .col-hour .hour {
     width: 100% !important;
+  }
+  .undispatched-bottom .content .item .item-left {
+    padding: 14px 16px;
+    width: 234px;
+    align-items: center;
+  }
+  .undispatched-bottom .content .item .item-left .item-left-top {
+    display: flex;
+    align-items: center;
+  }
+  .undispatched-bottom .content .item .item-left .person {
+    padding-left: 5px;
+  }
+  .undispatched-bottom .content .item .item-left .names {
+    padding-left: 5px;
+    max-width: 132px;
+  }
+  .undispatched-bottom .content .item .item-left .item-left-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+  }
+  .undispatched-bottom .content .item .item-left .dots {
+    height: 18px;
+    width: 8px;
+  }
+  .undispatched-bottom .content:after {
+    position: absolute;
+    width: 3px;
+    z-index: 1000;
+    background: #E4EFFF;
+    min-height: 50vh;
+    left: 254px;
+    content: ' ';
+    top: 0;
   }
 }
