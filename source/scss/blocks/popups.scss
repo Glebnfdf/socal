@@ -1,0 +1,284 @@
+.example {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+
+.popup {
+  z-index: 10000000;
+  width: 580px;
+  background: #fff;
+  border-radius: 15px;
+  padding: 15px 25px 30px 25px;
+  box-shadow: 0 4px 24px rgba(67, 108, 180, 0.39);
+
+  .close {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .status {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 12px;
+    padding-bottom: 12px;
+
+    .number {
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+      color: #0866FB;
+    }
+
+    .btn-recall {
+      background: #EE3E62;
+      border-radius: 8px;
+      padding: 5px 10px;
+
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 18px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+    }
+  }
+
+  .info {
+    .address {
+      display: flex;
+
+      img {
+        margin-top: 2px;
+        width: 10px;
+        height: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .txt {
+        font-family: $main-font;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 130%;
+        letter-spacing: 0.02em;
+        color: #0F244A;
+        padding-left: 8px;
+        padding-bottom: 2px;
+        border-bottom: 2px dotted #81A6E7;
+      }
+    }
+
+    .contacts {
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 18px;
+      align-items: center;
+      color: #81A6E7;
+
+      .top {
+        display: flex;
+        padding-top: 16px;
+        padding-bottom: 12px;
+
+        .name {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-right: 5px;
+
+          &:after {
+            width: 5px;
+            height: 5px;
+            position: absolute;
+            content: ' ';
+            background: #81A6E7;
+            border-radius: 100px;
+            margin-left: 96px;
+          }
+        }
+
+        .description {
+          padding-left: 5px;
+        }
+      }
+
+      .bottom {
+        display: flex;
+
+        .phone {
+          padding-right: 5px;
+          display: flex;
+          align-items: center;
+          position: relative;
+
+          &:after {
+            width: 5px;
+            height: 5px;
+            position: absolute;
+            content: ' ';
+            background: #81A6E7;
+            border-radius: 100px;
+            margin-left: 151px;
+          }
+        }
+
+        .mail {
+          padding-left: 5px;
+        }
+      }
+    }
+  }
+
+  .main-text {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    width: 100%;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 130%;
+    letter-spacing: 0.02em;
+    color: #0F244A;
+  }
+
+  .inputs {
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+    margin-bottom: 14px;
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      background: url(../img/calendar-icon.svg) center center no-repeat;
+    }
+
+    input[type="time"]::-webkit-calendar-picker-indicator {
+      background: url(../img/clock-icon.svg) center center no-repeat;
+    }
+
+    .date {
+      position: relative;
+      width: 173px;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      outline: none;
+      cursor: pointer;
+      background: #FFFFFF;
+      border: 1px solid #94BBFF;
+      border-radius: 15px;
+
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+      color: #0F244A;
+
+      &:after {
+        top: -9px;
+        background: #fff;
+        padding-left: 5px;
+        padding-right: 5px;
+        position: absolute;
+        content: 'Date';
+        font-family: $main-font;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 130%;
+        color: #94BBFF;
+      }
+    }
+
+    .time {
+      width: 173px;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      outline: none;
+      cursor: pointer;
+      background: #FFFFFF;
+      border: 1px solid #94BBFF;
+      border-radius: 15px;
+
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+      color: #0F244A;
+    }
+
+    .time-from {
+      position: relative;
+
+      &:after {
+        top: -9px;
+        background: #fff;
+        padding-left: 5px;
+        padding-right: 5px;
+        position: absolute;
+        content: 'From';
+        font-family: $main-font;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 130%;
+        color: #94BBFF;
+      }
+    }
+
+    .time-to {
+      position: relative;
+
+      &:after {
+        top: -9px;
+        background: #fff;
+        padding-left: 5px;
+        padding-right: 5px;
+        position: absolute;
+        content: 'To';
+        font-family: $main-font;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 130%;
+        color: #94BBFF;
+      }
+    }
+  }
+  .btn-add {
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #0866FB;
+
+    padding: 16px 24px;
+    background: #E4EFFF;
+    border-radius: 15px;
+    max-width: 166px;
+  }
+}

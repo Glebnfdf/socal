@@ -1,0 +1,134 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: $white;
+  color: $black;
+  font-family: $main-font;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+pre {
+  overflow-x: auto;
+  font-size: 16px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid rgb(204, 89, 6);
+  background-color: #252525;
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 15px 0 15px 0;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.switch {
+  display: flex;
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.02em;
+
+  color: #0866FB;
+
+  .left {
+    transition: .3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    border-radius: 10px 0 0 10px;
+    padding: 14px 35px;
+
+    &:hover {
+      background: #EDF6FE;
+    }
+  }
+
+  .right {
+    transition: .3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    border-radius: 0 10px 10px 0;
+    padding: 14px 35px;
+
+    &:hover {
+      background: #EDF6FE;
+    }
+  }
+}
