@@ -85,6 +85,7 @@
       }
 
       .txt {
+        transition: .15s;
         font-family: $main-font;
         font-style: normal;
         font-weight: 600;
@@ -96,6 +97,10 @@
         padding-bottom: 2px;
         border-bottom: 1px dotted #81A6E7;
         cursor: pointer;
+
+        &:hover {
+          border-bottom: 1px dotted #0866FB;
+        }
       }
     }
 
@@ -184,6 +189,10 @@
 
     input[type="date"]::-webkit-calendar-picker-indicator {
       background: url(../img/calendar-icon.svg) center center no-repeat;
+
+      &:hover {
+
+      }
     }
 
     input[type="time"]::-webkit-calendar-picker-indicator {
@@ -191,6 +200,7 @@
     }
 
     .date {
+      transition: .1s;
       position: relative;
       width: 173px;
       padding: 18px 24px;
@@ -224,9 +234,14 @@
         line-height: 130%;
         color: #94BBFF;
       }
+
+      &:hover {
+        border: 1px solid #81A6E7;
+      }
     }
 
     .time {
+      transition: .1s;
       width: 173px;
       padding: 18px 24px;
       display: flex;
@@ -244,6 +259,10 @@
       line-height: 130%;
       letter-spacing: 0.02em;
       color: #0F244A;
+
+      &:hover {
+        border: 1px solid #81A6E7;
+      }
     }
 
     .time-from {
