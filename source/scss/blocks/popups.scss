@@ -49,6 +49,8 @@
     }
 
     .btn-recall {
+      cursor: pointer;
+      transition: .2s;
       background: #EE3E62;
       border-radius: 8px;
       padding: 5px 10px;
@@ -62,6 +64,10 @@
       align-items: center;
       text-align: center;
       color: #fff;
+
+      &:hover {
+        background: #DD3053;
+      }
     }
   }
 
