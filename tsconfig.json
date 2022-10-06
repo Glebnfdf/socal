@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "reactBuild",
+    "target": "es2018",
+    "module": "es6",
+    "jsx": "react",
+    "strict": true,
+    "allowSyntheticDefaultImports": false
+  },
+  "include": ["src", "declare-module.d.ts"],
+  "exclude": ["node_modules"]
+}
