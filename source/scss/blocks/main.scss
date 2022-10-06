@@ -14,7 +14,7 @@
       font-size: 24px;
       line-height: 130%;
       letter-spacing: 0.02em;
-      color: #0866FB;
+      color: #0866fb;
     }
 
     .left {
@@ -32,7 +32,7 @@
         display: flex;
 
         .left {
-          transition: .3s;
+          transition: 0.3s;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -42,12 +42,12 @@
           border-right: 1px solid $white;
 
           &:hover {
-            background: #EDF6FE;
+            background: #edf6fe;
           }
         }
 
         .right {
-          transition: .3s;
+          transition: 0.3s;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -56,13 +56,13 @@
           padding: 17px 20px;
 
           &:hover {
-            background: #EDF6FE;
+            background: #edf6fe;
           }
         }
       }
 
       .calendar {
-        transition: .3s;
+        transition: 0.3s;
         padding: 14px 26px;
         margin-left: 17px;
         border-radius: 10px;
@@ -73,7 +73,7 @@
         align-items: center;
 
         &:hover {
-          background: #EDF6FE;
+          background: #edf6fe;
         }
       }
     }
@@ -103,7 +103,7 @@
         font-size: 18px;
         line-height: 130%;
         letter-spacing: 0.02em;
-        color: #0F244A;
+        color: #0f244a;
       }
 
       .post-title {
@@ -114,7 +114,7 @@
         font-size: 12px;
         line-height: 18px;
         display: flex;
-        color: #81A6E7;
+        color: #81a6e7;
         padding-bottom: 36px;
       }
     }
@@ -162,7 +162,7 @@
             font-size: 14px;
             line-height: 130%;
             letter-spacing: 0.02em;
-            color: #0F244A;
+            color: #0f244a;
           }
         }
       }
@@ -173,7 +173,6 @@
     width: 80.9%;
 
     .ganta {
-
       .top {
         display: flex;
         justify-content: space-between;
@@ -213,7 +212,7 @@
             font-weight: 700;
             font-size: 14px;
             line-height: 18px;
-            color: #81A6E7;
+            color: #81a6e7;
           }
 
           .first-hour {
@@ -248,7 +247,7 @@
               font-weight: 500;
               font-size: 8px;
               line-height: 18px;
-              color: #94BBFF;
+              color: #94bbff;
 
               &:nth-child(4n):before {
                 width: 3px;
@@ -285,7 +284,7 @@
           .item {
             width: 401px;
             margin-right: 3px;
-            background: #EE3E62;
+            background: #ee3e62;
             border-radius: 10px;
             z-index: 10;
             position: sticky;
@@ -300,7 +299,7 @@
               font-weight: 700;
               font-size: 14px;
               line-height: 18px;
-              color: #FFFFFF;
+              color: #ffffff;
             }
 
             .txt {
@@ -310,7 +309,7 @@
               font-size: 14px;
               line-height: 130%;
               letter-spacing: 0.02em;
-              color: #FFFFFF;
+              color: #ffffff;
               padding-left: 12px;
             }
           }
@@ -336,10 +335,10 @@
       position: absolute;
       width: 3px;
       z-index: 1000;
-      background: #E4EFFF;
+      background: #e4efff;
       min-height: 50vh;
       left: 372px;
-      content: ' ';
+      content: " ";
       top: 0;
     }
 
@@ -402,7 +401,7 @@
             font-size: 12px;
             display: flex;
             align-items: center;
-            color: #81A6E7;
+            color: #81a6e7;
           }
 
           .post-title {
@@ -413,7 +412,7 @@
             font-size: 15px;
             line-height: 130%;
             letter-spacing: 0.02em;
-            color: #0F244A;
+            color: #0f244a;
 
             width: 200px;
             white-space: nowrap;
@@ -437,7 +436,7 @@
           border: 0;
           width: 401px;
           margin-right: 3px;
-          background: #EE3E62;
+          background: #ee3e62;
           border-radius: 10px;
           z-index: 10;
           position: sticky;
@@ -452,7 +451,7 @@
             font-weight: 700;
             font-size: 14px;
             line-height: 18px;
-            color: #FFFFFF;
+            color: #ffffff;
           }
 
           .txt {
@@ -462,7 +461,7 @@
             font-size: 14px;
             line-height: 130%;
             letter-spacing: 0.02em;
-            color: #FFFFFF;
+            color: #ffffff;
             padding-left: 12px;
           }
         }
