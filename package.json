@@ -11,7 +11,7 @@
     "prettier": "prettier --write \"source/(scss|js)/**/*.(scss|css|js|json)\"",
     "build-react": "webpack --config webpack4React.js --mode production",
     "build-react-dev": "webpack --config webpack4React.js --mode development",
-    "webpack-server": "webpack serve --config webpack4React.js --mode development"
+    "webpack-server": "webpack serve --config webpack4React.js --mode development",
   },
   "dependencies": {
     "picturefill": "^3.0.3",
