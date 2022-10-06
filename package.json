@@ -8,7 +8,8 @@
     "build": "webpack --progress --config webpack/webpack.config.js --mode production",
     "stylelint": "stylelint \"source/scss/**/*.(scss|css)\" --custom-syntax postcss-scss",
     "eslint": "eslint \"source/js/**/*.js\"",
-    "prettier": "prettier --write \"source/(scss|js)/**/*.(scss|css|js|json)\""
+    "prettier": "prettier --write \"source/(scss|js)/**/*.(scss|css|js|json)\"",
+    "stylelint:fix": "stylelint '**/*{.css,.scss}' --fix"
   },
   "dependencies": {
     "concurrently": "^7.2.2",
