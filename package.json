@@ -1,24 +1,33 @@
 {
-  "name": "create-html-boilerplate",
-  "version": "2.0.3",
-  "description": "Boilerplate for creating modular websites with HTML, SCSS and JavaScript without any headache",
+  "name": "socal-desktop",
+  "version": "0.1.0",
+  "description": "Socal Desktop",
   "scripts": {
     "start": "webpack-dev-server --config webpack/webpack.config.js --open",
     "test": "concurrently npm:stylelint npm:eslint",
     "build": "webpack --progress --config webpack/webpack.config.js --mode production",
     "stylelint": "stylelint \"source/scss/**/*.(scss|css)\" --custom-syntax postcss-scss",
     "eslint": "eslint \"source/js/**/*.js\"",
-    "prettier": "prettier --write \"source/(scss|js)/**/*.(scss|css|js|json)\""
+    "prettier": "prettier --write \"source/(scss|js)/**/*.(scss|css|js|json)\"",
+    "build-react": "webpack --config webpack4React.js --mode production",
+    "build-react-dev": "webpack --config webpack4React.js --mode development",
+    "webpack-server": "webpack serve --config webpack4React.js --mode development"
   },
   "dependencies": {
-    "concurrently": "^7.2.2",
-    "picturefill": "^3.0.3"
+    "picturefill": "^3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^7.2.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.14.0",
@@ -26,6 +35,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.5.0",
     "imagemin-webp-webpack-plugin": "^3.3.4",
     "imagemin-webpack-plugin": "^2.1.5",
@@ -47,6 +57,8 @@
     "svgo": "^2.8.0",
     "svgo-loader": "^3.0.1",
     "terser-webpack-plugin": "^5.3.3",
+    "ts-loader": "^9.4.1",
+    "typescript": "^4.8.4",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3"

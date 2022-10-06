@@ -1,6 +1,7 @@
 module.exports = {
   plugins: ['stylelint-prettier'],
   extends: ['stylelint-prettier/recommended'],
+  customSyntax: "postcss-scss",
   rules: {
     'prettier/prettier': [
       true,
