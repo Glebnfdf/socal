@@ -1,0 +1,40 @@
+.main-container {
+  width: 105%;
+}
+
+.scroll-cont {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-content-wrapper {
+  overflow: auto;
+  width: 95%;
+  height: 100%;
+  scrollbar-width: none;
+}
+
+.scroll-content-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-vtrack {
+  position: absolute;
+  background-color: #fdfeff;
+  z-index: 100;
+  height: 100%;
+  width: 13px;
+  top: 0;
+  right: 0;
+}
+
+.scroll-thumb {
+  position: absolute;
+  background-color: #0866fb;
+  border-radius: 100px;
+  top: 0;
+  width: 5px;
+  left: 4px;
+  cursor: pointer;
+}
