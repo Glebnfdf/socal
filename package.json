@@ -1,7 +1,7 @@
 {
-  "name": "create-html-boilerplate",
-  "version": "2.0.3",
-  "description": "Boilerplate for creating modular websites with HTML, SCSS and JavaScript without any headache",
+  "name": "socal-desktop",
+  "version": "0.1.0",
+  "description": "Socal Desktop",
   "scripts": {
     "start": "webpack-dev-server --config webpack/webpack.config.js --open",
     "test": "concurrently npm:stylelint npm:eslint",
@@ -11,7 +11,6 @@
     "prettier": "prettier --write \"source/(scss|js)/**/*.(scss|css|js|json)\""
   },
   "dependencies": {
-    "concurrently": "^7.2.2",
     "picturefill": "^3.0.3"
   },
   "devDependencies": {
@@ -19,6 +18,7 @@
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^7.2.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.14.0",
