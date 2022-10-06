@@ -11,10 +11,14 @@
     "prettier": "prettier --write \"source/(scss|js)/**/*.(scss|css|js|json)\""
   },
   "dependencies": {
-    "picturefill": "^3.0.3"
+    "picturefill": "^3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
