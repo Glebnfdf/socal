@@ -8,7 +8,10 @@
     "build": "webpack --progress --config webpack/webpack.config.js --mode production",
     "stylelint": "stylelint \"source/scss/**/*.(scss|css)\" --custom-syntax postcss-scss",
     "eslint": "eslint \"source/js/**/*.js\"",
-    "prettier": "prettier --write \"source/(scss|js)/**/*.(scss|css|js|json)\""
+    "prettier": "prettier --write \"source/(scss|js)/**/*.(scss|css|js|json)\"",
+    "build-react": "webpack --config webpack4React.js --mode production",
+    "build-react-dev": "webpack --config webpack4React.js --mode development",
+    "webpack-server": "webpack serve --config webpack4React.js --mode development"
   },
   "dependencies": {
     "picturefill": "^3.0.3",
