@@ -117,10 +117,10 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         /* Копируем шрифты */
-        {
-          from: 'source/fonts',
-          to: './fonts',
-        },
+        // {
+        //   from: 'source/fonts',
+        //   to: './fonts',
+        // },
         /* Копируем изображения */
         {
           from: 'source/img',
