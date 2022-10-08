@@ -1,15 +1,14 @@
 import * as React from "react";
 import { AuthScreenName } from "../AuthScreenMng";
 import "./insertPhone.scss";
-import { useState } from "react";
 
 interface iProps {
   changeScreen: (newScreen: AuthScreenName) => void
+  phoneNumber: string,
+  setPhoneNumber: (newValue: string) => void
 }
 
-export default function InsertPhone({changeScreen}: iProps): JSX.Element {
-  const [phoneNumber, setPhoneNumber]: [st: string, set: (st: string) => void] = useState("");
-
+export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}: iProps): JSX.Element {
   return (
     <div className={"insert-phone-cont"}>
       <div>

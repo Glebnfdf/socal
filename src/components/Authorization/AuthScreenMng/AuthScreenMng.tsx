@@ -11,11 +11,16 @@ export enum AuthScreenName {
 export default function AuthScreenMng(): JSX.Element {
   const [currentScreen, setCurrentScreen]: [st: AuthScreenName, set: (st: AuthScreenName) => void] =
     useState<AuthScreenName>(AuthScreenName.InsertPhone);
+  const [phoneNumber, setPhoneNumber]: [st: string, set: (st: string) => void] = useState("");
 
   return (
     <>
       {currentScreen === AuthScreenName.InsertPhone
-        ? <InsertPhone changeScreen={setCurrentScreen}></InsertPhone>
+        ? <InsertPhone
+          changeScreen={setCurrentScreen}
+          phoneNumber={phoneNumber}
+          setPhoneNumber={setPhoneNumber}
+        ></InsertPhone>
         : <InsertSMS changeScreen={setCurrentScreen}></InsertSMS>
       }
     </>
