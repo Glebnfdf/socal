@@ -4,3 +4,8 @@
   align-items: center;
   justify-content: center;
 }
+
+.next-btn-disable {
+  opacity: 0.5;
+  pointer-events: none;
+}
