@@ -9,6 +9,10 @@ interface iProps {
 }
 
 export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}: iProps): JSX.Element {
+  function nextBtnHandle(): void {
+    changeScreen(AuthScreenName.InsertSMS)
+  }
+
   return (
     <div className={"insert-phone-cont"}>
       <div>
@@ -20,7 +24,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
         <div>There is no user with phone +1 403 905 88 78</div>
         <button
           className={phoneNumber.length === 0 ? "next-btn-disable" : ""}
-          onClick={(): void => {changeScreen(AuthScreenName.InsertSMS)}}
+          onClick={(): void => {nextBtnHandle()}}
         >Next</button>
       </div>
     </div>
