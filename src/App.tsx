@@ -1,10 +1,13 @@
 import * as React from 'react';
 import {createRoot} from 'react-dom/client';
 import "../source/scss/style.scss";
+import Authorization from "./components/Authorization/Authorization";
 
 export default function App(): JSX.Element {
   return (
-    <>Hello world!</>
+    <Authorization>
+      Hello world!
+    </Authorization>
   );
 }
 
