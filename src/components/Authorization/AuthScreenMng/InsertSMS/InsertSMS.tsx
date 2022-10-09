@@ -1,6 +1,7 @@
 import * as React from "react";
 import { AuthScreenName } from "../AuthScreenMng";
 import Preloader from "../../../Preloader/Preloader";
+import { useRef, useState } from "react";
 
 interface iProps {
   changeScreen: (newScreen: AuthScreenName) => void,
@@ -8,6 +9,94 @@ interface iProps {
 }
 
 export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Element {
+  const [wrongSMS, setWrongSMS]: [wrongSMS: boolean, setWrongSMS: (wrongSMS: boolean) => void] = useState(false);
+  const num1: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
+  const num2: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
+  const num3: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
+  const num4: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
+  const digits: RegExp = /\d/;
+  const forbiddenSymbols: RegExp = /[.,e+-]/i;
+
+  const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    const keyIsNotControlKey: boolean = event.key.length === 1;
+    if (keyIsNotControlKey) {
+      if (forbiddenSymbols.test(event.key)) {
+        prohibitSpecialSymbols(event);
+      }
+
+      const input: HTMLInputElement = event.target as HTMLInputElement;
+      const isInputHaveAlreadyNum: boolean = input.value.length > 0;
+      if (digits.test(event.key) && isInputHaveAlreadyNum) {
+        remOldNumBeforeAddNew(input);
+      }
+    }
+  }
+
+  function prohibitSpecialSymbols(event: React.KeyboardEvent<HTMLInputElement>): void {
+    event.preventDefault();
+  }
+
+  function remOldNumBeforeAddNew(input: HTMLInputElement): void {
+    input.value = "";
+  }
+
+  const keyUpHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    const keyIsNotControlKey: boolean = event.key.length === 1;
+    const input: HTMLInputElement = event.target as HTMLInputElement;
+
+    if (keyIsNotControlKey) {
+      if (digits.test(event.key)) {
+        autoFocusOnNextField(input);
+        setWrongSMS(false);
+
+        const isAllInputHaveNum: boolean =
+          num1.current?.value.length === 1 &&
+          num2.current?.value.length === 1 &&
+          num3.current?.value.length === 1 &&
+          num4.current?.value.length === 1;
+        if (isAllInputHaveNum) {
+          // sendSMSCode();
+        }
+      }
+    } else {
+      if (event.key === "Backspace") {
+        const inputIsEmpty: boolean = input.value.length === 0;
+        if (inputIsEmpty) {
+          autoFocus4Backspace(input);
+          setWrongSMS(false);
+        }
+      }
+    }
+  }
+
+  function autoFocusOnNextField(input: HTMLInputElement): void {
+    switch (input.name) {
+      case "num1":
+        num2.current?.focus();
+        break;
+      case "num2":
+        num3.current?.focus();
+        break;
+      case "num3":
+        num4.current?.focus();
+        break;
+    }
+  }
+
+  function autoFocus4Backspace(input: HTMLInputElement): void {
+    switch (input.name) {
+      case "num2":
+        num1.current?.focus();
+        break;
+      case "num3":
+        num2.current?.focus();
+        break;
+      case "num4":
+        num3.current?.focus();
+        break;
+    }
+  }
+
   return (
     <>
       <div className={"insert-phone-cont"}>
@@ -15,39 +104,35 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
         <div>
           <input
             type={"number"}
-            // value={phoneNumber}
+            ref={num1}
+            name={"num1"}
             // className={"error-border" + (showErr ? " active" : "")}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
-              // setShowErr(false);
-              // setPhoneNumber(event.target.value)
-            }}
+            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
           />
           <input
             type={"number"}
-            // value={phoneNumber}
+            ref={num2}
+            name={"num2"}
             // className={"error-border" + (showErr ? " active" : "")}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
-              // setShowErr(false);
-              // setPhoneNumber(event.target.value)
-            }}
+            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
           />
           <input
             type={"number"}
-            // value={phoneNumber}
+            ref={num3}
+            name={"num3"}
             // className={"error-border" + (showErr ? " active" : "")}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
-              // setShowErr(false);
-              // setPhoneNumber(event.target.value)
-            }}
+            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
           />
           <input
             type={"number"}
-            // value={phoneNumber}
+            ref={num4}
+            name={"num4"}
             // className={"error-border" + (showErr ? " active" : "")}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
-              // setShowErr(false);
-              // setPhoneNumber(event.target.value)
-            }}
+            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
           />
           {/*{isLoading && <Preloader/>}*/}
           {/*{showErr && <div>Wrong code</div>}*/}
