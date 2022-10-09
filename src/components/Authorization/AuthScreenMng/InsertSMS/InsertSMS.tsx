@@ -2,6 +2,7 @@ import * as React from "react";
 import { AuthScreenName } from "../AuthScreenMng";
 import Preloader from "../../../Preloader/Preloader";
 import { useRef, useState } from "react";
+import { useFetch } from "../../../../hooks/useFetch";
 
 interface iProps {
   changeScreen: (newScreen: AuthScreenName) => void,
@@ -9,6 +10,12 @@ interface iProps {
 }
 
 export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Element {
+  const { data, isLoading, httpCode, requestData }: {
+    data?: unknown | undefined,
+    isLoading: boolean,
+    httpCode?: number | undefined,
+    requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
+  } = useFetch();
   const [wrongSMS, setWrongSMS]: [wrongSMS: boolean, setWrongSMS: (wrongSMS: boolean) => void] = useState(false);
   const num1: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
   const num2: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
@@ -55,7 +62,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
           num3.current?.value.length === 1 &&
           num4.current?.value.length === 1;
         if (isAllInputHaveNum) {
-          // sendSMSCode();
+          sendSMSCode();
         }
       }
     } else {
@@ -97,6 +104,25 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
     }
   }
 
+  function sendSMSCode(): void {
+    if (num1.current && num2.current && num3.current && num4.current) {
+      const smsCode: string = num1.current.value + num2.current.value + num3.current.value + num4.current.value;
+
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      (async (): Promise<void> => {
+        const url: string = "/auth/login";
+        const request: RequestInit = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ "phone": phoneNumber, "code": smsCode })
+        };
+        await requestData(url, request);
+      })();
+    }
+  }
+
   return (
     <>
       <div className={"insert-phone-cont"}>
@@ -134,16 +160,15 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
             onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
             onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
           />
-          {/*{isLoading && <Preloader/>}*/}
+          {isLoading && <Preloader/>}
           {/*{showErr && <div>Wrong code</div>}*/}
           <div>
             <button
-              // className={phoneNumber.length === 0 || showErr ? "next-btn-disable" : ""}
-              // onClick={(): void => {sendPhone2Server()}}
+              type={"button"}
             >Resend Code</button>
           </div>
           <div>
-            <button onClick={(): void => {changeScreen(AuthScreenName.InsertPhone)}}>Back</button>
+            <button type={"button"} onClick={(): void => {changeScreen(AuthScreenName.InsertPhone)}}>Back</button>
           </div>
         </div>
       </div>
