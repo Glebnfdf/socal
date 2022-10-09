@@ -1,8 +1,10 @@
 import * as React from "react";
 import { AuthScreenName } from "../AuthScreenMng";
 import Preloader from "../../../Preloader/Preloader";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useFetch } from "../../../../hooks/useFetch";
+import iLoginResponse from "../../../../APIInterfaces/iLoginResponse";
+import { AuthContext, iAuthContext } from "../../Authorization";
 
 interface iProps {
   changeScreen: (newScreen: AuthScreenName) => void,
@@ -16,6 +18,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
     httpCode?: number | undefined,
     requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
   } = useFetch();
+  const authContext: iAuthContext = useContext(AuthContext);
   const [wrongSMS, setWrongSMS]: [wrongSMS: boolean, setWrongSMS: (wrongSMS: boolean) => void] = useState(false);
   const num1: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
   const num2: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
@@ -127,6 +130,10 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
     if (httpCode) {
       switch (httpCode) {
         case 201:
+          if (data) {
+            localStorage.setItem("token", (data as iLoginResponse).access_token);
+            authContext.setIsUserHaveAuth(true);
+          }
           break;
         case 401:
           setWrongSMS(true);
