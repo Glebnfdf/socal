@@ -63,6 +63,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
         {showErr && <div>There is no user with phone +1 403 905 88 78</div>}
         <div>
           <button
+            type={"button"}
             className={phoneNumber.length === 0 || showErr ? "next-btn-disable" : ""}
             onClick={(): void => {sendPhone2Server()}}
           >Next</button>
