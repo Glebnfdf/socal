@@ -3,14 +3,15 @@ import { AuthScreenName } from "../AuthScreenMng";
 import Preloader from "../../../Preloader/Preloader";
 
 interface iProps {
-  changeScreen: (newScreen: AuthScreenName) => void
+  changeScreen: (newScreen: AuthScreenName) => void,
+  phoneNumber: string
 }
 
-export default function InsertSMS({changeScreen}: iProps): JSX.Element {
+export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Element {
   return (
     <>
       <div className={"insert-phone-cont"}>
-        <div>We send sms to + 1 (234) 567 -89 - 00</div>
+        <div>We send sms to {phoneNumber}</div>
         <div>
           <input
             type={"number"}
