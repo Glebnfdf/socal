@@ -26,7 +26,12 @@ export function useFetch(): {
       addToken2Headers(request);
 
       const response: Response = await fetch(url, request);
-      const responseData: unknown = await response.json();
+      let responseData: unknown;
+      const resContentType: string | null = response.headers.get("content-type");
+      const responseIsJSON = resContentType && resContentType.indexOf("application/json") !== -1;
+      if (responseIsJSON) {
+        responseData = await response.json();
+      }
 
       if (useRedirectFor401 && response.status === 401) {
         authContext.setIsUserHaveAuth(false);
