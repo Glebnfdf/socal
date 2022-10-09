@@ -11,7 +11,7 @@ export function useFetch(): {
   data?: unknown | undefined,
   isLoading: boolean,
   httpCode?: number | undefined,
-  requestData: (url: string, request?: RequestInit) => Promise<void>
+  requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean,) => Promise<void>
 } {
   const authContext: iAuthContext = useContext(AuthContext);
 
