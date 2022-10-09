@@ -20,7 +20,7 @@ export function useFetch(): {
     isLoading: false
   });
 
-  async function requestData(url: string, request?: RequestInit): Promise<void> {
+  async function requestData(url: string, request?: RequestInit, useRedirectFor401: boolean = true): Promise<void> {
     try {
       setStates({isLoading: true});
       addToken2Headers(request);
@@ -28,7 +28,7 @@ export function useFetch(): {
       const response: Response = await fetch(url, request);
       const responseData: unknown = await response.json();
 
-      if (response.status === 401) {
+      if (useRedirectFor401 && response.status === 401) {
         authContext.setIsUserHaveAuth(false);
       } else {
         setStates({
