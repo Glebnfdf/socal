@@ -1,0 +1,10 @@
+.preload-transition-appear {
+  transform: scale(0.5);
+  opacity: 0;
+}
+
+.preload-transition-appear-active {
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 300ms ease, opacity 300ms ease;
+}
