@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AuthScreenName } from "../AuthScreenMng";
 import Preloader from "../../../Preloader/Preloader";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFetch } from "../../../../hooks/useFetch";
 
 interface iProps {
@@ -118,10 +118,22 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
           },
           body: JSON.stringify({ "phone": phoneNumber, "code": smsCode })
         };
-        await requestData(url, request);
+        await requestData(url, request, false);
       })();
     }
   }
+
+  useEffect((): void => {
+    if (httpCode) {
+      switch (httpCode) {
+        case 201:
+          break;
+        case 401:
+          setWrongSMS(true);
+          break;
+      }
+    }
+  }, [httpCode]);
 
   return (
     <>
@@ -132,7 +144,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
             type={"number"}
             ref={num1}
             name={"num1"}
-            // className={"error-border" + (showErr ? " active" : "")}
+            className={"error-border" + (wrongSMS ? " active" : "")}
             onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
             onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
           />
@@ -140,7 +152,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
             type={"number"}
             ref={num2}
             name={"num2"}
-            // className={"error-border" + (showErr ? " active" : "")}
+            className={"error-border" + (wrongSMS ? " active" : "")}
             onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
             onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
           />
@@ -148,7 +160,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
             type={"number"}
             ref={num3}
             name={"num3"}
-            // className={"error-border" + (showErr ? " active" : "")}
+            className={"error-border" + (wrongSMS ? " active" : "")}
             onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
             onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
           />
@@ -156,12 +168,12 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
             type={"number"}
             ref={num4}
             name={"num4"}
-            // className={"error-border" + (showErr ? " active" : "")}
+            className={"error-border" + (wrongSMS ? " active" : "")}
             onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
             onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
           />
           {isLoading && <Preloader/>}
-          {/*{showErr && <div>Wrong code</div>}*/}
+          {wrongSMS && <div>Wrong code</div>}
           <div>
             <button
               type={"button"}
