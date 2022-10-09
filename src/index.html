@@ -37,6 +37,13 @@
         transform: rotate(360deg);
       }
     }
+
+    #before-app-preloader {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -51,6 +58,18 @@
       />
     </symbol>
   </svg>
+
+  <!--Прелоадер перед загрузкой react приложения -->
+  <div id="before-app-preloader">
+    <div class="preloader-cont">
+      <svg width="63" height="64" viewBox="0 0 63 64" class="gear-big" fill="none">
+        <use href="#preloader-icon"/>
+      </svg>
+      <svg width="43" height="46" viewBox="0 0 63 64" class="gear-small" fill="none">
+        <use href="#preloader-icon"/>
+      </svg>
+    </div>
+  </div>
 
   <!-- Контейнер под react приложение -->
   <div id="react-app-cont"></div>
