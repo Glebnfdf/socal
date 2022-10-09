@@ -3,7 +3,7 @@ import { AuthScreenName } from "../AuthScreenMng";
 import "./insertPhone.scss";
 import { useFetch } from "../../../../hooks/useFetch";
 import Preloader from "../../../Preloader/Preloader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface iProps {
   changeScreen: (screenName: AuthScreenName) => void
@@ -17,10 +17,18 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
     httpCode?: number | undefined,
     requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
   } = useFetch();
+  const [showErr, setShowErr]: [st: boolean, set: (st: boolean) => void] = useState(false);
 
   useEffect((): void => {
-    if (httpCode && httpCode === 200) {
-      changeScreen(AuthScreenName.InsertSMS);
+    if (httpCode) {
+      switch (httpCode) {
+        case 200:
+          changeScreen(AuthScreenName.InsertSMS);
+          break;
+        case 400:
+          setShowErr(true);
+          break;
+      }
     }
   }, [httpCode]);
 
@@ -45,14 +53,20 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
         <input
           type={"tel"}
           value={phoneNumber}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {setPhoneNumber(event.target.value)}}
+          className={"error-border" + (showErr ? " active" : "")}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
+            setShowErr(false);
+            setPhoneNumber(event.target.value)
+          }}
         />
         {isLoading && <Preloader/>}
-        <div>There is no user with phone +1 403 905 88 78</div>
-        <button
-          className={phoneNumber.length === 0 ? "next-btn-disable" : ""}
-          onClick={(): void => {sendPhone2Server()}}
-        >Next</button>
+        {showErr && <div>There is no user with phone +1 403 905 88 78</div>}
+        <div>
+          <button
+            className={phoneNumber.length === 0 || showErr ? "next-btn-disable" : ""}
+            onClick={(): void => {sendPhone2Server()}}
+          >Next</button>
+        </div>
       </div>
     </div>
   );
