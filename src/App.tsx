@@ -4,7 +4,7 @@ import "../source/scss/style.scss";
 import Authorization from "./components/Authorization/Authorization";
 import "./app.scss";
 
-export default function App(): JSX.Element {
+function App(): JSX.Element {
   hideBeforeAppPreloader();
 
   function hideBeforeAppPreloader(): void {

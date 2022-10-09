@@ -20,8 +20,8 @@ export default function AuthScreenMng(): JSX.Element {
           changeScreen={setCurrentScreen}
           phoneNumber={phoneNumber}
           setPhoneNumber={setPhoneNumber}
-        ></InsertPhone>
-        : <InsertSMS changeScreen={setCurrentScreen}></InsertSMS>
+        />
+        : <InsertSMS changeScreen={setCurrentScreen}/>
       }
     </>
   );
