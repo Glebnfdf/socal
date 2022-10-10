@@ -5,29 +5,21 @@
   margin-top: 40px;
 }
 
-.hidden {
-  display: none !important;
-}
-
-.show {
-  display: flex;
-}
-
 .close {
-  transition: 0.15s;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-left: auto;
-  cursor: pointer;
-  background: url(../img/close-icon.svg) center center no-repeat;
-  width: 11px;
-  height: 11px;
-
-  &:hover {
+  svg {
+    transition: 0.15s;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: auto;
+    cursor: pointer;
     width: 11px;
     height: 11px;
-    background: url(../img/close-icon-hover.svg) center center no-repeat;
+    fill: #81A6E7;
+
+    &:hover {
+      fill: #0866FB;
+    }
   }
 }
 
