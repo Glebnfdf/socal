@@ -5,29 +5,21 @@
   margin-top: 40px;
 }
 
-.hidden {
-  display: none !important;
-}
-
-.show {
-  display: flex;
-}
-
 .close {
-  transition: 0.15s;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-left: auto;
-  cursor: pointer;
-  background: url(../img/close-icon.svg) center center no-repeat;
-  width: 11px;
-  height: 11px;
-
-  &:hover {
+  svg {
+    transition: 0.15s;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: auto;
+    cursor: pointer;
     width: 11px;
     height: 11px;
-    background: url(../img/close-icon-hover.svg) center center no-repeat;
+    fill: #81A6E7;
+
+    &:hover {
+      fill: #0866FB;
+    }
   }
 }
 
@@ -195,14 +187,19 @@
     margin-bottom: 14px;
 
     input[type="date"]::-webkit-calendar-picker-indicator {
-      background: url(../img/calendar-icon.svg) center center no-repeat;
+      background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 2H19C19.2652 2 19.5196 2.10536 19.7071 2.29289C19.8946 2.48043 20 2.73478 20 3V19C20 19.2652 19.8946 19.5196 19.7071 19.7071C19.5196 19.8946 19.2652 20 19 20H1C0.734784 20 0.48043 19.8946 0.292893 19.7071C0.105357 19.5196 0 19.2652 0 19V3C0 2.73478 0.105357 2.48043 0.292893 2.29289C0.48043 2.10536 0.734784 2 1 2H5V0H7V2H13V0H15V2ZM18 8V4H15V6H13V4H7V6H5V4H2V8H18ZM18 10H2V18H18V10ZM4 12H9V16H4V12Z' fill='%230866FB'/%3E%3C/svg%3E%0A");
 
       &:hover {
+        background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 2H19C19.2652 2 19.5196 2.10536 19.7071 2.29289C19.8946 2.48043 20 2.73478 20 3V19C20 19.2652 19.8946 19.5196 19.7071 19.7071C19.5196 19.8946 19.2652 20 19 20H1C0.734784 20 0.48043 19.8946 0.292893 19.7071C0.105357 19.5196 0 19.2652 0 19V3C0 2.73478 0.105357 2.48043 0.292893 2.29289C0.48043 2.10536 0.734784 2 1 2H5V0H7V2H13V0H15V2ZM18 8V4H15V6H13V4H7V6H5V4H2V8H18ZM18 10H2V18H18V10ZM4 12H9V16H4V12Z' fill='%23000'/%3E%3C/svg%3E%0A");
       }
     }
 
     input[type="time"]::-webkit-calendar-picker-indicator {
-      background: url(../img/clock-icon.svg) center center no-repeat;
+      background-image: url("data:image/svg+xml,%3Csvg width='20' height='21' viewBox='0 0 20 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 20.4814C4.477 20.4814 0 16.0044 0 10.4814C0 4.95838 4.477 0.481384 10 0.481384C15.523 0.481384 20 4.95838 20 10.4814C20 16.0044 15.523 20.4814 10 20.4814ZM10 18.4814C12.1217 18.4814 14.1566 17.6385 15.6569 16.1382C17.1571 14.6379 18 12.6031 18 10.4814C18 8.35965 17.1571 6.32482 15.6569 4.82453C14.1566 3.32424 12.1217 2.48138 10 2.48138C7.87827 2.48138 5.84344 3.32424 4.34315 4.82453C2.84285 6.32482 2 8.35965 2 10.4814C2 12.6031 2.84285 14.6379 4.34315 16.1382C5.84344 17.6385 7.87827 18.4814 10 18.4814ZM11 10.4814H15V12.4814H9V5.48138H11V10.4814Z' fill='%230866FB'/%3E%3C/svg%3E%0A");
+
+      &:hover {
+        background-image: url("data:image/svg+xml,%3Csvg width='20' height='21' viewBox='0 0 20 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 20.4814C4.477 20.4814 0 16.0044 0 10.4814C0 4.95838 4.477 0.481384 10 0.481384C15.523 0.481384 20 4.95838 20 10.4814C20 16.0044 15.523 20.4814 10 20.4814ZM10 18.4814C12.1217 18.4814 14.1566 17.6385 15.6569 16.1382C17.1571 14.6379 18 12.6031 18 10.4814C18 8.35965 17.1571 6.32482 15.6569 4.82453C14.1566 3.32424 12.1217 2.48138 10 2.48138C7.87827 2.48138 5.84344 3.32424 4.34315 4.82453C2.84285 6.32482 2 8.35965 2 10.4814C2 12.6031 2.84285 14.6379 4.34315 16.1382C5.84344 17.6385 7.87827 18.4814 10 18.4814ZM11 10.4814H15V12.4814H9V5.48138H11V10.4814Z' fill='%23000'/%3E%3C/svg%3E%0A");
+      }
     }
 
     .date {
