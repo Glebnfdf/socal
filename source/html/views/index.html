@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="vendors/normalize-css/normalize.min.css" />
 </head>
 <body>
+<div id="react-app-cont">
 <!--header.html-->
 <%= _.template(require('../includes/common/header.html').default)({version: htmlWebpackPlugin.options.custom.version,}) %>
 <main>
@@ -17,4 +18,5 @@
 <!--footer.html-->
 <%= _.template(require('../includes/common/footer.html').default)({}) %>
 </body>
+</div>
 </html>
