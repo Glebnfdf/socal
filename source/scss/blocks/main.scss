@@ -259,10 +259,10 @@
                 margin-left: 26px;
                 margin-top: 538px;
                 content: " ";
-                background: $white;
+                background: #e4efff;
                 position: absolute;
                 width: 1px;
-                height: 562px;
+                height: 695px;
               }
             }
           }
@@ -282,6 +282,7 @@
           padding-bottom: 8px;
 
           .item {
+            transition: .3s;
             width: 401px;
             margin-right: 3px;
             background: #ee3e62;
@@ -292,6 +293,11 @@
             align-items: center;
             padding: 6px 10px;
             box-sizing: border-box;
+            cursor: pointer;
+
+            &:hover {
+              background: #DD3053;
+            }
 
             .number {
               font-family: $main-font;
@@ -328,15 +334,18 @@
 
   .content {
     background: #fff;
+    overflow: hidden;
     width: 100%;
     min-height: 200px;
+    overflow-y: auto;
+    height: 355px;
 
     &:after {
       position: absolute;
       width: 3px;
       z-index: 1000;
       background: #e4efff;
-      min-height: 50vh;
+      min-height: 49vh;
       left: 372px;
       content: " ";
       top: 0;
@@ -438,17 +447,23 @@
         flex-wrap: wrap;
 
         .item {
-          border: 0;
+          transition: .3s;
           width: 401px;
           margin-right: 3px;
           background: #ee3e62;
           border-radius: 10px;
+          border: 0;
           z-index: 10;
           position: sticky;
           display: flex;
           align-items: center;
           padding: 6px 10px;
           box-sizing: border-box;
+          cursor: pointer;
+
+          &:hover {
+            background: #DD3053;
+          }
 
           .number {
             font-family: $main-font;
