@@ -127,7 +127,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   }
 
   useEffect((): void => {
-    if (httpCode) {
+    if (!isLoading && httpCode) {
       switch (httpCode) {
         case 201:
           if (data) {
@@ -135,12 +135,12 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
             authContext.setIsUserHaveAuth(true);
           }
           break;
-        case 401:
+        case 400:
           setWrongSMS(true);
           break;
       }
     }
-  }, [httpCode]);
+  }, [isLoading]);
 
   return (
     <>
