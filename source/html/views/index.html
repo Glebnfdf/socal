@@ -8,13 +8,16 @@
   <link rel="stylesheet" href="vendors/normalize-css/normalize.min.css" />
 </head>
 <body>
-<!--header.html-->
-<%= _.template(require('../includes/common/header.html').default)({version: htmlWebpackPlugin.options.custom.version,}) %>
-<main>
-  <!--index/hero.html-->
-  <%= _.template(require('../includes/index/undispatched.html').default)({}) %>
-</main>
-<!--footer.html-->
-<%= _.template(require('../includes/common/footer.html').default)({}) %>
+<div id="react-app-cont">
+  <!--header.html-->
+  <%= _.template(require('../includes/common/header.html').default)({version:
+  htmlWebpackPlugin.options.custom.version,}) %>
+  <main>
+    <!--index/hero.html-->
+    <%= _.template(require('../includes/index/undispatched.html').default)({}) %>
+  </main>
+  <!--footer.html-->
+  <%= _.template(require('../includes/common/footer.html').default)({}) %>
+</div>
 </body>
 </html>
