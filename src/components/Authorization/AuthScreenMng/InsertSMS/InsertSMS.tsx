@@ -135,7 +135,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
             authContext.setIsUserHaveAuth(true);
           }
           break;
-        case 401:
+        case 400:
           setWrongSMS(true);
           break;
       }
