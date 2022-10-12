@@ -1,8 +1,10 @@
 import * as React from 'react';
 import {createRoot} from 'react-dom/client';
+import "../source/vendors/normalize-css/normalize.min.css";
 import "../source/scss/style.scss";
-import Authorization from "./components/Authorization/Authorization";
 import "./app.scss";
+import Authorization from "./components/Authorization/Authorization";
+import GantPage from "./components/GantPage/GantPage";
 
 function App(): JSX.Element {
   hideBeforeAppPreloader();
@@ -16,7 +18,7 @@ function App(): JSX.Element {
 
   return (
     <Authorization>
-      Hello world!
+      <GantPage/>
     </Authorization>
   );
 }
