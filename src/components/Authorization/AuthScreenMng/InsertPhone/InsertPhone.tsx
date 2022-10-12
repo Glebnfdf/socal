@@ -20,7 +20,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
   const [showErr, setShowErr]: [st: boolean, set: (st: boolean) => void] = useState(false);
 
   useEffect((): void => {
-    if (httpCode) {
+    if (!isLoading && httpCode) {
       switch (httpCode) {
         case 200:
           changeScreen(AuthScreenName.InsertSMS);
@@ -30,7 +30,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
           break;
       }
     }
-  }, [httpCode]);
+  }, [isLoading]);
 
   function sendPhone2Server(): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
