@@ -12,10 +12,10 @@ interface iProps {
 }
 
 export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Element {
-  const { data, isLoading, httpCode, requestData }: {
+  const { data, isLoading, response, requestData }: {
     data?: unknown | undefined,
     isLoading: boolean,
-    httpCode?: number | undefined,
+    response?: Response | undefined,
     requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
   } = useFetch();
   const authContext: iAuthContext = useContext(AuthContext);
@@ -127,8 +127,8 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   }
 
   useEffect((): void => {
-    if (!isLoading && httpCode) {
-      switch (httpCode) {
+    if (!isLoading && response) {
+      switch (response.status) {
         case 201:
           if (data) {
             localStorage.setItem("token", (data as iLoginResponse).access_token);

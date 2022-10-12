@@ -12,16 +12,16 @@ interface iProps {
 }
 
 export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}: iProps): JSX.Element {
-  const { isLoading, httpCode, requestData }: {
+  const { isLoading, response, requestData }: {
     isLoading: boolean,
-    httpCode?: number | undefined,
+    response?: Response | undefined,
     requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
   } = useFetch();
   const [showErr, setShowErr]: [st: boolean, set: (st: boolean) => void] = useState(false);
 
   useEffect((): void => {
-    if (!isLoading && httpCode) {
-      switch (httpCode) {
+    if (!isLoading && response) {
+      switch (response.status) {
         case 200:
           changeScreen(AuthScreenName.InsertSMS);
           break;

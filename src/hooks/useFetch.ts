@@ -4,13 +4,13 @@ import { AuthContext, iAuthContext } from "../components/Authorization/Authoriza
 interface iUseFetchStates {
   data?: unknown,
   isLoading: boolean,
-  httpCode?: number
+  response?: Response
 }
 
 export function useFetch(): {
   data?: unknown | undefined,
   isLoading: boolean,
-  httpCode?: number | undefined,
+  response?: Response | undefined,
   requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean,) => Promise<void>
 } {
   const authContext: iAuthContext = useContext(AuthContext);
@@ -39,7 +39,7 @@ export function useFetch(): {
         setStates({
           data: responseData,
           isLoading: false,
-          httpCode: response.status
+          response: response
         })
       }
     } catch (error: unknown) {
