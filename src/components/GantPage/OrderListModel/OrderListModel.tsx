@@ -17,7 +17,7 @@ export default function OrderListModel({children}: iProps): JSX.Element {
   const orderList: React.MutableRefObject<iOrderListModel[] | null> = useRef<iOrderListModel[] | null>(null);
 
   useEffect((): void => {
-    orderList.current = gantLoaderContext.orderList;
+    orderList.current = [...gantLoaderContext.orderList];
   }, [gantLoaderContext.orderList]);
 
   return (
