@@ -2,14 +2,13 @@
   box-sizing: border-box;
 
   &.cont {
-    padding-right: 13px;
     position: relative;
+    width: 100%;
   }
 
   &.order {
     position: absolute;
     height: 30px;
-    width: 200px;
     border-radius: 10px;
     display: flex;
     align-items: center;

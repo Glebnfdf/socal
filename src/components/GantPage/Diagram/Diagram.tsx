@@ -1,6 +1,6 @@
 import * as React from "react";
 import { iOrder } from "../OrderListModel/OrderListModel";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./diagram.scss";
 
 interface iProps {
@@ -17,7 +17,11 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
   const [orderListWithLine, setOrderListWithLine]: [st: iOrderWithLine[] | null, set: (st: iOrderWithLine[] | null) => void] =
     useState<iOrderWithLine[] | null>(addLine2Order(orderListProp));
   const container: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  // Т.к. при первом запуске компонента у нас реф не определён, то вывод заявок происходит во втором рендере
+  const [firstRenderHappened, setFirstRenderHappened]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
+  const scrollbarWidth: number = 13;
+  const numberOfHours: number = 15;
 
   function addLine2Order(orderList: iOrder[] | null): iOrderWithLine[] | null {
     if (!orderList) {
@@ -62,6 +66,10 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
     return lineNumber;
   }
 
+  useEffect((): void => {
+    setFirstRenderHappened(true);
+  }, []);
+
   function getContainerHeight(): number {
     let maxLineNumber: number = 0;
     if (!orderListWithLine) {
@@ -77,16 +85,35 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
     return maxLineNumber * lineHeight;
   }
 
+  function getOrderWidth(_timeBegin: string, _timeEnd: string): number {
+    if (!container.current) {
+      return 0
+    }
+
+    const containerWidth: number = container.current.offsetWidth - scrollbarWidth;
+    const hourWidth: number = containerWidth / numberOfHours;
+    const minuteWidth: number = hourWidth / 60; // в одном часе 60 минут
+    const timeBegin: Date = new Date(_timeBegin);
+    const timeEnd: Date = new Date(_timeEnd);
+    const numOfMinutesForOrder: number = (timeEnd.getTime() - timeBegin.getTime()) / 1000 / 60;
+    // результат вычитания в миллисекундах делим на 1000, чтобы пучить количество секунд, и потом на 60, чтобы получить минуты
+
+    return Math.round(numOfMinutesForOrder * minuteWidth);
+  }
+
   if (orderListWithLine) {
     return (
       <div ref={container} className={"diagram cont"} style={{height: getContainerHeight().toString() + "px"}}>
-        {orderListWithLine.map((order: iOrder): JSX.Element => {
+        {firstRenderHappened && orderListWithLine.map((order: iOrder): JSX.Element => {
           return (
             <div
               key={order.id}
               className={"diagram order"}
               data-tech-id={technicianId ? technicianId : -1}
               data-order-id={order.id}
+              style={{
+                width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px"
+              }}
             >
               <div className={"id"}>№ {order.id}</div>
               <div className={"address"}>{order.address}</div>
