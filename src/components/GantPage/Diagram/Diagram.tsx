@@ -20,7 +20,7 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
   // Т.к. при первом запуске компонента у нас реф не определён, то вывод заявок происходит во втором рендере
   const [firstRenderHappened, setFirstRenderHappened]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
-  const scrollbarWidth: number = 13;
+  const scrollbarWidth: number = 0; // поставить 13, когда будет scrollbar;
   const numberOfHours: number = 15;
 
   function addLine2Order(orderList: iOrder[] | null): iOrderWithLine[] | null {
@@ -91,6 +91,7 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
     }
 
     const containerWidth: number = container.current.offsetWidth - scrollbarWidth;
+    console.log("containerWidth =", containerWidth);
     const hourWidth: number = containerWidth / numberOfHours;
     return hourWidth / 60; // в одном часе 60 минут
   }
@@ -127,6 +128,7 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
               className={"diagram order"}
               data-tech-id={technicianId ? technicianId : -1}
               data-order-id={order.id}
+              data-date={order.time_slot_from}
               style={{
                 left: getXPosition(order.time_slot_from),
                 width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px"
