@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import iOrderResponse from "../../../APIInterfaces/iOrderResponse";
 import iTechResponse from "../../../APIInterfaces/iTechResponse";
 import { iOrderListModel } from "../OrderListModel/OrderListModel";
-import { iTechListModel } from "../TechnicianListModel/TechnicianListModel";
+import { iTechnician } from "../TechnicianListModel/TechnicianListModel";
 
 interface iProps {
   children: React.ReactNode
@@ -12,7 +12,7 @@ interface iProps {
 
 interface iGrantLoaderContext {
   orderList: iOrderListModel[],
-  techList: iTechListModel[],
+  techList: iTechnician[],
   date: Date
 }
 
@@ -124,8 +124,8 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
     return orderListWithTech;
   }
 
-  function addOrderInTechList(techList: iTechResponse[]): iTechListModel[] {
-    const techListWithOrder: iTechListModel[] = [];
+  function addOrderInTechList(techList: iTechResponse[]): iTechnician[] {
+    const techListWithOrder: iTechnician[] = [];
     techList.forEach((technician: iTechResponse, index: number): void => {
       techListWithOrder.push({...technician, sequenceNumber: index});
     });
