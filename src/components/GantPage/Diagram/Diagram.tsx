@@ -85,20 +85,36 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
     return maxLineNumber * lineHeight;
   }
 
-  function getOrderWidth(_timeBegin: string, _timeEnd: string): number {
+  function getMinuteWidth(): number {
     if (!container.current) {
       return 0
     }
 
     const containerWidth: number = container.current.offsetWidth - scrollbarWidth;
     const hourWidth: number = containerWidth / numberOfHours;
-    const minuteWidth: number = hourWidth / 60; // в одном часе 60 минут
+    return hourWidth / 60; // в одном часе 60 минут
+  }
+
+  function getOrderWidth(_timeBegin: string, _timeEnd: string): number {
     const timeBegin: Date = new Date(_timeBegin);
     const timeEnd: Date = new Date(_timeEnd);
     const numOfMinutesForOrder: number = (timeEnd.getTime() - timeBegin.getTime()) / 1000 / 60;
     // результат вычитания в миллисекундах делим на 1000, чтобы пучить количество секунд, и потом на 60, чтобы получить минуты
 
-    return Math.round(numOfMinutesForOrder * minuteWidth);
+    return Math.round(numOfMinutesForOrder * getMinuteWidth());
+  }
+
+  function getDiagramBeginTime(timeBegin: string): Date {
+    const diagramBeginTime: Date = new Date(timeBegin);
+    diagramBeginTime.setHours(7, 0, 0, 0);
+    return diagramBeginTime;
+  }
+
+  function getXPosition(_timeBegin: string): number {
+    const timeBegin: Date = new Date(_timeBegin);
+    const diagramBeginTime: Date = getDiagramBeginTime(_timeBegin);
+    const minOfOrderFromBegin: number = (timeBegin.getTime() - diagramBeginTime.getTime()) / 1000 / 60;
+    return Math.round(minOfOrderFromBegin * getMinuteWidth());
   }
 
   if (orderListWithLine) {
@@ -112,6 +128,7 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
               data-tech-id={technicianId ? technicianId : -1}
               data-order-id={order.id}
               style={{
+                left: getXPosition(order.time_slot_from),
                 width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px"
               }}
             >
