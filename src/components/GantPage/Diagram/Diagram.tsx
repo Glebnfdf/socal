@@ -91,7 +91,6 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
     }
 
     const containerWidth: number = container.current.offsetWidth - scrollbarWidth;
-    console.log("containerWidth =", containerWidth);
     const hourWidth: number = containerWidth / numberOfHours;
     return hourWidth / 60; // в одном часе 60 минут
   }
@@ -118,19 +117,23 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
     return Math.round(minOfOrderFromBegin * getMinuteWidth());
   }
 
+  function getYPosition(lineNumber: number): number {
+    return (lineNumber - 1) * lineHeight;
+  }
+
   if (orderListWithLine) {
     return (
       <div ref={container} className={"diagram cont"} style={{height: getContainerHeight().toString() + "px"}}>
-        {firstRenderHappened && orderListWithLine.map((order: iOrder): JSX.Element => {
+        {firstRenderHappened && orderListWithLine.map((order: iOrderWithLine): JSX.Element => {
           return (
             <div
               key={order.id}
               className={"diagram order"}
               data-tech-id={technicianId ? technicianId : -1}
               data-order-id={order.id}
-              data-date={order.time_slot_from}
               style={{
-                left: getXPosition(order.time_slot_from),
+                left: getXPosition(order.time_slot_from).toString() + "px",
+                top: getYPosition(order.line).toString() + "px",
                 width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px"
               }}
             >
