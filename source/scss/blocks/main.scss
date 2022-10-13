@@ -370,10 +370,19 @@
         }
 
         .item-left-bottom {
+          cursor: pointer;
           display: flex;
           justify-content: center;
           align-items: center;
           padding-left: 16px;
+
+          svg {
+            transition: .2s;
+            fill: #E4EFFF;
+            &:hover {
+              fill: #D1E3FE;
+            }
+          }
         }
 
         .dots {
