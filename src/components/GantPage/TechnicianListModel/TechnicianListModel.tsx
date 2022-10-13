@@ -7,12 +7,16 @@ interface iProps {
   children: React.ReactNode
 }
 
+export interface iTechListModel extends iTechResponse {
+  sequenceNumber: number
+}
+
 export default function TechnicianListModel({children}: iProps): JSX.Element {
   const gantLoaderContext = useContext(GrantLoaderContext);
   const techList: React.MutableRefObject<iTechResponse[] | null> = useRef<iTechResponse[] | null>(null);
 
   useEffect((): void => {
-    techList.current = gantLoaderContext.techList;
+    techList.current = [...gantLoaderContext.techList];
   }, [gantLoaderContext.techList]);
 
   return (
