@@ -14,9 +14,10 @@ interface iOrderWithLine extends iOrder {
 
 export default function Diagram({technicianId, orderListProp}: iProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [orderListWithLine, setOrderListWithLine]: [st: iOrder[] | null, set: (st: iOrder[] | null) => void] =
-    useState<iOrder[] | null>(addLine2Order(orderListProp));
+  const [orderListWithLine, setOrderListWithLine]: [st: iOrderWithLine[] | null, set: (st: iOrderWithLine[] | null) => void] =
+    useState<iOrderWithLine[] | null>(addLine2Order(orderListProp));
   const container: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
 
   function addLine2Order(orderList: iOrder[] | null): iOrderWithLine[] | null {
     if (!orderList) {
@@ -61,9 +62,24 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
     return lineNumber;
   }
 
+  function getContainerHeight(): number {
+    let maxLineNumber: number = 0;
+    if (!orderListWithLine) {
+      return maxLineNumber;
+    }
+
+    orderListWithLine.forEach((order: iOrderWithLine): void => {
+      if (order.line > maxLineNumber) {
+        maxLineNumber = order.line;
+      }
+    });
+
+    return maxLineNumber * lineHeight;
+  }
+
   if (orderListWithLine) {
     return (
-      <div ref={container} className={"diagram cont"}>
+      <div ref={container} className={"diagram cont"} style={{height: getContainerHeight().toString() + "px"}}>
         {orderListWithLine.map((order: iOrder): JSX.Element => {
           return (
             <div
