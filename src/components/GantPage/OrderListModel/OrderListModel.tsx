@@ -7,14 +7,14 @@ interface iProps {
   children: React.ReactNode
 }
 
-export interface iOrderListModel extends iOrderResponse {
+export interface iOrder extends iOrderResponse {
   mainTechId: number | null,
   secondTechId: number | null
 }
 
 export default function OrderListModel({children}: iProps): JSX.Element {
   const gantLoaderContext = useContext(GrantLoaderContext);
-  const orderList: React.MutableRefObject<iOrderListModel[] | null> = useRef<iOrderListModel[] | null>(null);
+  const orderList: React.MutableRefObject<iOrder[] | null> = useRef<iOrder[] | null>(null);
 
   useEffect((): void => {
     orderList.current = [...gantLoaderContext.orderList];

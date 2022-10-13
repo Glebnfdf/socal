@@ -3,7 +3,7 @@ import { useFetch } from "../../../hooks/useFetch";
 import { useEffect, useRef, useState } from "react";
 import iOrderResponse from "../../../APIInterfaces/iOrderResponse";
 import iTechResponse from "../../../APIInterfaces/iTechResponse";
-import { iOrderListModel } from "../OrderListModel/OrderListModel";
+import { iOrder } from "../OrderListModel/OrderListModel";
 import { iTechnician } from "../TechnicianListModel/TechnicianListModel";
 
 interface iProps {
@@ -11,7 +11,7 @@ interface iProps {
 }
 
 interface iGrantLoaderContext {
-  orderList: iOrderListModel[],
+  orderList: iOrder[],
   techList: iTechnician[],
   date: Date
 }
@@ -98,8 +98,8 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
     }
   }
 
-  function addTechInOrder(orderList: iOrderResponse[], techList: iTechResponse[]): iOrderListModel[] {
-    const orderListWithTech: iOrderListModel[] = [];
+  function addTechInOrder(orderList: iOrderResponse[], techList: iTechResponse[]): iOrder[] {
+    const orderListWithTech: iOrder[] = [];
     orderList.forEach((order: iOrderResponse): void => {
       let mainTechId: number | null = null;
       let secondTechId: number | null = null;
