@@ -32,6 +32,7 @@
         display: flex;
 
         .left {
+          cursor: pointer;
           transition: 0.3s;
           display: flex;
           justify-content: center;
@@ -47,6 +48,7 @@
         }
 
         .right {
+          cursor: pointer;
           transition: 0.3s;
           display: flex;
           justify-content: center;
@@ -62,6 +64,7 @@
       }
 
       .calendar {
+        cursor: pointer;
         transition: 0.3s;
         padding: 14px 26px;
         margin-left: 17px;
