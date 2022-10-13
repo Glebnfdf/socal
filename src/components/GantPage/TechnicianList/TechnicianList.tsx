@@ -3,9 +3,12 @@ import "../../../../source/img/svgIcons/points.svg";
 import "../../../../source/img/svgIcons/but.svg";
 import { useContext, useEffect, useState } from "react";
 import { iTechListContext, iTechnician, TechListContext } from "../TechnicianListModel/TechnicianListModel";
+import Diagram from "../Diagram/Diagram";
+import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
+  const orderListContext: iOrderListContext = useContext(OrderListContext);
   const [techList, setTechList]: [st: iTechnician[] | null, set: (st: iTechnician[] | null) => void] =
     useState<iTechnician[] | null>(null);
 
@@ -50,14 +53,10 @@ export default function TechnicianList(): JSX.Element {
                     </div>
                   </div>
                   <div className="item-right">
-                    <li className="item">
-                      <p className="number">
-                        № 1765798
-                      </p>
-                      <p className="txt">
-                        2429 E Clay Ave, Fresno, CA 93701
-                      </p>
-                    </li>
+                    <Diagram
+                      technicianId={technician.id}
+                      orderListProp={orderListContext.getOrdersByTechId(technician.id)}
+                    />
                   </div>
                 </div>
               )

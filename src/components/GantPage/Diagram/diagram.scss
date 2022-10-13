@@ -1,0 +1,46 @@
+.diagram {
+  box-sizing: border-box;
+
+  &.cont {
+    padding-right: 13px;
+    position: relative;
+  }
+
+  &.order {
+    position: absolute;
+    height: 30px;
+    width: 200px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    cursor: pointer;
+    background-color: #dd3053;
+
+    .id {
+      color: white;
+      padding-right: 12px;
+      flex-shrink: 0;
+      font: {
+        family: "Montserrat", sans-serif;
+        style: normal;
+        weight: 700;
+        size: 14px;
+      }
+    }
+
+    .address {
+      color: white;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font: {
+        family: "Montserrat", sans-serif;
+        style: normal;
+        weight: 500;
+        size: 14px;
+      }
+    }
+  }
+}
