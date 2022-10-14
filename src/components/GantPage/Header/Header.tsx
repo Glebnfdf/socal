@@ -14,6 +14,22 @@ export default function Header(): JSX.Element {
     setDate(gantLoaderContext.date);
   }, [gantLoaderContext.date]);
 
+  function getDate(): Date {
+    return date ? new Date(date.toISOString()) : new Date();
+  }
+
+  function dateSubtraction(): Date {
+    const newDate: Date = getDate();
+    newDate.setDate(newDate.getDate() - 1);
+    return newDate;
+  }
+
+  function dateAddition(): Date {
+    const newDate: Date = getDate();
+    newDate.setDate(newDate.getDate() + 1);
+    return newDate;
+  }
+
   return (
     <header className="header">
       <nav className="nav container">
@@ -32,12 +48,12 @@ export default function Header(): JSX.Element {
         </div>
         <div className="right">
           <div className="arrow">
-            <div className="left">
+            <div className="left" onClick={(): void => {gantLoaderContext.changeDate(dateSubtraction())}}>
               <svg width="11" height="13" viewBox="0 0 11 13" fill="none">
                 <use href="#arrow-left"/>
               </svg>
             </div>
-            <div className="right">
+            <div className="right" onClick={(): void => {gantLoaderContext.changeDate(dateAddition())}}>
               <svg width="11" height="13" viewBox="0 0 11 13" fill="none">
                 <use href="#arrow-right"/>
               </svg>

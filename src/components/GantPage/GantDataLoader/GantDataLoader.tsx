@@ -13,13 +13,16 @@ interface iProps {
 interface iGrantLoaderContext {
   orderList: iOrder[],
   techList: iTechnician[],
-  date: Date
+  date: Date,
+  changeDate: (newDate: Date) => void
 }
 
 export const GrantLoaderContext: React.Context<iGrantLoaderContext> = React.createContext<iGrantLoaderContext>({
   orderList: [],
   techList: [],
-  date: new Date()
+  date: new Date(),
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+  changeDate: (newDate: Date) => {}
 })
 
 export default function GantDataLoader({children}: iProps): JSX.Element {
@@ -38,7 +41,8 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
     useState<iGrantLoaderContext>({
       orderList: [],
       techList: [],
-      date: new Date()
+      date: new Date(),
+      changeDate: changeDateHandler
     });
 
   useEffect((): void => {
@@ -57,6 +61,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
         if (isAllDataLoaded) {
           if (orderList.current && techList.current && date.current) {
             setGrantLoaderState({
+              ...grantLoaderState,
               orderList: addTechInOrder(orderList.current, techList.current),
               techList: addOrderInTechList(techList.current),
               date: date.current
@@ -130,6 +135,15 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
       techListWithOrder.push({...technician, sequenceNumber: index});
     });
     return techListWithOrder;
+  }
+
+  function changeDateHandler(newDate: Date): void {
+    date.current = newDate;
+    loadingStage.current = 0;
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    (async (): Promise<void> => {
+      await updateData();
+    })();
   }
 
   return (
