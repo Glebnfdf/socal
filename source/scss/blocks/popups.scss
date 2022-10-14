@@ -544,6 +544,8 @@
 }
 
 .btn-save {
+  transition: .2s;
+  cursor: pointer;
   width: 96px;
   margin-top: 14px;
   background: #0866FB;
@@ -558,4 +560,8 @@
   text-align: center;
   letter-spacing: 0.02em;
   color: #FFFFFF;
+
+  &:hover {
+    background: #045BE5;
+  }
 }
