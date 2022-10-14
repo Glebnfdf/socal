@@ -501,6 +501,7 @@
       padding-left: 21px;
     }
   }
+
   .text {
     padding-top: 20px;
     font-family: $main-font;
@@ -540,4 +541,20 @@
       color: #0866fb;
     }
   }
+}
+
+.btn-save {
+  margin-top: 14px;
+  background: #0866FB;
+  border-radius: 15px;
+  padding: 16px 30px;
+
+  font-family: $main-font;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
 }
