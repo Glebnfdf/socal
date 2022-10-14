@@ -121,6 +121,19 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
     return (lineNumber - 1) * lineHeight;
   }
 
+  function getColorClass(orderType: string): string {
+    switch (orderType) {
+      case "Recall":
+        return "red";
+      case "Repair":
+        return "orange";
+      case "Estimation":
+        return "violet";
+      default:
+        return "unknown-tag";
+    }
+  }
+
   if (orderListWithLine) {
     return (
       <div ref={container} className={"diagram cont"} style={{height: getContainerHeight().toString() + "px"}}>
@@ -128,7 +141,7 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
           return (
             <div
               key={order.id}
-              className={"diagram order"}
+              className={`diagram order ${getColorClass(order.type)}`}
               data-tech-id={technicianId ? technicianId : -1}
               data-order-id={order.id}
               style={{

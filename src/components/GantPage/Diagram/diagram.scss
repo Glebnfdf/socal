@@ -1,3 +1,5 @@
+@import "source/scss/variables";
+
 .diagram {
   box-sizing: border-box;
   z-index: 6;
@@ -15,7 +17,39 @@
     align-items: center;
     padding: 6px 10px;
     cursor: pointer;
-    background-color: #dd3053;
+    transition: background-color 300ms ease;
+
+    &.red {
+      background-color: $red;
+
+      &:hover {
+        background-color: #dd3053;
+      }
+    }
+
+    &.orange {
+      background-color: $orange;
+
+      &:hover {
+        background-color: #f90;
+      }
+    }
+
+    &.violet {
+      background-color: $violet;
+
+      &:hover {
+        background-color: #2d10b2;
+      }
+    }
+
+    &.unknown-tag {
+      background-color: #94bbff;
+
+      &:hover {
+        background-color: #7493c8;
+      }
+    }
 
     .id {
       color: white;
