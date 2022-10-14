@@ -13,26 +13,26 @@ export interface iOrder extends iOrderResponse {
 }
 
 export interface iOrderListContext {
-  getOrdersByTechId: (techId: number) => iOrder[] | null
+  orderLst: iOrder[] | null,
+  getOrdersByTechId: (techId: number | null) => iOrder[] | null
 }
 
 export const OrderListContext: React.Context<iOrderListContext> = React.createContext<iOrderListContext>({
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  getOrdersByTechId: (techId: number): iOrder[] => {}
+  orderLst: null,
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getOrdersByTechId: (techId: number | null): iOrder[] | null => null
 })
 
 export default function OrderListModel({children}: iProps): JSX.Element {
   const gantLoaderContext = useContext(GrantLoaderContext);
   const orderList: React.MutableRefObject<iOrder[] | null> = useRef<iOrder[] | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [OLContext, setOLContext]: [st: iOrderListContext, set: (st: iOrderListContext) => void] =
     useState<iOrderListContext>({
+      orderLst: null,
       getOrdersByTechId: getOrdersByTechId
   });
 
-  function getOrdersByTechId(techId: number): iOrder[] | null {
+  function getOrdersByTechId(techId: number | null): iOrder[] | null {
     const orders: iOrder[] = [];
     if (orderList.current) {
       orderList.current.forEach((order: iOrder): void => {
@@ -46,6 +46,7 @@ export default function OrderListModel({children}: iProps): JSX.Element {
 
   useEffect((): void => {
     orderList.current = [...gantLoaderContext.orderList];
+    setOLContext({...OLContext, orderLst: orderList.current});
   }, [gantLoaderContext.orderList]);
 
   return (

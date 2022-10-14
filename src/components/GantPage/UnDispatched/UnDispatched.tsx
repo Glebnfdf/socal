@@ -1,6 +1,18 @@
 import * as React from "react";
+import Diagram from "../Diagram/Diagram";
+import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
+import { useContext, useEffect, useState } from "react";
 
 export default function UnDispatched(): JSX.Element {
+  const orderListContext: iOrderListContext = useContext(OrderListContext);
+  const [orderListHaveOrder, setOrderListHaveOrder]: [st: boolean, set: (st: boolean) => void] = useState(false);
+
+  useEffect((): void => {
+    if (orderListContext.orderLst && orderListContext.orderLst.length> 0) {
+      setOrderListHaveOrder(true);
+    }
+  }, [orderListContext.orderLst]);
+
   return (
     <section className="container undispatched">
       {/* Левая часть блока с легендой диаграммы */}
@@ -322,56 +334,9 @@ export default function UnDispatched(): JSX.Element {
           </div>
           {/* Заявки */}
           <div className="bottom">
-            <ul className="list">
-              <li className="item">
-                <p className="number">
-                  № 1765798
-                </p>
-                <p className="txt">
-                  2429 E Clay Ave, Fresno, CA 93701
-                </p>
-              </li>
-            </ul>
-            <ul className="list">
-              <li className="item">
-                <p className="number">
-                  № 1765798
-                </p>
-                <p className="txt">
-                  2429 E Clay Ave, Fresno, CA 93701
-                </p>
-              </li>
-            </ul>
-            <ul className="list">
-              <li className="item">
-                <p className="number">
-                  № 1765798
-                </p>
-                <p className="txt">
-                  2429 E Clay Ave, Fresno, CA 93701
-                </p>
-              </li>
-            </ul>
-            <ul className="list">
-              <li className="item">
-                <p className="number">
-                  № 1765798
-                </p>
-                <p className="txt">
-                  2429 E Clay Ave, Fresno, CA 93701
-                </p>
-              </li>
-            </ul>
-            <ul className="list">
-              <li className="item">
-                <p className="number">
-                  № 1765798
-                </p>
-                <p className="txt">
-                  2429 E Clay Ave, Fresno, CA 93701
-                </p>
-              </li>
-            </ul>
+            {orderListHaveOrder &&
+              <Diagram technicianId={null} orderListProp={orderListContext.getOrdersByTechId(null)} />
+            }
           </div>
         </div>
       </div>
