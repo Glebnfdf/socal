@@ -196,6 +196,48 @@
       }
     }
 
+    .date-error {
+      border: 1px solid #EE3E62 !important;
+
+      transition: 0.1s;
+      position: relative;
+      width: 173px;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      outline: none;
+      cursor: pointer;
+      background: #ffffff;
+      border-radius: 15px;
+
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+      color: #0f244a;
+
+      &:after {
+        top: -9px;
+        background: #fff;
+        padding-left: 5px;
+        padding-right: 5px;
+        position: absolute;
+        content: "Date";
+        font-family: $main-font;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 130%;
+        color: #EE3E62;
+      }
+
+      &:hover {
+        border: 1px solid #81a6e7;
+      }
+    }
+
     .date {
       transition: 0.1s;
       position: relative;
@@ -234,6 +276,35 @@
 
       &:hover {
         border: 1px solid #81a6e7;
+      }
+    }
+
+    .time-error {
+      border: 1px solid #EE3E62 !important;
+      transition: 0.1s;
+      width: 173px;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      outline: none;
+      cursor: pointer;
+      background: #ffffff;
+      border-radius: 15px;
+
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+      color: #0f244a;
+
+      &:hover {
+        border: 1px solid #81a6e7;
+      }
+
+      &:after {
+        color: #EE3E62 !important;
       }
     }
 
