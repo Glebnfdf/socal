@@ -710,11 +710,22 @@
 }
 
 .delete-popup {
+  position: relative;
   padding: 15px 12px;
   width: 138px;
   background: #FFFFFF;
   box-shadow: 0px 4px 24px rgba(67, 108, 180, 0.39);
   border-radius: 15px;
+
+  &:before {
+    top: -11px;
+    left: 60px;
+    position: absolute;
+    content: " ";
+    background-image: url("data:image/svg+xml,%3Csvg width='13' height='12' viewBox='0 0 13 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.49519 1.13566e-06L12.9904 11.25L-1.96701e-06 11.25L6.49519 1.13566e-06Z' fill='white'/%3E%3C/svg%3E%0A");
+    width: 13px;
+    height: 11px;
+  }
 
   .title {
     padding-left: 19px;
@@ -732,18 +743,11 @@
     align-items: center;
     padding-bottom: 8px;
     border-bottom: 1px solid #E4EFFF;
-
-    svg {
-
-    }
   }
 
   .bottom {
     padding-top: 8px;
     display: flex;
     align-items: center;
-    svg {
-
-    }
   }
 }
