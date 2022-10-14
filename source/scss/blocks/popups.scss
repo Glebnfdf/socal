@@ -301,6 +301,78 @@
     }
   }
 
+  .add-block {
+    display: flex;
+    align-items: center;
+
+    .added-technical {
+      cursor: pointer;
+      transition: 0.2s;
+      padding: 9px 12px;
+      background: #E9F1FF;
+      border-radius: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .left {
+        display: flex;
+        align-items: center;
+
+        .person {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .names {
+          padding-left: 10px;
+
+          .top {
+            font-family: $main-font;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 18px;
+            color: #81A6E7;
+          }
+
+          .name {
+            font-family: $main-font;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 130%;
+            letter-spacing: 0.02em;
+            color: #0F244A;
+          }
+        }
+      }
+
+      .right {
+        margin-left: 12px;
+
+        svg {
+          transition: .2s;
+          fill: #0866FB;
+
+          &:hover {
+            fill: #045BE5;
+          }
+        }
+      }
+
+      &:hover {
+        background: #d1e3fe;
+        color: #0866fb;
+      }
+
+      &:first-child {
+        margin-right: 14px;
+      }
+    }
+  }
+
   .btn-add {
     cursor: pointer;
     transition: 0.2s;
@@ -313,7 +385,7 @@
     letter-spacing: 0.02em;
     color: #0866fb;
 
-    padding: 16px 24px;
+    padding: 19.76px 24px;
     background: #e4efff;
     border-radius: 15px;
     max-width: 166px;
@@ -501,6 +573,7 @@
       padding-left: 21px;
     }
   }
+
   .text {
     padding-top: 20px;
     font-family: $main-font;
@@ -539,5 +612,28 @@
       background: #d1e3fe;
       color: #0866fb;
     }
+  }
+}
+
+.btn-save {
+  transition: .2s;
+  cursor: pointer;
+  width: 96px;
+  margin-top: 14px;
+  background: #0866FB;
+  border-radius: 15px;
+  padding: 16px 30px;
+
+  font-family: $main-font;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #FFFFFF;
+
+  &:hover {
+    background: #045BE5;
   }
 }
