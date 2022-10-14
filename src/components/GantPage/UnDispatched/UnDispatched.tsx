@@ -2,6 +2,7 @@ import * as React from "react";
 import Diagram from "../Diagram/Diagram";
 import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import { useContext, useEffect, useState } from "react";
+import "./unDispatched.scss";
 
 export default function UnDispatched(): JSX.Element {
   const orderListContext: iOrderListContext = useContext(OrderListContext);
@@ -333,7 +334,7 @@ export default function UnDispatched(): JSX.Element {
             </div>
           </div>
           {/* Заявки */}
-          <div className="bottom">
+          <div className="bottom padding-top-16">
             {orderListHaveOrder &&
               <Diagram technicianId={null} orderListProp={orderListContext.getOrdersByTechId(null)} />
             }
