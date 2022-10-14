@@ -316,11 +316,50 @@
       align-items: center;
 
       .left {
+        display: flex;
+        align-items: center;
 
+        .person {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .names {
+          padding-left: 10px;
+
+          .top {
+            font-family: $main-font;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 18px;
+            color: #81A6E7;
+          }
+
+          .name {
+            font-family: $main-font;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 130%;
+            letter-spacing: 0.02em;
+            color: #0F244A;
+          }
+        }
       }
 
       .right {
+        margin-left: 12px;
 
+        svg {
+          transition: .2s;
+          fill: #0866FB;
+
+          &:hover {
+            fill: #045BE5;
+          }
+        }
       }
 
       &:hover {
@@ -346,7 +385,7 @@
     letter-spacing: 0.02em;
     color: #0866fb;
 
-    padding: 16px 24px;
+    padding: 19.76px 24px;
     background: #e4efff;
     border-radius: 15px;
     max-width: 166px;
