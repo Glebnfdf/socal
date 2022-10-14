@@ -5,13 +5,19 @@ import "../../../../source/img/svgIcons/calendar-icon.svg";
 import imgLogo from "../../../../source/img/logo/logo.svg";
 import { useContext, useEffect, useState } from "react";
 import { GrantLoaderContext } from "../GantDataLoader/GantDataLoader";
+import Calendar from "react-calendar";
+import "./header.scss";
+import "../../../../source/scss/calendar/calendar.scss";
 
 export default function Header(): JSX.Element {
   const [date, setDate]: [st: Date | null, set: (st: Date | null) => void] = useState<Date | null>(null);
+  const [showCalendar, setShowCalendar]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const gantLoaderContext = useContext(GrantLoaderContext);
+  const [calendarDate, setCalendarDate]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date);
 
   useEffect((): void => {
     setDate(gantLoaderContext.date);
+    setCalendarDate(gantLoaderContext.date);
   }, [gantLoaderContext.date]);
 
   function getDate(): Date {
@@ -29,6 +35,13 @@ export default function Header(): JSX.Element {
     newDate.setDate(newDate.getDate() + 1);
     return newDate;
   }
+
+  useEffect((): void => {
+    if (showCalendar) {
+      setShowCalendar(false);
+      gantLoaderContext.changeDate(calendarDate);
+    }
+  }, [calendarDate]);
 
   return (
     <header className="header">
@@ -59,13 +72,16 @@ export default function Header(): JSX.Element {
               </svg>
             </div>
           </div>
-          <div className="calendar">
+          <div className="calendar" onClick={(): void => {setShowCalendar(!showCalendar)}}>
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <use href="#calendar-icon"/>
             </svg>
           </div>
         </div>
       </nav>
+      <div className={"header-calendar" + (showCalendar ? "" : " hide")}>
+        <Calendar calendarType={"US"} locale={"en"} value={calendarDate} onChange={setCalendarDate} />
+      </div>
     </header>
   );
 }
