@@ -301,6 +301,39 @@
     }
   }
 
+  .add-block {
+    display: flex;
+    align-items: center;
+
+    .added-technical {
+      cursor: pointer;
+      transition: 0.2s;
+      padding: 9px 12px;
+      background: #E9F1FF;
+      border-radius: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .left {
+
+      }
+
+      .right {
+
+      }
+
+      &:hover {
+        background: #d1e3fe;
+        color: #0866fb;
+      }
+
+      &:first-child {
+        margin-right: 14px;
+      }
+    }
+  }
+
   .btn-add {
     cursor: pointer;
     transition: 0.2s;
