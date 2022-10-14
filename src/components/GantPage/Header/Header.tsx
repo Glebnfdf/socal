@@ -3,7 +3,7 @@ import "../../../../source/img/svgIcons/arrow-left.svg";
 import "../../../../source/img/svgIcons/arrow-right.svg";
 import "../../../../source/img/svgIcons/calendar-icon.svg";
 import imgLogo from "../../../../source/img/logo/logo.svg";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { GrantLoaderContext } from "../GantDataLoader/GantDataLoader";
 import Calendar from "react-calendar";
 import "./header.scss";
@@ -14,6 +14,7 @@ export default function Header(): JSX.Element {
   const [showCalendar, setShowCalendar]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const gantLoaderContext = useContext(GrantLoaderContext);
   const [calendarDate, setCalendarDate]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date);
+  const isShowCalendar: React.MutableRefObject<boolean> = useRef<boolean>(false);
 
   useEffect((): void => {
     setDate(gantLoaderContext.date);
@@ -42,6 +43,22 @@ export default function Header(): JSX.Element {
       gantLoaderContext.changeDate(calendarDate);
     }
   }, [calendarDate]);
+
+  useEffect((): () => void => {
+    const closeCalendar = (event: MouseEvent): void => {
+      if (isShowCalendar.current &&
+        (event.target as HTMLElement).closest(".header .calendar") === null &&
+        (event.target as HTMLElement).closest(".header .header-calendar") === null
+      ) {
+        setShowCalendar(false);
+      }
+    }
+    document.addEventListener("click", closeCalendar);
+
+    return (): void => {
+      document.removeEventListener("click", closeCalendar);
+    };
+  }, []);
 
   return (
     <header className="header">
@@ -72,7 +89,13 @@ export default function Header(): JSX.Element {
               </svg>
             </div>
           </div>
-          <div className="calendar" onClick={(): void => {setShowCalendar(!showCalendar)}}>
+          <div className="calendar" onClick={(): void => {
+            if (!showCalendar) {
+              isShowCalendar.current = true;
+            }
+            setShowCalendar(!showCalendar);
+          }}
+          >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <use href="#calendar-icon"/>
             </svg>
