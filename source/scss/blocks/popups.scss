@@ -708,3 +708,42 @@
     background: #045BE5;
   }
 }
+
+.delete-popup {
+  padding: 15px 12px;
+  width: 138px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 24px rgba(67, 108, 180, 0.39);
+  border-radius: 15px;
+
+  .title {
+    padding-left: 19px;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 130%;
+    letter-spacing: 0.02em;
+    color: #0F244A;
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #E4EFFF;
+
+    svg {
+
+    }
+  }
+
+  .bottom {
+    padding-top: 8px;
+    display: flex;
+    align-items: center;
+    svg {
+
+    }
+  }
+}
