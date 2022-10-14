@@ -237,19 +237,19 @@
               &:nth-child(4n):before {
                 width: 3px;
                 margin-left: 27px;
-                height: 293px;
-                margin-top: 195px;
+                height: 657px;
+                margin-top: 558px;
               }
 
               &:before {
                 z-index: 5;
                 margin-left: 26px;
-                margin-top: 233px;
+                margin-top: 591px;
                 content: " ";
                 background: #e4efff;
                 position: absolute;
                 width: 1px;
-                height: 263px;
+                height: 621px;
               }
             }
           }
@@ -334,7 +334,7 @@
       z-index: 1000;
       background: #e4efff;
       min-height: 49vh;
-      left: 352px;
+      left: 372px;
       content: " ";
       top: 0;
     }
@@ -356,10 +356,11 @@
       }
 
       .item-left {
-        padding: 14px 14px 14px 16px;
+        padding: 14px;
         width: 334px;
         display: flex;
         align-items: center;
+        margin-right: 19px;
 
         .item-left-top {
           display: flex;
@@ -434,10 +435,23 @@
         }
       }
 
+      .item-right-first {
+        display: flex;
+        justify-content: space-between;
+        //span {
+        //  width: 1px;
+        //  height: 64px;
+        //  background: #e4efff;
+        //
+        //  &:nth-child(4n) {
+        //    background: black;
+        //    width: 3px;
+        //  }
+        //}
+      }
+
       .item-right {
-        padding-top: 16px;
-        padding-bottom: 16px;
-        width: 81%;
+        width: 100%;
         padding-left: 3px;
         z-index: 100000000;
         display: flex;
@@ -445,6 +459,7 @@
         flex-wrap: wrap;
 
         .item {
+          position: absolute;
           transition: .3s;
           width: 401px;
           margin-right: 3px;
@@ -452,7 +467,6 @@
           border-radius: 10px;
           border: 0;
           z-index: 10;
-          position: sticky;
           display: flex;
           align-items: center;
           padding: 6px 10px;
