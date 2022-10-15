@@ -3,6 +3,7 @@ import Diagram from "../Diagram/Diagram";
 import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import { useContext, useEffect, useState } from "react";
 import "./unDispatched.scss";
+import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
 
 export default function UnDispatched(): JSX.Element {
   const orderListContext: iOrderListContext = useContext(OrderListContext);
@@ -13,6 +14,27 @@ export default function UnDispatched(): JSX.Element {
       setOrderListHaveOrder(true);
     }
   }, [orderListContext.orderLst]);
+
+  function dragOverHandler(event: React.DragEvent<HTMLDivElement>): void {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }
+
+  function orderDropHandler(event: React.DragEvent<HTMLDivElement>): void {
+    event.preventDefault();
+
+    const orderDropData: iOrderDropData = OrderDropData(event);
+    if (!orderDropData.dataIsValid) {
+      return;
+    }
+
+    orderListContext.updateOrder(
+      orderDropData.orderId,
+      null,
+      orderDropData.timeBegin,
+      orderDropData.timeEnd
+    );
+  }
 
   return (
     <section className="container undispatched">
@@ -334,7 +356,11 @@ export default function UnDispatched(): JSX.Element {
             </div>
           </div>
           {/* Заявки */}
-          <div className="bottom padding-top-16">
+          <div
+            className="bottom padding-top-16"
+            onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {dragOverHandler(event)}}
+            onDrop={(event: React.DragEvent<HTMLDivElement>): void => {orderDropHandler(event)}}
+          >
             {orderListHaveOrder &&
               <Diagram orderListProp={orderListContext.getOrdersByTechId(null)} technicianId={null} />
             }
