@@ -16,6 +16,21 @@ export default function TechnicianList(): JSX.Element {
     setTechList([...techListContext.techList])
   }, [techListContext.techList]);
 
+  function dragOverHandler(event: React.DragEvent<HTMLDivElement>): void {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }
+
+  function dropHandler(event: React.DragEvent<HTMLDivElement>, technicianId: number): void {
+    event.preventDefault();
+    if (event.dataTransfer.getData("data-tech-id") === "-1" ||
+        event.dataTransfer.getData("data-order-id") === "-1") {
+          return;
+      }
+    const orderId: number = Number(event.dataTransfer.getData("data-order-id"));
+    orderListContext.updateOrder(orderId, technicianId);
+  }
+
   return (
     <section className="undispatched-bottom container">
       <div className="content">
@@ -52,9 +67,12 @@ export default function TechnicianList(): JSX.Element {
                       </div>
                     </div>
                   </div>
-                  <div className="item-right">
+                  <div
+                    className="item-right"
+                    onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {dragOverHandler(event)}}
+                    onDrop={(event: React.DragEvent<HTMLDivElement>): void => {dropHandler(event, technician.id)}}
+                  >
                     <Diagram
-                      technicianId={technician.id}
                       orderListProp={orderListContext.getOrdersByTechId(technician.id)}
                     />
                   </div>

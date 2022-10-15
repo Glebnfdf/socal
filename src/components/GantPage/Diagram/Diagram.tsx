@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import "./diagram.scss";
 
 interface iProps {
-  technicianId: number | null,
   orderListProp: iOrder[] | null
 }
 
@@ -12,8 +11,7 @@ interface iOrderWithLine extends iOrder {
   line: number
 }
 
-export default function Diagram({technicianId, orderListProp}: iProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function Diagram({orderListProp}: iProps): JSX.Element {
   const [orderListWithLine, setOrderListWithLine]: [st: iOrderWithLine[] | null, set: (st: iOrderWithLine[] | null) => void] =
     useState<iOrderWithLine[] | null>(addLine2Order(orderListProp));
   const container: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
@@ -33,6 +31,10 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
     });
     return ordersWithLine;
   }
+
+  useEffect((): void => {
+    setOrderListWithLine(addLine2Order(orderListProp));
+  }, [orderListProp]);
 
   function getLineNumber(ordersWithLine: iOrderWithLine[], order: iOrder): number {
     let lineNumber: number = 1;
@@ -134,6 +136,12 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
     }
   }
 
+  function setAttr2DragElm(event: React.DragEvent<HTMLDivElement>): void {
+    const htmlElement: HTMLElement = event.target as HTMLElement;
+    const orderId: string | null = htmlElement.getAttribute("data-order-id");
+    event.dataTransfer.setData("data-order-id", orderId === null ? "-1" : orderId);
+  }
+
   if (orderListWithLine) {
     return (
       <div ref={container} className={"diagram cont"} style={{height: getContainerHeight().toString() + "px"}}>
@@ -142,13 +150,14 @@ export default function Diagram({technicianId, orderListProp}: iProps): JSX.Elem
             <div
               key={order.id}
               className={`diagram order ${getColorClass(order.type)}`}
-              data-tech-id={technicianId ? technicianId : -1}
               data-order-id={order.id}
               style={{
                 left: getXPosition(order.time_slot_from).toString() + "px",
                 top: getYPosition(order.line).toString() + "px",
                 width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px"
               }}
+              draggable={"true"}
+              onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {setAttr2DragElm(event)}}
             >
               <div className={"id"}>№ {order.id}</div>
               <div className={"address"}>{order.address}</div>

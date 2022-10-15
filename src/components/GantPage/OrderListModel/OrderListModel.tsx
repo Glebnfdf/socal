@@ -14,13 +14,16 @@ export interface iOrder extends iOrderResponse {
 
 export interface iOrderListContext {
   orderLst: iOrder[] | null,
-  getOrdersByTechId: (techId: number | null) => iOrder[] | null
+  getOrdersByTechId: (techId: number | null) => iOrder[] | null,
+  updateOrder: (orderId: number, technicianId: number | null) => void
 }
 
 export const OrderListContext: React.Context<iOrderListContext> = React.createContext<iOrderListContext>({
   orderLst: null,
   //eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getOrdersByTechId: (techId: number | null): iOrder[] | null => null
+  getOrdersByTechId: (techId: number | null): iOrder[] | null => null,
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  updateOrder: (orderId: number, technicianId: number | null) => {}
 })
 
 export default function OrderListModel({children}: iProps): JSX.Element {
@@ -29,15 +32,22 @@ export default function OrderListModel({children}: iProps): JSX.Element {
   const [OLContext, setOLContext]: [st: iOrderListContext, set: (st: iOrderListContext) => void] =
     useState<iOrderListContext>({
       orderLst: null,
-      getOrdersByTechId: getOrdersByTechId
+      getOrdersByTechId: getOrdersByTechId,
+      updateOrder: updateOrderHandler
   });
 
   function getOrdersByTechId(techId: number | null): iOrder[] | null {
     const orders: iOrder[] = [];
     if (orderList.current) {
       orderList.current.forEach((order: iOrder): void => {
-        if (order.mainTechId === techId || order.secondTechId === techId) {
-          orders.push(order);
+        if (techId === null) {
+          if (order.mainTechId === null) {
+            orders.push(order);
+          }
+        } else {
+          if (order.mainTechId === techId || order.secondTechId === techId) {
+            orders.push(order);
+          }
         }
       });
     }
@@ -48,6 +58,17 @@ export default function OrderListModel({children}: iProps): JSX.Element {
     orderList.current = [...gantLoaderContext.orderList];
     setOLContext({...OLContext, orderLst: orderList.current});
   }, [gantLoaderContext.orderList]);
+
+  function updateOrderHandler(orderId: number, technicianId: number | null): void {
+    const orders: iOrder[] = [];
+    if (orderList.current) {
+      orderList.current.forEach((order: iOrder): void => {
+        orders.push({...order, mainTechId: orderId === order.id ? technicianId : order.mainTechId});
+      })
+    }
+    orderList.current = orders;
+    setOLContext({...OLContext, orderLst: orders});
+  }
 
   return (
     <OrderListContext.Provider value={OLContext}>
