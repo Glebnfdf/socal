@@ -17,7 +17,7 @@
 .scroll-vtrack {
   position: absolute;
   background-color: #fdfeff;
-  z-index: 100;
+  z-index: 1000000000000;
   height: 100%;
   width: 13px;
   top: 0;
@@ -28,6 +28,7 @@
   position: absolute;
   background-color: #0866fb;
   border-radius: 100px;
+  z-index: 100000000000000000000000000000000000000000;
   top: 0;
   width: 5px;
   left: 4px;
@@ -39,5 +40,13 @@
 }
 
 .scroll-cont-undispatche {
+  width: 101%;
+}
+
+.main-bottom-scroll-cont {
+
+}
+
+.scroll-cont-bottom {
   width: 101%;
 }

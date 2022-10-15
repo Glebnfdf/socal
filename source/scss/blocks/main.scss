@@ -320,22 +320,21 @@
   justify-content: space-between;
   width: 100%;
 
+  &:after {
+    position: absolute;
+    width: 4px;
+    z-index: 1000;
+    background: #e4efff;
+    min-height: 49vh;
+    left: 372px;
+    content: " ";
+    top: 0;
+  }
+
   .content {
     background: #fff;
     width: 100%;
-    overflow: auto;
     height: 355px;
-
-    &:after {
-      position: absolute;
-      width: 4px;
-      z-index: 1000;
-      background: #e4efff;
-      min-height: 49vh;
-      left: 372px;
-      content: " ";
-      top: 0;
-    }
 
     .item {
       width: 100%;
