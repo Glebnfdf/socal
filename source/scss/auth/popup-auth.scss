@@ -1,0 +1,280 @@
+.popups-auth-example {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: auto;
+  width: 1400px;
+
+  .login-popup {
+    padding: 60px 63px;
+    background: #FFFFFF;
+    border-radius: 30px;
+
+    .login-title {
+      padding-bottom: 35px;
+      font-family: $main-font;
+      width: 274px;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 130%;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #0F244A;
+    }
+
+    .insert-phone {
+      font-family: $main-font;
+      text-align: center;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+      color: #81A6E7;
+      padding-bottom: 56px;
+    }
+
+    .login-input {
+      outline: none;
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid #C2D8FE;
+      border-radius: 15px;
+      padding: 18px 25.5px;
+
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+      color: #0F244A;
+
+      &::placeholder {
+        font-family: $main-font;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 130%;
+        letter-spacing: 0.02em;
+        color: #81A6E7;
+      }
+    }
+
+    .next-btn-login {
+      transition: .3s;
+      cursor: pointer;
+      background: #0866FB;
+      border-radius: 15px;
+      width: 100%;
+      margin-top: 100px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 130%;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #FFFFFF;
+
+      &:hover {
+        opacity: .75;
+      }
+    }
+  }
+
+  .login-popup-error {
+    padding: 60px 63px;
+    background: #FFFFFF;
+    border-radius: 30px;
+
+    .login-title {
+      padding-bottom: 35px;
+      font-family: $main-font;
+      width: 274px;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 130%;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #0F244A;
+    }
+
+    .insert-phone {
+      font-family: $main-font;
+      text-align: center;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+      color: #81A6E7;
+      padding-bottom: 56px;
+    }
+
+    .login-input {
+      outline: none;
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid #EE3E62;
+      border-radius: 15px;
+      padding: 18px 25.5px;
+      color: #EE3E62;
+
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+
+      &::placeholder {
+        font-family: $main-font;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 130%;
+        letter-spacing: 0.02em;
+        color: #EE3E62;
+      }
+    }
+
+    .error-message {
+      padding-top: 27px;
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 130%;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #EE3E62;
+      width: 298px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    .next-btn-login {
+      pointer-events: none;
+      transition: .3s;
+      opacity: .3;
+      cursor: pointer;
+      background: #0866FB;
+      border-radius: 15px;
+      width: 100%;
+      margin-top: 27px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 130%;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #FFFFFF;
+    }
+  }
+}
+
+.insert-popup {
+  padding: 60px 63px;
+  background: #FFFFFF;
+  border-radius: 30px;
+
+  .login-title {
+    text-align: center;
+    width: 274px;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 130%;
+    margin: auto;
+    letter-spacing: 0.02em;
+    color: #0F244A;
+    padding-bottom: 35px;
+  }
+
+  .insert-phone {
+    padding-left: 60px;
+    padding-right: 60px;
+    font-family: $main-font;
+    width: 298px;
+    margin: auto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #81A6E7;
+    padding-bottom: 40px;
+  }
+
+  .inputs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 65px;
+
+    input {
+      outline: none;
+      width: 60px;
+      height: 85px;
+      background: #FFFFFF;
+      border: 1px solid #C2D8FE;
+      border-radius: 15px;
+
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 130%;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #0F244A;
+    }
+  }
+
+  .resend-btn {
+    cursor: pointer;
+    background: #E9F1FF;
+    border-radius: 15px;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #0866FB;
+
+    margin-bottom: 19px;
+  }
+
+  .back-btn {
+    border: 1px solid #E4EFFF;
+    border-radius: 15px;
+    width: 100%;
+
+    padding-top: 16px;
+    padding-bottom: 16px;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #81A6E7;
+  }
+}
