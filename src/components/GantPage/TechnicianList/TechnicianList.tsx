@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { iTechListContext, iTechnician, TechListContext } from "../TechnicianListModel/TechnicianListModel";
 import Diagram from "../Diagram/Diagram";
 import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
+import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
@@ -21,39 +22,20 @@ export default function TechnicianList(): JSX.Element {
     event.dataTransfer.dropEffect = "move";
   }
 
-  function dropHandler(event: React.DragEvent<HTMLDivElement>, technicianId: number): void {
+  function orderDropHandler(event: React.DragEvent<HTMLDivElement>, technicianId: number): void {
     event.preventDefault();
-    if (event.dataTransfer.getData("data-tech-id") === "-1" ||
-        event.dataTransfer.getData("data-order-id") === "-1" ||
-        event.dataTransfer.getData("time-begin") === "-1" ||
-        event.dataTransfer.getData("time-end") === "-1"
-    ) {
-          return;
-      }
-    const orderId: number = Number(event.dataTransfer.getData("data-order-id"));
-    const beforeDragCurPosX: number = Number(event.dataTransfer.getData("before-drag-cur-pos-x"));
-    const minuteWidth: number = Number(event.dataTransfer.getData("minute-width"));
-    const orderTimeBegin: Date = new Date(event.dataTransfer.getData("time-begin"));
-    const orderTimeEnd: Date = new Date(event.dataTransfer.getData("time-end"));
+
+    const orderDropData: iOrderDropData = OrderDropData(event);
+    if (!orderDropData.dataIsValid) {
+      return;
+    }
 
     orderListContext.updateOrder(
-      orderId,
+      orderDropData.orderId,
       technicianId,
-      getNewDate(orderTimeBegin, beforeDragCurPosX, event.pageX, minuteWidth),
-      getNewDate(orderTimeEnd, beforeDragCurPosX, event.pageX, minuteWidth)
+      orderDropData.timeBegin,
+      orderDropData.timeEnd
     );
-  }
-
-  function getNewDate(date: Date, beforeDragCurPosX: number, afterDragCurPosX: number, minuteWidth: number): Date {
-    const minutesDelta: number = Math.round((afterDragCurPosX - beforeDragCurPosX) / minuteWidth);
-    date.setMinutes(date.getMinutes() + minutesDelta);
-    if (date.getHours() < 7) {
-      date.setHours(7,0,0,0);
-    }
-    if (date.getHours() > 21) {
-      date.setHours(21);
-    }
-    return date;
   }
 
   return (
@@ -96,7 +78,7 @@ export default function TechnicianList(): JSX.Element {
                   <div
                     className="item-right"
                     onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {dragOverHandler(event)}}
-                    onDrop={(event: React.DragEvent<HTMLDivElement>): void => {dropHandler(event, technician.id)}}
+                    onDrop={(event: React.DragEvent<HTMLDivElement>): void => {orderDropHandler(event, technician.id)}}
                   >
                     <Diagram
                       orderListProp={orderListContext.getOrdersByTechId(technician.id)}
