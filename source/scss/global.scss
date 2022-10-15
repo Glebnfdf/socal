@@ -219,3 +219,7 @@ table {
     }
   }
 }
+
+.btn-no-click {
+  pointer-events: none;
+}
