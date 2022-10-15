@@ -1,0 +1,95 @@
+.auth-body {
+  background: url("../../img/auth-bg.png") no-repeat;
+  background-size: auto;
+}
+
+.auth-screen {
+  max-width: 1406px;
+  width: 100%;
+  margin: 74px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .left {
+    width: 771px;
+    height: 747px;
+    background: url("../../img/auth-left.png") no-repeat center center;
+  }
+
+  .right {
+    padding: 60px 63px;
+    background: #FFFFFF;
+    border-radius: 30px;
+
+    .login-title {
+      padding-bottom: 35px;
+      font-family: $main-font;
+      width: 274px;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 130%;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #0F244A;
+    }
+
+    .insert-phone {
+      font-family: $main-font;
+      text-align: center;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+      color: #81A6E7;
+      padding-bottom: 56px;
+    }
+
+    .login-input {
+      outline: none;
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid #C2D8FE;
+      border-radius: 15px;
+      padding: 18px 25.5px;
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 130%;
+      letter-spacing: 0.02em;
+      color: #0F244A;
+
+      &::placeholder {
+        font-family: $main-font;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 130%;
+        letter-spacing: 0.02em;
+        color: #81A6E7;
+      }
+    }
+
+    .next-btn {
+      cursor: pointer;
+      background: #0866FB;
+      opacity: 0.3;
+      border-radius: 15px;
+      width: 100%;
+      margin-top: 100px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 130%;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #FFFFFF;
+    }
+  }
+}
