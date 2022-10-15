@@ -2,6 +2,7 @@ import * as React from "react";
 import { iOrder } from "../OrderListModel/OrderListModel";
 import { useEffect, useRef, useState } from "react";
 import "./diagram.scss";
+import { DragItemType } from "../../../utils/DragItemType";
 
 interface iProps {
   orderListProp: iOrder[] | null,
@@ -143,6 +144,8 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
     event.dataTransfer.setData("time-end", timeEnd === null ? "-1" : timeEnd);
     event.dataTransfer.setData("minute-width", getMinuteWidth().toString());
     event.dataTransfer.setData("before-drag-cur-pos-x", event.pageX.toString());
+    localStorage.setItem("dragItemType", DragItemType.Order);
+    localStorage.setItem("techIdInDragOrder", techId === null ? "-1" : techId);
   }
 
   return (

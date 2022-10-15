@@ -4,6 +4,7 @@ import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderList
 import { useContext, useEffect, useState } from "react";
 import "./unDispatched.scss";
 import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
+import { DragItemType } from "../../../utils/DragItemType";
 
 export default function UnDispatched(): JSX.Element {
   const orderListContext: iOrderListContext = useContext(OrderListContext);
@@ -17,7 +18,16 @@ export default function UnDispatched(): JSX.Element {
 
   function dragOverHandler(event: React.DragEvent<HTMLDivElement>): void {
     event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
+    const dragItemType = localStorage.getItem("dragItemType");
+    if (dragItemType === DragItemType.Order) {
+      const techIdFromLS: number | null = getTechIdFromLS();
+      if (techIdFromLS === -1) {
+        console.warn("При перетаскивании заявки у неё не оказалось techId");
+        event.dataTransfer.dropEffect = "none";
+      } else {
+        techIdFromLS === null ? event.dataTransfer.dropEffect = "move" : event.dataTransfer.dropEffect = "none";
+      }
+    }
   }
 
   function orderDropHandler(event: React.DragEvent<HTMLDivElement>): void {
@@ -34,6 +44,14 @@ export default function UnDispatched(): JSX.Element {
       orderDropData.timeBegin,
       orderDropData.timeEnd
     );
+  }
+
+  function getTechIdFromLS(): number | null {
+    const techIdFromLS: string | null = localStorage.getItem("techIdInDragOrder");
+    if (!techIdFromLS || techIdFromLS === "-1") {
+      return -1;
+    }
+    return techIdFromLS === "null" ? null : Number(techIdFromLS);
   }
 
   return (
