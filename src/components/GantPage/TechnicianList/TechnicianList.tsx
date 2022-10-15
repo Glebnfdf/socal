@@ -24,11 +24,36 @@ export default function TechnicianList(): JSX.Element {
   function dropHandler(event: React.DragEvent<HTMLDivElement>, technicianId: number): void {
     event.preventDefault();
     if (event.dataTransfer.getData("data-tech-id") === "-1" ||
-        event.dataTransfer.getData("data-order-id") === "-1") {
+        event.dataTransfer.getData("data-order-id") === "-1" ||
+        event.dataTransfer.getData("time-begin") === "-1" ||
+        event.dataTransfer.getData("time-end") === "-1"
+    ) {
           return;
       }
     const orderId: number = Number(event.dataTransfer.getData("data-order-id"));
-    orderListContext.updateOrder(orderId, technicianId);
+    const beforeDragCurPosX: number = Number(event.dataTransfer.getData("before-drag-cur-pos-x"));
+    const minuteWidth: number = Number(event.dataTransfer.getData("minute-width"));
+    const orderTimeBegin: Date = new Date(event.dataTransfer.getData("time-begin"));
+    const orderTimeEnd: Date = new Date(event.dataTransfer.getData("time-end"));
+
+    orderListContext.updateOrder(
+      orderId,
+      technicianId,
+      getNewDate(orderTimeBegin, beforeDragCurPosX, event.pageX, minuteWidth),
+      getNewDate(orderTimeEnd, beforeDragCurPosX, event.pageX, minuteWidth)
+    );
+  }
+
+  function getNewDate(date: Date, beforeDragCurPosX: number, afterDragCurPosX: number, minuteWidth: number): Date {
+    const minutesDelta: number = Math.round((afterDragCurPosX - beforeDragCurPosX) / minuteWidth);
+    date.setMinutes(date.getMinutes() + minutesDelta);
+    if (date.getHours() < 7) {
+      date.setHours(7,0,0,0);
+    }
+    if (date.getHours() > 21) {
+      date.setHours(21);
+    }
+    return date;
   }
 
   return (

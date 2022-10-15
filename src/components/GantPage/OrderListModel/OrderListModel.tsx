@@ -15,7 +15,7 @@ export interface iOrder extends iOrderResponse {
 export interface iOrderListContext {
   orderLst: iOrder[] | null,
   getOrdersByTechId: (techId: number | null) => iOrder[] | null,
-  updateOrder: (orderId: number, technicianId: number | null) => void
+  updateOrder: (orderId: number, technicianId: number | null, orderTimeBegin: Date, orderTmeEnd: Date) => void
 }
 
 export const OrderListContext: React.Context<iOrderListContext> = React.createContext<iOrderListContext>({
@@ -23,7 +23,7 @@ export const OrderListContext: React.Context<iOrderListContext> = React.createCo
   //eslint-disable-next-line @typescript-eslint/no-unused-vars
   getOrdersByTechId: (techId: number | null): iOrder[] | null => null,
   //eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  updateOrder: (orderId: number, technicianId: number | null) => {}
+  updateOrder: (orderId: number, technicianId: number | null, orderTimeBegin: Date, orderTmeEnd: Date) => {}
 })
 
 export default function OrderListModel({children}: iProps): JSX.Element {
@@ -59,14 +59,21 @@ export default function OrderListModel({children}: iProps): JSX.Element {
     setOLContext({...OLContext, orderLst: orderList.current});
   }, [gantLoaderContext.orderList]);
 
-  function updateOrderHandler(orderId: number, technicianId: number | null): void {
+  function updateOrderHandler(
+    orderId: number,
+    technicianId: number | null,
+    orderTimeBegin: Date,
+    orderTmeEnd: Date
+  ): void {
     const orders: iOrder[] = [];
     if (orderList.current) {
       orderList.current.forEach((order: iOrder): void => {
         orders.push({
           ...order,
           mainTechId: orderId === order.id ? technicianId : order.mainTechId,
-          secondTechId: orderId === order.id ? null : order.secondTechId
+          secondTechId: orderId === order.id ? null : order.secondTechId,
+          time_slot_from: orderId === order.id ? orderTimeBegin.toJSON() : order.time_slot_from,
+          time_slot_to: orderId === order.id ? orderTmeEnd.toJSON() : order.time_slot_to
         });
       })
     }

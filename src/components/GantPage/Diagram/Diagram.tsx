@@ -135,8 +135,14 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
     const htmlElement: HTMLElement = event.target as HTMLElement;
     const orderId: string | null = htmlElement.getAttribute("data-order-id");
     const techId: string | null = htmlElement.getAttribute("data-tech-id");
+    const timeBegin: string | null = htmlElement.getAttribute("data-time-begin");
+    const timeEnd: string | null = htmlElement.getAttribute("data-time-end");
     event.dataTransfer.setData("data-order-id", orderId === null ? "-1" : orderId);
     event.dataTransfer.setData("data-tech-id", techId === null ? "-1" : techId);
+    event.dataTransfer.setData("time-begin", timeBegin === null ? "-1" : timeBegin);
+    event.dataTransfer.setData("time-end", timeEnd === null ? "-1" : timeEnd);
+    event.dataTransfer.setData("minute-width", getMinuteWidth().toString());
+    event.dataTransfer.setData("before-drag-cur-pos-x", event.pageX.toString());
   }
 
   return (
@@ -152,6 +158,8 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
             className={`diagram order ${getColorClass(order.type)}`}
             data-order-id={order.id}
             data-tech-id={technicianId === null ? "null" : technicianId}
+            data-time-begin={order.time_slot_from}
+            data-time-end={order.time_slot_to}
             style={{
               left: getXPosition(order.time_slot_from).toString() + "px",
               top: getYPosition(order.line).toString() + "px",
