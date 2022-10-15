@@ -79,10 +79,22 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
 
   async function updateData(): Promise<void> {
     if (loadingStage.current !== null && date.current) {
-      const url = urlList[loadingStage.current] + "?" + new URLSearchParams({
-        date: date.current.toJSON()
-      }).toString();
+      const url = urlList[loadingStage.current] + "?" +
+        getGetParams(urlList[loadingStage.current], date.current).toString();
       await requestData(url);
+    }
+  }
+
+  function getGetParams(url: string, _date: Date): URLSearchParams {
+    // urlList[2] = /technics/all
+    if (url === urlList[2]) {
+      return new URLSearchParams({
+        date: _date.toJSON()
+      })
+    } else {
+      return new URLSearchParams({
+        date_start: _date.toJSON()
+      });
     }
   }
 
