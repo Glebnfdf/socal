@@ -4,14 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import "./diagram.scss";
 
 interface iProps {
-  orderListProp: iOrder[] | null
+  orderListProp: iOrder[] | null,
+  technicianId: number | null
 }
 
 interface iOrderWithLine extends iOrder {
   line: number
 }
 
-export default function Diagram({orderListProp}: iProps): JSX.Element {
+export default function Diagram({orderListProp, technicianId}: iProps): JSX.Element {
   const [orderListWithLine, setOrderListWithLine]: [st: iOrderWithLine[] | null, set: (st: iOrderWithLine[] | null) => void] =
     useState<iOrderWithLine[] | null>(addLine2Order(orderListProp));
   const container: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
@@ -139,7 +140,9 @@ export default function Diagram({orderListProp}: iProps): JSX.Element {
   function setAttr2DragElm(event: React.DragEvent<HTMLDivElement>): void {
     const htmlElement: HTMLElement = event.target as HTMLElement;
     const orderId: string | null = htmlElement.getAttribute("data-order-id");
+    const techId: string | null = htmlElement.getAttribute("data-tech-id");
     event.dataTransfer.setData("data-order-id", orderId === null ? "-1" : orderId);
+    event.dataTransfer.setData("data-tech-id", techId === null ? "-1" : techId);
   }
 
   if (orderListWithLine) {
@@ -151,6 +154,7 @@ export default function Diagram({orderListProp}: iProps): JSX.Element {
               key={order.id}
               className={`diagram order ${getColorClass(order.type)}`}
               data-order-id={order.id}
+              data-tech-id={technicianId === null ? "null" : technicianId}
               style={{
                 left: getXPosition(order.time_slot_from).toString() + "px",
                 top: getYPosition(order.line).toString() + "px",

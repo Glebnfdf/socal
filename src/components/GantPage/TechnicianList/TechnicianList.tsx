@@ -74,6 +74,7 @@ export default function TechnicianList(): JSX.Element {
                   >
                     <Diagram
                       orderListProp={orderListContext.getOrdersByTechId(technician.id)}
+                      technicianId={technician.id}
                     />
                   </div>
                 </div>

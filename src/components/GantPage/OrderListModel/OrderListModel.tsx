@@ -63,7 +63,11 @@ export default function OrderListModel({children}: iProps): JSX.Element {
     const orders: iOrder[] = [];
     if (orderList.current) {
       orderList.current.forEach((order: iOrder): void => {
-        orders.push({...order, mainTechId: orderId === order.id ? technicianId : order.mainTechId});
+        orders.push({
+          ...order,
+          mainTechId: orderId === order.id ? technicianId : order.mainTechId,
+          secondTechId: orderId === order.id ? null : order.secondTechId
+        });
       })
     }
     orderList.current = orders;

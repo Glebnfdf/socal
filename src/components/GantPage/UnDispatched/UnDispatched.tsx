@@ -336,7 +336,7 @@ export default function UnDispatched(): JSX.Element {
           {/* Заявки */}
           <div className="bottom padding-top-16">
             {orderListHaveOrder &&
-              <Diagram orderListProp={orderListContext.getOrdersByTechId(null)} />
+              <Diagram orderListProp={orderListContext.getOrdersByTechId(null)} technicianId={null} />
             }
           </div>
         </div>
