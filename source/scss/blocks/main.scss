@@ -387,6 +387,10 @@
           height: 18px;
           width: 8px;
 
+          &:hover {
+            cursor: move;
+          }
+
           img {
             height: 18px;
             width: 8px;
