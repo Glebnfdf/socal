@@ -73,7 +73,8 @@ export default function TechnicianList(): JSX.Element {
                       </div>
                       <div className="person">
                         <img
-                          src={technician.avatar ? technician.avatar : "https://i.ibb.co/C1ZFCsr/person-1.png"}
+                          // src={technician.avatar ? technician.avatar : "https://i.ibb.co/C1ZFCsr/person-1.png"}
+                          src={"https://i.ibb.co/C1ZFCsr/person-1.png"}
                           alt="#"
                         />
                       </div>
