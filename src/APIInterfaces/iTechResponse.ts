@@ -3,8 +3,8 @@ import iOrderResponse from "./iOrderResponse";
 export default interface iTechResponse {
   id: number,
   name: string,
-  visits: iOrderResponse[] | null,
-  visits_extra: iOrderResponse[] | null,
+  main_queue: iOrderResponse[] | null,
+  second_queue: iOrderResponse[] | null,
   avatar: string | null,
   nonWorkingTimes: TimeSlot[] | null
 }

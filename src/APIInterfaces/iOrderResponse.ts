@@ -7,7 +7,7 @@ export default interface iOrderResponse {
   coords: string,
   main_contact_phone: string,
   main_contact_name: string,
-  email: string | null,
-  service: string,
+  main_contact_email: string | null,
+  appliance: string,
   description: string
 }

@@ -109,15 +109,15 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
       let mainTechId: number | null = null;
       let secondTechId: number | null = null;
       techList.forEach((technician: iTechResponse): void => {
-        if (technician.visits) {
-          technician.visits.forEach((orderFromTech: iOrderResponse): void => {
+        if (technician.main_queue) {
+          technician.main_queue.forEach((orderFromTech: iOrderResponse): void => {
             if (orderFromTech.id === order.id) {
               mainTechId = technician.id;
             }
           });
         }
-        if (technician.visits_extra) {
-          technician.visits_extra.forEach((orderFromTech: iOrderResponse): void => {
+        if (technician.second_queue) {
+          technician.second_queue.forEach((orderFromTech: iOrderResponse): void => {
             if (orderFromTech.id === order.id) {
               secondTechId = technician.id;
             }
