@@ -1,7 +1,3 @@
-.main-container {
-  width: 105%;
-}
-
 .scroll-cont {
   height: 100%;
   overflow: hidden;
@@ -10,7 +6,6 @@
 
 .scroll-content-wrapper {
   overflow: auto;
-  width: 100%;
   height: 100%;
   scrollbar-width: none;
 }
@@ -37,4 +32,12 @@
   width: 5px;
   left: 4px;
   cursor: pointer;
+}
+
+.main-undispatche-scroll-cont {
+  height: 230px;
+}
+
+.scroll-cont-undispatche {
+  width: 101%;
 }
