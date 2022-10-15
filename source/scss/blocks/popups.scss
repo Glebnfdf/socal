@@ -728,6 +728,8 @@
   }
 
   .title {
+    cursor: pointer;
+    transition: .2s;
     padding-left: 19px;
     font-family: $main-font;
     font-style: normal;
@@ -736,6 +738,10 @@
     line-height: 130%;
     letter-spacing: 0.02em;
     color: #0F244A;
+
+    &:hover {
+      color: #0866FB;
+    }
   }
 
   .top {
