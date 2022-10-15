@@ -27,6 +27,8 @@ export default function UnDispatched(): JSX.Element {
       } else {
         techIdFromLS === null ? event.dataTransfer.dropEffect = "move" : event.dataTransfer.dropEffect = "none";
       }
+    } else {
+      event.dataTransfer.dropEffect = "none";
     }
   }
 

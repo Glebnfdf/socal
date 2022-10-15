@@ -6,6 +6,7 @@ import { iTechListContext, iTechnician, TechListContext } from "../TechnicianLis
 import Diagram from "../Diagram/Diagram";
 import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
+import { DragItemType } from "../../../utils/DragItemType";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
@@ -17,9 +18,14 @@ export default function TechnicianList(): JSX.Element {
     setTechList([...techListContext.techList])
   }, [techListContext.techList]);
 
-  function dragOverHandler(event: React.DragEvent<HTMLDivElement>): void {
+  function diagramDragOver(event: React.DragEvent<HTMLDivElement>): void {
     event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
+
+    if (localStorage.getItem("dragItemType") === DragItemType.Order) {
+      event.dataTransfer.dropEffect = "move";
+    } else {
+      event.dataTransfer.dropEffect = "none";
+    }
   }
 
   function orderDropHandler(event: React.DragEvent<HTMLDivElement>, technicianId: number): void {
@@ -38,17 +44,60 @@ export default function TechnicianList(): JSX.Element {
     );
   }
 
+  function setAttr2DragTech(event: React.DragEvent<HTMLDivElement>, techId: number | null): void {
+    if (!techId) {
+      return;
+    }
+    const techBlock: HTMLDivElement | null =
+      document.querySelector("div.item[data-tech-block-id='" + techId.toString() + "']");
+    if (techBlock) {
+      const deltaX: number = event.pageX - techBlock.getBoundingClientRect().x;
+      const deltaY: number = event.pageY - techBlock.getBoundingClientRect().y;
+      event.dataTransfer.setDragImage(techBlock, deltaX, deltaY);
+      event.dataTransfer.setData("data-tech-id", techId.toString());
+      localStorage.setItem("dragItemType", DragItemType.Tech);
+    }
+  }
+
+  function techDragOver(event: React.DragEvent<HTMLDivElement>): void {
+    event.preventDefault();
+    if (localStorage.getItem("dragItemType") === DragItemType.Tech) {
+      event.dataTransfer.dropEffect = "move";
+    } else {
+      event.dataTransfer.dropEffect = "none";
+    }
+  }
+
+  function techDropHandler(event: React.DragEvent<HTMLDivElement>, targetTechId: number): void {
+    event.preventDefault();
+    const dragTechId: number = Number(event.dataTransfer.getData("data-tech-id"));
+    if (dragTechId !== targetTechId) {
+      techListContext.changeTechSequence(dragTechId, targetTechId);
+    }
+  }
+
   return (
     <section className="undispatched-bottom container">
-      <div className="content">
+      <div
+        className="content"
+      >
         {!techList ? null :
           (
             techList.map((technician: iTechnician): JSX.Element => {
               return (
-                <div className="item" key={technician.id}>
-                  <div className="item-left">
+                <div className="item" key={technician.id} data-tech-block-id={technician.id}>
+                  <div className="item-left"
+                     onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {techDragOver(event)}}
+                     onDrop={(event: React.DragEvent<HTMLDivElement>): void => {techDropHandler(event, technician.id)}}
+                  >
                     <div className="item-left-top">
-                      <div className="dots">
+                      <div
+                        className="dots"
+                        draggable={"true"}
+                        onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {
+                          setAttr2DragTech(event, technician.id);
+                        }}
+                      >
                         <svg width="8" height="19" viewBox="0 0 8 19" fill="none">
                           <use href="#points"/>
                         </svg>
@@ -77,7 +126,7 @@ export default function TechnicianList(): JSX.Element {
                   </div>
                   <div
                     className="item-right"
-                    onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {dragOverHandler(event)}}
+                    onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {diagramDragOver(event)}}
                     onDrop={(event: React.DragEvent<HTMLDivElement>): void => {orderDropHandler(event, technician.id)}}
                   >
                     <Diagram
