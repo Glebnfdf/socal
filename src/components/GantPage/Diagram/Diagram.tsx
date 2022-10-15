@@ -16,8 +16,6 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
   const [orderListWithLine, setOrderListWithLine]: [st: iOrderWithLine[] | null, set: (st: iOrderWithLine[] | null) => void] =
     useState<iOrderWithLine[] | null>(addLine2Order(orderListProp));
   const container: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-  // Т.к. при первом запуске компонента у нас реф не определён, то вывод заявок происходит во втором рендере
-  const [firstRenderHappened, setFirstRenderHappened]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
   const scrollbarWidth: number = 0; // поставить 13, когда будет scrollbar;
   const numberOfHours: number = 15;
@@ -68,10 +66,6 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
     }
     return lineNumber;
   }
-
-  useEffect((): void => {
-    setFirstRenderHappened(true);
-  }, []);
 
   function getContainerHeight(): number {
     let maxLineNumber: number = 0;
@@ -145,31 +139,31 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
     event.dataTransfer.setData("data-tech-id", techId === null ? "-1" : techId);
   }
 
-  if (orderListWithLine) {
-    return (
-      <div ref={container} className={"diagram cont"} style={{height: getContainerHeight().toString() + "px"}}>
-        {firstRenderHappened && orderListWithLine.map((order: iOrderWithLine): JSX.Element => {
-          return (
-            <div
-              key={order.id}
-              className={`diagram order ${getColorClass(order.type)}`}
-              data-order-id={order.id}
-              data-tech-id={technicianId === null ? "null" : technicianId}
-              style={{
-                left: getXPosition(order.time_slot_from).toString() + "px",
-                top: getYPosition(order.line).toString() + "px",
-                width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px"
-              }}
-              draggable={"true"}
-              onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {setAttr2DragElm(event)}}
-            >
-              <div className={"id"}>№ {order.id}</div>
-              <div className={"address"}>{order.address}</div>
-            </div>
-        )})}
-      </div>
-    );
-  }  else {
-    return <></>;
-  }
+  return (
+    <div
+      ref={container}
+      className={"diagram cont"}
+      style={{height: getContainerHeight().toString() + "px"}}
+    >
+      {orderListWithLine && orderListWithLine.map((order: iOrderWithLine): JSX.Element => {
+        return (
+          <div
+            key={order.id}
+            className={`diagram order ${getColorClass(order.type)}`}
+            data-order-id={order.id}
+            data-tech-id={technicianId === null ? "null" : technicianId}
+            style={{
+              left: getXPosition(order.time_slot_from).toString() + "px",
+              top: getYPosition(order.line).toString() + "px",
+              width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px"
+            }}
+            draggable={"true"}
+            onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {setAttr2DragElm(event)}}
+          >
+            <div className={"id"}>№ {order.id}</div>
+            <div className={"address"}>{order.address}</div>
+          </div>
+      )})}
+    </div>
+  );
 }
