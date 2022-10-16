@@ -130,7 +130,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   useEffect((): void => {
     if (!isLoading && response && response.url.includes("/api/auth/login")) {
       switch (response.status) {
-        case 201:
+        case 200:
           if (data) {
             localStorage.setItem("token", (data as iLoginResponse).access_token);
             authContext.setIsUserHaveAuth(true);
