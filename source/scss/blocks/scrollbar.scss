@@ -1,3 +1,7 @@
+.main-container {
+  width: 105%;
+}
+
 .scroll-cont {
   height: 100%;
   overflow: hidden;
@@ -6,6 +10,7 @@
 
 .scroll-content-wrapper {
   overflow: auto;
+  width: 100%;
   height: 100%;
   scrollbar-width: none;
 }
@@ -17,7 +22,7 @@
 .scroll-vtrack {
   position: absolute;
   background-color: #fdfeff;
-  z-index: 1000000000000;
+  z-index: 999999999999999;
   height: 100%;
   width: 13px;
   top: 0;
@@ -28,7 +33,6 @@
   position: absolute;
   background-color: #0866fb;
   border-radius: 100px;
-  z-index: 100000000000000000000000000000000000000000;
   top: 0;
   width: 5px;
   left: 4px;
@@ -40,7 +44,7 @@
 }
 
 .scroll-cont-undispatche {
-  width: 101%;
+  width: 96.1%;
 }
 
 .main-bottom-scroll-cont {
@@ -48,5 +52,13 @@
 }
 
 .scroll-cont-bottom {
-  width: 101%;
+  width: 96%;
+}
+
+.scroll-cont-popup-add {
+
+}
+
+.scroll-content-wrapper-popup-add {
+  width: 95%;
 }

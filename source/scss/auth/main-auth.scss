@@ -1,6 +1,6 @@
 .auth-body {
-  //background: url("../../img/auth-bg.png") no-repeat;
-  background-size: auto;
+  background: url("../../img/auth-bg.png") no-repeat;
+  background-size: cover;
 }
 
 .auth-screen {
@@ -14,7 +14,7 @@
   .left {
     width: 771px;
     height: 747px;
-    //background: url("../../img/auth-left.png") no-repeat center center;
+    background: url("../../img/auth-left.png") no-repeat center center;
   }
 
   .right {
@@ -74,6 +74,7 @@
     }
 
     .next-btn {
+      transition: .2s;
       cursor: pointer;
       background: #0866FB;
       opacity: 0.3;
@@ -90,6 +91,10 @@
       text-align: center;
       letter-spacing: 0.02em;
       color: #FFFFFF;
+
+      &:hover {
+        opacity: .75;
+      }
     }
   }
 }

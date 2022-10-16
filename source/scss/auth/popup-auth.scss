@@ -242,6 +242,7 @@
   }
 
   .resend-btn {
+    transition: .2s;
     cursor: pointer;
     background: #E9F1FF;
     border-radius: 15px;
@@ -259,9 +260,15 @@
     color: #0866FB;
 
     margin-bottom: 19px;
+
+    &:hover {
+      background: #D1E3FE;
+    }
   }
 
   .back-btn {
+    cursor: pointer;
+    transition: .2s;
     border: 1px solid #E4EFFF;
     border-radius: 15px;
     width: 100%;
@@ -276,5 +283,131 @@
     text-align: center;
     letter-spacing: 0.02em;
     color: #81A6E7;
+
+    &:hover {
+      background: #E9F1FF;
+    }
+  }
+}
+
+
+.insert-popup-error {
+  padding: 60px 63px;
+  background: #FFFFFF;
+  border-radius: 30px;
+
+  .login-title {
+    text-align: center;
+    width: 274px;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 130%;
+    margin: auto;
+    letter-spacing: 0.02em;
+    color: #0F244A;
+    padding-bottom: 35px;
+  }
+
+  .insert-phone {
+    padding-left: 60px;
+    padding-right: 60px;
+    font-family: $main-font;
+    width: 298px;
+    margin: auto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #81A6E7;
+    padding-bottom: 40px;
+  }
+
+  .inputs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 21px;
+
+    input {
+      outline: none;
+      width: 60px;
+      height: 85px;
+      background: #FFFFFF;
+      border: 1px solid #EE3E62;
+      border-radius: 15px;
+
+      font-family: $main-font;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 130%;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: #0F244A;
+    }
+  }
+
+  .wrong {
+    padding-bottom: 21px;
+
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 150%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #EE3E62;
+  }
+
+  .resend-btn {
+    transition: .2s;
+    cursor: pointer;
+    background: #E9F1FF;
+    border-radius: 15px;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #0866FB;
+
+    margin-bottom: 19px;
+
+    &:hover {
+      background: #D1E3FE;
+    }
+  }
+
+  .back-btn {
+    transition: .2s;
+    cursor: pointer;
+    border: 1px solid #E4EFFF;
+    border-radius: 15px;
+    width: 100%;
+
+    padding-top: 16px;
+    padding-bottom: 16px;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #81A6E7;
+
+    &:hover {
+      background: #E9F1FF;
+    }
   }
 }
