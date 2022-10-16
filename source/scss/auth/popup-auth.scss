@@ -37,6 +37,7 @@
     }
 
     .login-input {
+      transition: .3s;
       outline: none;
       width: 100%;
       background: #FFFFFF;
@@ -60,6 +61,12 @@
         line-height: 130%;
         letter-spacing: 0.02em;
         color: #81A6E7;
+      }
+
+      &:focus {
+        background: #EDF6FE;
+        border: 1px solid #81A6E7;
+        border-radius: 15px;
       }
     }
 
@@ -118,6 +125,7 @@
     }
 
     .login-input {
+      transition: .3s;
       outline: none;
       width: 100%;
       background: #FFFFFF;
@@ -141,6 +149,12 @@
         line-height: 130%;
         letter-spacing: 0.02em;
         color: #EE3E62;
+      }
+
+      &:focus {
+        background: #EDF6FE;
+        border: 1px solid #81A6E7;
+        border-radius: 15px;
       }
     }
 
@@ -223,6 +237,7 @@
     margin-bottom: 65px;
 
     input {
+      transition: .3s;
       outline: none;
       width: 60px;
       height: 85px;
@@ -238,6 +253,12 @@
       text-align: center;
       letter-spacing: 0.02em;
       color: #0F244A;
+
+      &:focus {
+        background: #EDF6FE;
+        border: 1px solid #81A6E7;
+        border-radius: 15px;
+      }
     }
   }
 
@@ -332,6 +353,7 @@
     margin-bottom: 21px;
 
     input {
+      transition: .3s;
       outline: none;
       width: 60px;
       height: 85px;
@@ -347,6 +369,12 @@
       text-align: center;
       letter-spacing: 0.02em;
       color: #0F244A;
+
+      &:focus {
+        background: #EDF6FE;
+        border: 1px solid #81A6E7;
+        border-radius: 15px;
+      }
     }
   }
 
