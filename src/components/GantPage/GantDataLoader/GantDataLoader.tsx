@@ -34,7 +34,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   } = useFetch();
   const urlList = ["/api/schedule/tasks", "/api/schedule/technics", "/api/technics/all"];
   const loadingStage: React.MutableRefObject<number> = useRef<number>(0);
-  const date: React.MutableRefObject<Date> = useRef<Date>(new Date());
+  const gantDate: React.MutableRefObject<Date> = useRef<Date>(new Date());
   const orderList: React.MutableRefObject<iOrderResponse[] | null> = useRef<iOrderResponse[] | null>(null);
   const techList: React.MutableRefObject<iTechResponse[] | null> = useRef<iTechResponse[] | null>(null);
   const [grantLoaderState, setGrantLoaderState]: [st: iGrantLoaderContext, set: (st: iGrantLoaderContext) => void] =
@@ -59,12 +59,12 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
         loadingStage.current++;
         const isAllDataLoaded: boolean = loadingStage.current === urlList.length;
         if (isAllDataLoaded) {
-          if (orderList.current && techList.current && date.current) {
+          if (orderList.current && techList.current && gantDate.current) {
             setGrantLoaderState({
               ...grantLoaderState,
               orderList: addTechInOrder(orderList.current, techList.current),
               techList: addOrderInTechList(techList.current),
-              date: date.current
+              date: gantDate.current
             })
           }
         } else {
@@ -78,24 +78,31 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   }, [isLoading]);
 
   async function updateData(): Promise<void> {
-    if (loadingStage.current !== null && date.current) {
+    if (loadingStage.current !== null && gantDate.current) {
       const url = urlList[loadingStage.current] + "?" +
-        getGetParams(urlList[loadingStage.current], date.current).toString();
+        getGetParams(urlList[loadingStage.current], gantDate.current).toString();
       await requestData(url);
     }
   }
 
-  function getGetParams(url: string, _date: Date): URLSearchParams {
+  function getGetParams(url: string, date: Date): URLSearchParams {
     // urlList[2] = /technics/all
     if (url === urlList[2]) {
       return new URLSearchParams({
-        date: _date.toJSON()
+        date: shortDateFormat(date)
       })
     } else {
       return new URLSearchParams({
-        date_start: _date.toJSON()
+        date_start: shortDateFormat(date)
       });
     }
+  }
+
+  function shortDateFormat(date: Date): string {
+    return `${
+      date.getFullYear()}-${
+      new Intl.DateTimeFormat("en-US", {month: "2-digit"}).format(date)}-${
+      new Intl.DateTimeFormat("en-US", {day: "2-digit"}).format(date)}`
   }
 
   function saveRespData(url: string, data: unknown): void {
@@ -150,7 +157,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   }
 
   function changeDateHandler(newDate: Date): void {
-    date.current = newDate;
+    gantDate.current = newDate;
     loadingStage.current = 0;
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async (): Promise<void> => {
