@@ -4,6 +4,7 @@ import "./insertPhone.scss";
 import { useFetch } from "../../../../hooks/useFetch";
 import Preloader from "../../../Preloader/Preloader";
 import { useEffect, useState } from "react";
+import convertPhone2Num from "../../../../utils/convertPhone2Num";
 
 interface iProps {
   changeScreen: (screenName: AuthScreenName) => void
@@ -41,7 +42,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ "phone": phoneNumber })
+        body: JSON.stringify({ "phone": convertPhone2Num(phoneNumber) })
       };
       await requestData(url, request);
     })();

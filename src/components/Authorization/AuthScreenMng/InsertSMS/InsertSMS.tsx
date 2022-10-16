@@ -5,6 +5,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useFetch } from "../../../../hooks/useFetch";
 import iLoginResponse from "../../../../APIInterfaces/iLoginResponse";
 import { AuthContext, iAuthContext } from "../../Authorization";
+import convertPhone2Num from "../../../../utils/convertPhone2Num";
 
 interface iProps {
   changeScreen: (newScreen: AuthScreenName) => void,
@@ -151,7 +152,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ "phone": phoneNumber })
+        body: JSON.stringify({ "phone": convertPhone2Num(phoneNumber) })
       };
       await requestData(url, request);
     })();
