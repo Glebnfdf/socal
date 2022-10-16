@@ -22,7 +22,7 @@
 .scroll-vtrack {
   position: absolute;
   background-color: #fdfeff;
-  z-index: 100;
+  z-index: 999999999999999;
   height: 100%;
   width: 13px;
   top: 0;
@@ -44,7 +44,7 @@
 }
 
 .scroll-cont-undispatche {
-  width: 101%;
+  width: 96.1%;
 }
 
 .main-bottom-scroll-cont {
@@ -52,7 +52,7 @@
 }
 
 .scroll-cont-bottom {
-  width: 101%;
+  width: 96%;
 }
 
 .scroll-cont-popup-add {
