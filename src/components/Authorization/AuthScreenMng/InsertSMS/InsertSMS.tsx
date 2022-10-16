@@ -113,7 +113,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
 
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       (async (): Promise<void> => {
-        const url: string = "/auth/login";
+        const url: string = "/api/auth/login";
         const request: RequestInit = {
           method: "POST",
           headers: {

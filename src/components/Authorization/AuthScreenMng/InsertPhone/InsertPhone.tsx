@@ -35,7 +35,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
   function sendPhone2Server(): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async (): Promise<void> => {
-      const url: string = "/auth/register";
+      const url: string = "/api/auth/register";
       const request: RequestInit = {
         method: "POST",
         headers: {

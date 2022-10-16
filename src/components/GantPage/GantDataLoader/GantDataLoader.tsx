@@ -32,7 +32,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
     response?: Response | undefined,
     requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
   } = useFetch();
-  const urlList = ["/schedule/task/all", "/schedule/technic/all", "/technics/all"];
+  const urlList = ["/api/schedule/task/all", "/api/schedule/technic/all", "/api/technics/all"];
   const loadingStage: React.MutableRefObject<number> = useRef<number>(0);
   const date: React.MutableRefObject<Date> = useRef<Date>(new Date());
   const orderList: React.MutableRefObject<iOrderResponse[] | null> = useRef<iOrderResponse[] | null>(null);
