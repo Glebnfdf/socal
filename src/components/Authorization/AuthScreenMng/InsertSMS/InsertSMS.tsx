@@ -127,7 +127,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   }
 
   useEffect((): void => {
-    if (!isLoading && response) {
+    if (!isLoading && response && response.url.includes("/api/auth/login")) {
       switch (response.status) {
         case 201:
           if (data) {
@@ -141,6 +141,21 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
       }
     }
   }, [isLoading]);
+
+  function resendSMS(): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    (async (): Promise<void> => {
+      const url: string = "/api/auth/register";
+      const request: RequestInit = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ "phone": phoneNumber })
+      };
+      await requestData(url, request);
+    })();
+  }
 
   return (
     <>
@@ -184,6 +199,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
           <div>
             <button
               type={"button"}
+              onClick={(): void => {resendSMS()}}
             >Resend Code</button>
           </div>
           <div>
