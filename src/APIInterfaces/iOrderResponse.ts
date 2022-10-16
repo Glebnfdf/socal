@@ -11,3 +11,11 @@ export default interface iOrderResponse {
   appliance: string,
   description: string
 }
+
+export interface iOrderResponseRaw {
+  data: iOrderItemResponse
+}
+
+interface iOrderItemResponse {
+  items: iOrderResponse[]
+}

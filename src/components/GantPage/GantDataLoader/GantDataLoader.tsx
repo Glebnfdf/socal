@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useFetch } from "../../../hooks/useFetch";
 import { useEffect, useRef, useState } from "react";
-import iOrderResponse from "../../../APIInterfaces/iOrderResponse";
+import iOrderResponse, { iOrderResponseRaw } from "../../../APIInterfaces/iOrderResponse";
 import iTechResponse from "../../../APIInterfaces/iTechResponse";
 import { iOrder } from "../OrderListModel/OrderListModel";
 import { iTechnician } from "../TechnicianListModel/TechnicianListModel";
@@ -108,12 +108,12 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   function saveRespData(url: string, data: unknown): void {
     // заявки без техников /schedule/task/all
     if (url.includes(urlList[0])) {
-      orderList.current = data as iOrderResponse[];
+      orderList.current = (data as iOrderResponseRaw).data.items;
     }
 
     // заявки с техниками /schedule/technic/all
     if (url.includes(urlList[1]) && orderList.current) {
-      orderList.current = [...orderList.current, ...(data as iOrderResponse[])];
+      orderList.current = [...orderList.current, ...((data as iOrderResponseRaw).data.items)];
     }
 
     // техники /technics/all
