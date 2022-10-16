@@ -120,7 +120,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ "phone": phoneNumber, "code": smsCode })
+          body: JSON.stringify({ "phone": convertPhone2Num(phoneNumber), "code": smsCode })
         };
         await requestData(url, request, false);
       })();
