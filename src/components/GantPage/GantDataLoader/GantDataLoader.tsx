@@ -2,7 +2,7 @@ import * as React from "react";
 import { useFetch } from "../../../hooks/useFetch";
 import { useEffect, useRef, useState } from "react";
 import iOrderResponse, { iOrderResponseRaw } from "../../../APIInterfaces/iOrderResponse";
-import iTechResponse from "../../../APIInterfaces/iTechResponse";
+import iTechResponse, { iTechResponseRaw } from "../../../APIInterfaces/iTechResponse";
 import { iOrder } from "../OrderListModel/OrderListModel";
 import { iTechnician } from "../TechnicianListModel/TechnicianListModel";
 
@@ -32,7 +32,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
     response?: Response | undefined,
     requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
   } = useFetch();
-  const urlList = ["/api/schedule/tasks", "/api/schedule/technics", "/api/technics/all"];
+  const urlList = ["/api/schedule/tasks", "/api/schedule/technics", "/api/technics"];
   const loadingStage: React.MutableRefObject<number> = useRef<number>(0);
   const gantDate: React.MutableRefObject<Date> = useRef<Date>(new Date());
   const orderList: React.MutableRefObject<iOrderResponse[] | null> = useRef<iOrderResponse[] | null>(null);
@@ -118,7 +118,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
 
     // техники /technics/all
     if (url.includes(urlList[2])) {
-      techList.current = data as iTechResponse[];
+      techList.current = (data as iTechResponseRaw).data.items;
     }
   }
 
