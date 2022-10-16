@@ -23,7 +23,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
   useEffect((): void => {
     if (!isLoading && response) {
       switch (response.status) {
-        case 200:
+        case 201:
           changeScreen(AuthScreenName.InsertSMS);
           break;
         case 400:
