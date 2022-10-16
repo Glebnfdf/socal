@@ -20,6 +20,10 @@ module.exports = (env, argv) => {
     devtool: webpackMode === 'production' ? false : 'source-map',
     resolve: {
       extensions: ['.tsx', '.ts', '.js'],
+      alias: {
+        "../../img/auth-bg.png": path.resolve(__dirname, "source/img/auth-bg.png"),
+        "../../img/auth-left.png": path.resolve(__dirname, "source/img/auth-left.png")
+      }
     },
     devServer: {
       watchFiles: ['./src/index.html'],
