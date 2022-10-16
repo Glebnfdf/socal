@@ -2,6 +2,7 @@ import * as React from "react";
 import iOrderResponse from "../../../APIInterfaces/iOrderResponse";
 import { useContext, useEffect, useRef, useState } from "react";
 import { GrantLoaderContext } from "../GantDataLoader/GantDataLoader";
+import { useFetch } from "../../../hooks/useFetch";
 
 interface iProps {
   children: React.ReactNode
@@ -35,6 +36,12 @@ export default function OrderListModel({children}: iProps): JSX.Element {
       getOrdersByTechId: getOrdersByTechId,
       updateOrder: updateOrderHandler
   });
+  const { requestData }: {
+    data?: unknown | undefined,
+    isLoading: boolean,
+    httpCode?: number | undefined,
+    requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
+  } = useFetch();
 
   function getOrdersByTechId(techId: number | null): iOrder[] | null {
     const orders: iOrder[] = [];
@@ -79,6 +86,34 @@ export default function OrderListModel({children}: iProps): JSX.Element {
     }
     orderList.current = orders;
     setOLContext({...OLContext, orderLst: orders});
+    updateOrderOnServer(orderId, technicianId, null, orderTimeBegin, orderTmeEnd);
+  }
+
+  function updateOrderOnServer(
+    orderId: number,
+    technicianId: number | null,
+    secondTechId: number | null,
+    orderTimeBegin: Date,
+    orderTmeEnd: Date
+  ): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    (async (): Promise<void> => {
+      const url: string = "/api/schedule/update";
+      const request: RequestInit = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          task_id: orderId,
+          technician_id: technicianId,
+          second_technician_id: secondTechId,
+          time_slot_from: orderTimeBegin.toJSON(),
+          time_slot_to: orderTmeEnd.toJSON()
+        })
+      };
+      await requestData(url, request);
+    })();
   }
 
   return (

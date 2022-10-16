@@ -58,7 +58,9 @@ export function useFetch(): {
     if (!request) {
       request = {};
     }
+
     request.headers = {
+      ...request.headers,
       Authorization: `Bearer ${token}`
     }
     return request;
