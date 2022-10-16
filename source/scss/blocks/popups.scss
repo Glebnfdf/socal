@@ -162,6 +162,18 @@
   }
 
   .main-text {
+
+    .main-container {
+      width: 100%;
+    }
+
+    .scroll-content-wrapper {
+      overflow: auto;
+      width: 100%;
+      max-height: 105px;
+      scrollbar-width: none;
+    }
+
     padding-top: 14px;
     padding-bottom: 14px;
     width: 100%;
@@ -172,6 +184,7 @@
     line-height: 130%;
     letter-spacing: 0.02em;
     color: #0f244a;
+
   }
 
   .inputs {

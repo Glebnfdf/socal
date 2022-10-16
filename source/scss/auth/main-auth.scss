@@ -1,5 +1,5 @@
 .auth-body {
-  background: url("../../img/auth-bg.png") no-repeat;
+  background: url("../img/auth-bg.png") no-repeat;
   background-size: cover;
 }
 
@@ -14,7 +14,7 @@
   .left {
     width: 771px;
     height: 747px;
-    background: url("../../img/auth-left.png") no-repeat center center;
+    background: url("../img/auth-left.png") no-repeat center center;
   }
 
   .right {
@@ -48,6 +48,7 @@
     }
 
     .login-input {
+      transition: .3s;
       outline: none;
       width: 100%;
       background: #FFFFFF;
@@ -70,6 +71,12 @@
         line-height: 130%;
         letter-spacing: 0.02em;
         color: #81A6E7;
+      }
+
+      &:focus {
+        background: #EDF6FE;
+        border: 1px solid #81A6E7;
+        border-radius: 15px;
       }
     }
 
