@@ -52,8 +52,9 @@ export function useFetch(): {
   function addToken2Headers(request: RequestInit | undefined): RequestInit | undefined {
     const token: string | null = localStorage.getItem("token");
     if (!token) {
-      return;
+      return request;
     }
+
     if (!request) {
       request = {};
     }
