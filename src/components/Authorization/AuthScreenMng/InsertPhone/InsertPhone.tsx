@@ -1,6 +1,5 @@
 import * as React from "react";
 import { AuthScreenName } from "../AuthScreenMng";
-import "./insertPhone.scss";
 import { useFetch } from "../../../../hooks/useFetch";
 import Preloader from "../../../Preloader/Preloader";
 import { useEffect, useState } from "react";
@@ -49,15 +48,11 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
   }
 
   return (
-    <div className={showErr ? "login-popup-error" : "login-popup"}>
-      <p className="login-title">
-        Login in to your account
-      </p>
-      <div className="insert-phone">
-        Insert your phone number
-      </div>
+    <div className={"auth-form-cont"}>
+      <p className="title">Login in to your account</p>
+      <p className="action-label">Insert your phone number</p>
       <input
-        className="login-input"
+        className={"auth-input phone-input" + (showErr ? " error" : "")}
         type="tel"
         value={phoneNumber}
         placeholder="+ 1 (___) ___-__-__"
@@ -66,18 +61,19 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
           setPhoneNumber(event.target.value)
         }}
       />
-      {isLoading && <div className={"insert-phone-preloader"}><Preloader/></div>}
-      {showErr &&
-        <div className="error-message">
-          There is no user with phone<br/>{phoneNumber}
-        </div>
-      }
-      <div
-        className={"next-btn-login" + (phoneNumber.length === 0 || showErr ? " next-btn-disable " : "")}
+      <div className={"error-and-preloader-cont"}>
+        {isLoading && <div className={"insert-phone-preloader"}><Preloader/></div>}
+        {showErr &&
+          <p className="error">There is no user with phone<br/>{phoneNumber}</p>
+        }
+      </div>
+      <button
+        type={"button"}
+        className={"button auth-btn blue-btn" + (phoneNumber.length === 0 || showErr ? " disable" : "")}
         onClick={(): void => {sendPhone2Server()}}
       >
         Next
-      </div>
+      </button>
     </div>
   );
 }

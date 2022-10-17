@@ -8,7 +8,7 @@ export default function AuthPage(): JSX.Element {
       <div className="auth-screen">
         <div className="left">
         </div>
-        <div className="right">
+        <div>
           <AuthScreenMng/>
         </div>
       </div>
