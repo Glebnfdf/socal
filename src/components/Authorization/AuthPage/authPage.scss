@@ -126,7 +126,6 @@ $trans-options: 300ms ease;
   }
 
   .auth-input {
-    padding: 18px 24px;
     color: $color-dark;
     background-color: white;
     border: 1px solid $color-blue-light;
@@ -181,6 +180,7 @@ $trans-options: 300ms ease;
 
   .phone-input {
     width: 350px;
+    padding: 18px 24px;
   }
 
   .sms-inputs-cont {
@@ -191,6 +191,7 @@ $trans-options: 300ms ease;
     .sms-input {
       width: 60px;
       height: 85px;
+      padding: 16px 22px;
       font: {
         weight: 700;
         size: 18em;
