@@ -49,26 +49,34 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
   }
 
   return (
-    <div className={"insert-phone-cont"}>
-      <div>
-        <input
-          type={"tel"}
-          value={phoneNumber}
-          className={"error-border" + (showErr ? " active" : "")}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
-            setShowErr(false);
-            setPhoneNumber(event.target.value)
-          }}
-        />
-        {isLoading && <Preloader/>}
-        {showErr && <div>There is no user with phone +1 403 905 88 78</div>}
-        <div>
-          <button
-            type={"button"}
-            className={phoneNumber.length === 0 || showErr ? "next-btn-disable" : ""}
-            onClick={(): void => {sendPhone2Server()}}
-          >Next</button>
+    <div className={showErr ? "login-popup-error" : "login-popup"}>
+      <p className="login-title">
+        Login in to your account
+      </p>
+      <div className="insert-phone">
+        Insert your phone number
+      </div>
+      <input
+        className="login-input"
+        type="tel"
+        value={phoneNumber}
+        placeholder="+ 1 (___) ___-__-__"
+        onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
+          setShowErr(false);
+          setPhoneNumber(event.target.value)
+        }}
+      />
+      {isLoading && <div className={"insert-phone-preloader"}><Preloader/></div>}
+      {showErr &&
+        <div className="error-message">
+          There is no user with phone<br/>{phoneNumber}
         </div>
+      }
+      <div
+        className={"next-btn-login" + (phoneNumber.length === 0 || showErr ? " next-btn-disable " : "")}
+        onClick={(): void => {sendPhone2Server()}}
+      >
+        Next
       </div>
     </div>
   );

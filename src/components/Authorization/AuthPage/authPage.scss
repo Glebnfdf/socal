@@ -1,0 +1,47 @@
+@import "source/scss/variables";
+
+.auth-body-cont {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.next-btn-login {
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+  background: #0866fb;
+  border-radius: 15px;
+  width: 100%;
+  margin-top: 100px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-family: $main-font;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: white;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.error-message {
+  padding-top: 27px;
+  font-family: $main-font;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #ee3e62;
+}
+
+.next-btn-disable {
+  opacity: 0.5;
+  pointer-events: none;
+}

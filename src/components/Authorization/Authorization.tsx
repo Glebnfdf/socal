@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import AuthScreenMng from "./AuthScreenMng/AuthScreenMng";
+import AuthPage from "./AuthPage/AuthPage";
 
 interface iProps {
   children: React.ReactNode
@@ -21,7 +21,7 @@ export default function Authorization({children}: iProps): JSX.Element {
 
   return (
     <AuthContext.Provider value={{setIsUserHaveAuth}}>
-      {isUserHaveAuth ? children : <AuthScreenMng></AuthScreenMng>}
+      {isUserHaveAuth ? children : <AuthPage/>}
     </AuthContext.Provider>
   );
 }
