@@ -77,6 +77,9 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
           setWrongSMS(false);
         }
       }
+      if (event.key ==="Delete") {
+        setWrongSMS(false);
+      }
     }
   }
 
