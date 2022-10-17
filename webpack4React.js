@@ -19,7 +19,7 @@ module.exports = (env, argv) => {
     mode: webpackMode,
     devtool: webpackMode === 'production' ? false : 'source-map',
     resolve: {
-      extensions: ['.tsx', '.ts', '.js'],
+      extensions: ['.tsx', '.ts', '.js']
     },
     devServer: {
       watchFiles: ['./src/index.html'],

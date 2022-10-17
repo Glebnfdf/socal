@@ -1,9 +1,9 @@
 import * as React from "react";
 import { AuthScreenName } from "../AuthScreenMng";
-import "./insertPhone.scss";
 import { useFetch } from "../../../../hooks/useFetch";
 import Preloader from "../../../Preloader/Preloader";
 import { useEffect, useState } from "react";
+import convertPhone2Num from "../../../../utils/convertPhone2Num";
 
 interface iProps {
   changeScreen: (screenName: AuthScreenName) => void
@@ -12,17 +12,17 @@ interface iProps {
 }
 
 export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}: iProps): JSX.Element {
-  const { isLoading, httpCode, requestData }: {
+  const { isLoading, response, requestData }: {
     isLoading: boolean,
-    httpCode?: number | undefined,
+    response?: Response | undefined,
     requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
   } = useFetch();
   const [showErr, setShowErr]: [st: boolean, set: (st: boolean) => void] = useState(false);
 
   useEffect((): void => {
-    if (!isLoading && httpCode) {
-      switch (httpCode) {
-        case 200:
+    if (!isLoading && response) {
+      switch (response.status) {
+        case 201:
           changeScreen(AuthScreenName.InsertSMS);
           break;
         case 400:
@@ -35,40 +35,45 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
   function sendPhone2Server(): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async (): Promise<void> => {
-      const url: string = "/auth/register";
+      const url: string = "/api/auth/register";
       const request: RequestInit = {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ "phone": phoneNumber })
+        body: JSON.stringify({ "phone": convertPhone2Num(phoneNumber) })
       };
       await requestData(url, request);
     })();
   }
 
   return (
-    <div className={"insert-phone-cont"}>
-      <div>
-        <input
-          type={"tel"}
-          value={phoneNumber}
-          className={"error-border" + (showErr ? " active" : "")}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
-            setShowErr(false);
-            setPhoneNumber(event.target.value)
-          }}
-        />
-        {isLoading && <Preloader/>}
-        {showErr && <div>There is no user with phone +1 403 905 88 78</div>}
-        <div>
-          <button
-            type={"button"}
-            className={phoneNumber.length === 0 || showErr ? "next-btn-disable" : ""}
-            onClick={(): void => {sendPhone2Server()}}
-          >Next</button>
-        </div>
+    <div className={"auth-form-cont"}>
+      <p className="title">Login in to your account</p>
+      <p className="action-label phone">Insert your phone number</p>
+      <input
+        className={"auth-input phone-input" + (showErr ? " error" : "")}
+        type="tel"
+        value={phoneNumber}
+        placeholder="+ 1 (___) ___-__-__"
+        onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
+          setShowErr(false);
+          setPhoneNumber(event.target.value)
+        }}
+      />
+      <div className={"error-and-preloader-cont phone"}>
+        {isLoading && <div className={"insert-phone-preloader"}><Preloader/></div>}
+        {showErr &&
+          <p className="error">There is no user with phone<br/>{phoneNumber}</p>
+        }
       </div>
+      <button
+        type={"button"}
+        className={"button auth-btn blue-btn" + (phoneNumber.length === 0 || showErr ? " disable" : "")}
+        onClick={(): void => {sendPhone2Server()}}
+      >
+        Next
+      </button>
     </div>
   );
 }

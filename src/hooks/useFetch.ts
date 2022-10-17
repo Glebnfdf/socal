@@ -4,13 +4,13 @@ import { AuthContext, iAuthContext } from "../components/Authorization/Authoriza
 interface iUseFetchStates {
   data?: unknown,
   isLoading: boolean,
-  httpCode?: number
+  response?: Response
 }
 
 export function useFetch(): {
   data?: unknown | undefined,
   isLoading: boolean,
-  httpCode?: number | undefined,
+  response?: Response | undefined,
   requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean,) => Promise<void>
 } {
   const authContext: iAuthContext = useContext(AuthContext);
@@ -23,7 +23,7 @@ export function useFetch(): {
   async function requestData(url: string, request?: RequestInit, useRedirectFor401: boolean = true): Promise<void> {
     try {
       setStates({isLoading: true});
-      addToken2Headers(request);
+      request = addToken2Headers(request);
 
       const response: Response = await fetch(url, request);
       let responseData: unknown;
@@ -39,7 +39,7 @@ export function useFetch(): {
         setStates({
           data: responseData,
           isLoading: false,
-          httpCode: response.status
+          response: response
         })
       }
     } catch (error: unknown) {
@@ -49,17 +49,21 @@ export function useFetch(): {
     }
   }
 
-  function addToken2Headers(request: RequestInit | undefined): void {
+  function addToken2Headers(request: RequestInit | undefined): RequestInit | undefined {
     const token: string | null = localStorage.getItem("token");
     if (!token) {
-      return;
+      return request;
     }
+
     if (!request) {
       request = {};
     }
+
     request.headers = {
+      ...request.headers,
       Authorization: `Bearer ${token}`
     }
+    return request;
   }
 
   return {...states, requestData};

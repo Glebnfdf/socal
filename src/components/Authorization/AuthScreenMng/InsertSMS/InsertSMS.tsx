@@ -5,6 +5,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useFetch } from "../../../../hooks/useFetch";
 import iLoginResponse from "../../../../APIInterfaces/iLoginResponse";
 import { AuthContext, iAuthContext } from "../../Authorization";
+import convertPhone2Num from "../../../../utils/convertPhone2Num";
 
 interface iProps {
   changeScreen: (newScreen: AuthScreenName) => void,
@@ -12,10 +13,10 @@ interface iProps {
 }
 
 export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Element {
-  const { data, isLoading, httpCode, requestData }: {
+  const { data, isLoading, response, requestData }: {
     data?: unknown | undefined,
     isLoading: boolean,
-    httpCode?: number | undefined,
+    response?: Response | undefined,
     requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
   } = useFetch();
   const authContext: iAuthContext = useContext(AuthContext);
@@ -76,6 +77,9 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
           setWrongSMS(false);
         }
       }
+      if (event.key ==="Delete") {
+        setWrongSMS(false);
+      }
     }
   }
 
@@ -113,13 +117,13 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
 
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       (async (): Promise<void> => {
-        const url: string = "/auth/login";
+        const url: string = "/api/auth/login";
         const request: RequestInit = {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ "phone": phoneNumber, "code": smsCode })
+          body: JSON.stringify({ "phone": convertPhone2Num(phoneNumber), "code": smsCode })
         };
         await requestData(url, request, false);
       })();
@@ -127,9 +131,9 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   }
 
   useEffect((): void => {
-    if (!isLoading && httpCode) {
-      switch (httpCode) {
-        case 201:
+    if (!isLoading && response && response.url.includes("/api/auth/login")) {
+      switch (response.status) {
+        case 200:
           if (data) {
             localStorage.setItem("token", (data as iLoginResponse).access_token);
             authContext.setIsUserHaveAuth(true);
@@ -142,55 +146,77 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
     }
   }, [isLoading]);
 
+  function resendSMS(): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    (async (): Promise<void> => {
+      const url: string = "/api/auth/register";
+      const request: RequestInit = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ "phone": convertPhone2Num(phoneNumber) })
+      };
+      await requestData(url, request);
+    })();
+  }
+
   return (
-    <>
-      <div className={"insert-phone-cont"}>
-        <div>We send sms to {phoneNumber}</div>
-        <div>
-          <input
-            type={"number"}
-            ref={num1}
-            name={"num1"}
-            className={"error-border" + (wrongSMS ? " active" : "")}
-            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
-            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
-          />
-          <input
-            type={"number"}
-            ref={num2}
-            name={"num2"}
-            className={"error-border" + (wrongSMS ? " active" : "")}
-            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
-            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
-          />
-          <input
-            type={"number"}
-            ref={num3}
-            name={"num3"}
-            className={"error-border" + (wrongSMS ? " active" : "")}
-            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
-            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
-          />
-          <input
-            type={"number"}
-            ref={num4}
-            name={"num4"}
-            className={"error-border" + (wrongSMS ? " active" : "")}
-            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
-            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
-          />
-          {isLoading && <Preloader/>}
-          {wrongSMS && <div>Wrong code</div>}
-          <div>
-            <button
-              type={"button"}
-            >Resend Code</button>
-          </div>
-          <div>
-            <button type={"button"} onClick={(): void => {changeScreen(AuthScreenName.InsertPhone)}}>Back</button>
-          </div>
-        </div>
+    <div className={"auth-form-cont"}>
+      <p className="title">Insert code from<br/>SMS</p>
+      <p className="action-label sms">We send sms to<br/>{phoneNumber}</p>
+      <div className={"sms-inputs-cont"}>
+       <input
+         type={"text"}
+         ref={num1}
+         name={"num1"}
+         className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
+         onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+         onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
+       />
+        <input
+          type={"text"}
+          ref={num2}
+          name={"num2"}
+          className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
+          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+          onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
+        />
+        <input
+          type={"text"}
+          ref={num3}
+          name={"num3"}
+          className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
+          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+          onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
+        />
+        <input
+          type={"text"}
+          ref={num4}
+          name={"num4"}
+          className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
+          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+          onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
+        />
       </div>
-    </>
+      <div className={"error-and-preloader-cont sms"}>
+        {isLoading && <div className={"insert-sms-preloader"}><Preloader/></div>}
+        {wrongSMS && <p className="error">Wrong code</p>}
+      </div>
+      <button
+        type={"button"}
+        className={"button auth-btn light-btn resend-code-btn" + (phoneNumber.length === 0 || wrongSMS ? " disable" : "")}
+        onClick={(): void => {resendSMS()}}
+      >
+        Resend Code
+      </button>
+      <button
+        type={"button"}
+        className={"button auth-btn white-btn" + (phoneNumber.length === 0 || wrongSMS ? " disable" : "")}
+        onClick={(): void => {changeScreen(AuthScreenName.InsertPhone)}}
+      >
+        Come back
+      </button>
+    </div>
   );
 }

@@ -1,0 +1,80 @@
+@import "source/scss/variables";
+
+.diagram {
+  box-sizing: border-box;
+  z-index: 6;
+
+  &.cont {
+    position: relative;
+    width: 100%;
+  }
+
+  &.order {
+    position: absolute;
+    height: 30px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: background-color 300ms ease;
+
+    &.red {
+      background-color: $red;
+
+      &:hover {
+        background-color: #dd3053;
+      }
+    }
+
+    &.orange {
+      background-color: $orange;
+
+      &:hover {
+        background-color: #f90;
+      }
+    }
+
+    &.violet {
+      background-color: $violet;
+
+      &:hover {
+        background-color: #2d10b2;
+      }
+    }
+
+    &.unknown-tag {
+      background-color: #94bbff;
+
+      &:hover {
+        background-color: #7493c8;
+      }
+    }
+
+    .id {
+      color: white;
+      padding-right: 12px;
+      flex-shrink: 0;
+      font: {
+        family: $main-font;
+        style: normal;
+        weight: 700;
+        size: 14px;
+      }
+    }
+
+    .address {
+      color: white;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font: {
+        family: $main-font;
+        style: normal;
+        weight: 500;
+        size: 14px;
+      }
+    }
+  }
+}

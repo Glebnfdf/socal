@@ -1,0 +1,11 @@
+.header-calendar {
+  display: block;
+  position: absolute;
+  z-index: 1000001;
+  top: 88px;
+  right: 43px;
+
+  &.hide {
+    display: none;
+  }
+}

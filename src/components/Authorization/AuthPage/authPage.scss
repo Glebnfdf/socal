@@ -1,0 +1,201 @@
+@import "source/scss/variables";
+
+$color-dark: #0f244a;
+$color-blue: #81a6e7;
+$color-blue-light: #c2d8fe;
+$color-light: #edf6fe;
+$trans-options: 300ms ease;
+
+.auth-body-cont {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.auth-form-cont {
+  box-sizing: border-box;
+  background-color: white;
+  border-radius: 30px;
+  padding: 60px 63px;
+  max-width: 477px;
+  letter-spacing: 0.02em;
+  font: {
+    size: 1px;
+    family: $main-font;
+    style: normal;
+    weight: 500;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  p {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    line-height: 130%;
+
+    &.error {
+      color: $red;
+      font-size: 18em;
+      text-align: center;
+    }
+  }
+
+  .button {
+    border-radius: 15px;
+    cursor: pointer;
+    border: none;
+    line-height: 130%;
+    transition: background-color $trans-options, opacity $trans-options;
+    font: {
+      size: 1px;
+      family: $main-font;
+      style: normal;
+      weight: 700;
+    }
+
+    &.disable {
+      pointer-events: none;
+      opacity: 0.3;
+    }
+  }
+
+  .auth-btn {
+    padding: 20px 109px;
+    width: 100%;
+    font-size: 15em;
+  }
+
+  .blue-btn {
+    background-color: #0866fb;
+    color: white;
+
+    &:hover {
+      background-color: #045be5;
+    }
+  }
+
+  .light-btn {
+    background-color: #e9f1ff;
+    color: #0866fb;
+
+    &:hover {
+      background-color: #d1e3fe;
+    }
+  }
+
+  .white-btn {
+    background-color: white;
+    color: $color-blue;
+    border: 1px solid #e4efff;
+
+    &:hover {
+      background-color: #edf6fe;
+    }
+  }
+
+  .resend-code-btn {
+    margin-bottom: 19px;
+  }
+
+  .title {
+    text-align: center;
+    white-space: normal;
+    color: $color-dark;
+    font: {
+      size: 28em;
+      weight: 700;
+    }
+  }
+
+  .action-label {
+    text-align: center;
+    color: $color-blue;
+    font-size: 18em;
+
+    &.phone {
+      margin-bottom: 2.7777em;
+    }
+
+    &.sms {
+      margin-bottom: 2em;
+    }
+  }
+
+  .auth-input {
+    color: $color-dark;
+    background-color: white;
+    border: 1px solid $color-blue-light;
+    border-radius: 15px;
+    transition: border-color $trans-options, background-color $trans-options;
+    font: {
+      family: $main-font;
+      style: normal;
+      size: 16em;
+      weight: 500;
+    }
+
+    &.error {
+      border-color: $red;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: $color-blue;
+    }
+
+    &:focus:not(.error) {
+      background-color: $color-light;
+      border-color: $color-blue;
+    }
+  }
+
+  .error-and-preloader-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.phone {
+      height: 100px;
+    }
+
+    &.sms {
+      height: 65px;
+    }
+
+    .insert-phone-preloader {
+      transform: scale(0.7);
+    }
+
+    .insert-sms-preloader {
+      transform: scale(0.4);
+    }
+  }
+
+  .phone-input {
+    width: 350px;
+    padding: 18px 24px;
+  }
+
+  .sms-inputs-cont {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+
+    .sms-input {
+      width: 60px;
+      height: 85px;
+      padding: 16px 22px;
+      font: {
+        weight: 700;
+        size: 18em;
+      }
+    }
+  }
+}
