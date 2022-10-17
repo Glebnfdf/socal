@@ -159,55 +159,61 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   }
 
   return (
-    <>
-      <div className={"insert-phone-cont"}>
-        <div>We send sms to {phoneNumber}</div>
-        <div>
-          <input
-            type={"number"}
-            ref={num1}
-            name={"num1"}
-            className={"error-border" + (wrongSMS ? " active" : "")}
-            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
-            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
-          />
-          <input
-            type={"number"}
-            ref={num2}
-            name={"num2"}
-            className={"error-border" + (wrongSMS ? " active" : "")}
-            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
-            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
-          />
-          <input
-            type={"number"}
-            ref={num3}
-            name={"num3"}
-            className={"error-border" + (wrongSMS ? " active" : "")}
-            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
-            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
-          />
-          <input
-            type={"number"}
-            ref={num4}
-            name={"num4"}
-            className={"error-border" + (wrongSMS ? " active" : "")}
-            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
-            onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
-          />
-          {isLoading && <Preloader/>}
-          {wrongSMS && <div>Wrong code</div>}
-          <div>
-            <button
-              type={"button"}
-              onClick={(): void => {resendSMS()}}
-            >Resend Code</button>
-          </div>
-          <div>
-            <button type={"button"} onClick={(): void => {changeScreen(AuthScreenName.InsertPhone)}}>Back</button>
-          </div>
-        </div>
+    <div className={"auth-form-cont"}>
+      <p className="title">Insert code from<br/>SMS</p>
+      <p className="action-label sms">We send sms to<br/>{phoneNumber}</p>
+      <div className={"sms-inputs-cont"}>
+       <input
+         type={"text"}
+         ref={num1}
+         name={"num1"}
+         className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
+         onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+         onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
+       />
+        <input
+          type={"text"}
+          ref={num2}
+          name={"num2"}
+          className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
+          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+          onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
+        />
+        <input
+          type={"text"}
+          ref={num3}
+          name={"num3"}
+          className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
+          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+          onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
+        />
+        <input
+          type={"text"}
+          ref={num4}
+          name={"num4"}
+          className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
+          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
+          onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
+        />
       </div>
-    </>
+      <div className={"error-and-preloader-cont sms"}>
+        {isLoading && <div className={"insert-sms-preloader"}><Preloader/></div>}
+        {wrongSMS && <p className="error">Wrong code</p>}
+      </div>
+      <button
+        type={"button"}
+        className={"button auth-btn light-btn resend-code-btn" + (phoneNumber.length === 0 || wrongSMS ? " disable" : "")}
+        onClick={(): void => {resendSMS()}}
+      >
+        Resend Code
+      </button>
+      <button
+        type={"button"}
+        className={"button auth-btn white-btn" + (phoneNumber.length === 0 || wrongSMS ? " disable" : "")}
+        onClick={(): void => {changeScreen(AuthScreenName.InsertPhone)}}
+      >
+        Come back
+      </button>
+    </div>
   );
 }

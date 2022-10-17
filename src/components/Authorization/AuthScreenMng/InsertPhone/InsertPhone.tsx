@@ -50,7 +50,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
   return (
     <div className={"auth-form-cont"}>
       <p className="title">Login in to your account</p>
-      <p className="action-label">Insert your phone number</p>
+      <p className="action-label phone">Insert your phone number</p>
       <input
         className={"auth-input phone-input" + (showErr ? " error" : "")}
         type="tel"
@@ -61,7 +61,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
           setPhoneNumber(event.target.value)
         }}
       />
-      <div className={"error-and-preloader-cont"}>
+      <div className={"error-and-preloader-cont phone"}>
         {isLoading && <div className={"insert-phone-preloader"}><Preloader/></div>}
         {showErr &&
           <p className="error">There is no user with phone<br/>{phoneNumber}</p>
