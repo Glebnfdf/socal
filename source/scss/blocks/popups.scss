@@ -770,3 +770,46 @@
     align-items: center;
   }
 }
+
+.time-popup {
+  display: flex;
+  justify-content: space-between;
+  width: 129px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 24px rgba(67, 108, 180, 0.25);
+  border-radius: 15px;
+  height: 283px;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+
+  .item {
+    cursor: pointer;
+    transition: .2s;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.02em;
+    color: #000;
+    border-radius: 15px;
+    padding: 14px 17.5px;
+    margin-bottom: 4px;
+
+    &:hover {
+      background: #E9F1FF;
+      color: #000;
+    }
+  }
+
+  .item-select {
+    background: #0866FB;
+    color: #FFFFFF;
+  }
+}
