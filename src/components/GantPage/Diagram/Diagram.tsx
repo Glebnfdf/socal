@@ -120,12 +120,12 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
   }
 
   function getColorClass(orderType: string): string {
-    switch (orderType) {
-      case "Recall":
+    switch (orderType.toLowerCase()) {
+      case "recall":
         return "red";
-      case "Repair":
+      case "repair":
         return "orange";
-      case "Estimation":
+      case "estimation":
         return "violet";
       default:
         return "unknown-tag";
