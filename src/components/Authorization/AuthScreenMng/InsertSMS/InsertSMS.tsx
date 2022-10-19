@@ -170,6 +170,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
          type={"text"}
          ref={num1}
          name={"num1"}
+         autoComplete="off"
          className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
          onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
@@ -178,6 +179,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
           type={"text"}
           ref={num2}
           name={"num2"}
+          autoComplete="off"
           className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
           onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
@@ -186,6 +188,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
           type={"text"}
           ref={num3}
           name={"num3"}
+          autoComplete="off"
           className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
           onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}
@@ -194,6 +197,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
           type={"text"}
           ref={num4}
           name={"num4"}
+          autoComplete="off"
           className={"auth-input sms-input" + (wrongSMS ? " error" : "")}
           onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyDownHandler(event)}}
           onKeyUp={(event: React.KeyboardEvent<HTMLInputElement>): void => {keyUpHandler(event)}}

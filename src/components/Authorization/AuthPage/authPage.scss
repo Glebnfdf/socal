@@ -20,7 +20,7 @@ $trans-options: 300ms ease;
   max-width: 477px;
   letter-spacing: 0.02em;
   font: {
-    size: 1px;
+    size: 18px;
     family: $main-font;
     style: normal;
     weight: 500;
@@ -39,7 +39,7 @@ $trans-options: 300ms ease;
 
     &.error {
       color: $red;
-      font-size: 18em;
+      font-size: 1em;
       text-align: center;
     }
   }
@@ -66,7 +66,7 @@ $trans-options: 300ms ease;
   .auth-btn {
     padding: 20px 109px;
     width: 100%;
-    font-size: 15em;
+    font-size: 0.8333em;
   }
 
   .blue-btn {
@@ -106,7 +106,7 @@ $trans-options: 300ms ease;
     white-space: normal;
     color: $color-dark;
     font: {
-      size: 28em;
+      size: 1.5555em;
       weight: 700;
     }
   }
@@ -114,10 +114,10 @@ $trans-options: 300ms ease;
   .action-label {
     text-align: center;
     color: $color-blue;
-    font-size: 18em;
+    font-size: 1em;
 
     &.phone {
-      margin-bottom: 2.7777em;
+      margin-bottom: 3em;
     }
 
     &.sms {
@@ -134,7 +134,7 @@ $trans-options: 300ms ease;
     font: {
       family: $main-font;
       style: normal;
-      size: 16em;
+      size: 0.8888em;
       weight: 500;
     }
 
@@ -194,7 +194,7 @@ $trans-options: 300ms ease;
       padding: 16px 22px;
       font: {
         weight: 700;
-        size: 18em;
+        size: 1em;
       }
     }
   }

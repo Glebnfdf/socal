@@ -2,13 +2,29 @@ import * as React from "react";
 import Diagram from "../Diagram/Diagram";
 import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import { useContext, useEffect, useState } from "react";
-import "./unDispatched.scss";
 import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
 import { DragItemType } from "../../../utils/DragItemType";
+import isBeginTimeNotOld from "../../../utils/isBeginTimeNotOld";
+import Scrollbar from "../../../lib/scrollbar";
 
 export default function UnDispatched(): JSX.Element {
   const orderListContext: iOrderListContext = useContext(OrderListContext);
   const [orderListHaveOrder, setOrderListHaveOrder]: [st: boolean, set: (st: boolean) => void] = useState(false);
+
+  useEffect((): () => void => {
+    let scrollbar: Scrollbar | null = null;
+    const undisScrollContainer: HTMLElement | null = document.getElementById("undis-scrollbar");
+    if (undisScrollContainer) {
+      scrollbar = new Scrollbar();
+      scrollbar.init(undisScrollContainer);
+    }
+
+    return (): void => {
+      if (scrollbar) {
+        scrollbar.destroy();
+      }
+    };
+  }, []);
 
   useEffect((): void => {
     if (orderListContext.orderLst && orderListContext.orderLst.length> 0) {
@@ -19,7 +35,7 @@ export default function UnDispatched(): JSX.Element {
   function dragOverHandler(event: React.DragEvent<HTMLDivElement>): void {
     event.preventDefault();
     const dragItemType = localStorage.getItem("dragItemType");
-    if (dragItemType === DragItemType.Order) {
+    if (dragItemType === DragItemType.Order && isBeginTimeNotOld()) {
       const techIdFromLS: number | null = getTechIdFromLS();
       if (techIdFromLS === -1) {
         console.warn("При перетаскивании заявки у неё не оказалось techId");
@@ -377,13 +393,24 @@ export default function UnDispatched(): JSX.Element {
           </div>
           {/* Заявки */}
           <div
-            className="bottom padding-top-16"
+            className="bottom"
             onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {dragOverHandler(event)}}
             onDrop={(event: React.DragEvent<HTMLDivElement>): void => {orderDropHandler(event)}}
           >
-            {orderListHaveOrder &&
-              <Diagram orderListProp={orderListContext.getOrdersByTechId(null)} technicianId={null} />
-            }
+            <div className="main-container">
+              <div id={"undis-scrollbar"} className="scroll-cont scroll-cont-undispatche">
+                <div className="scroll-content-wrapper">
+                  <div className="content">
+                    {orderListHaveOrder &&
+                      <Diagram orderListProp={orderListContext.getOrdersByTechId(null)} technicianId={null} />
+                    }
+                  </div>
+                </div>
+                <div className="scroll-vtrack">
+                  <div className="scroll-thumb"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

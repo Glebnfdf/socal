@@ -7,12 +7,29 @@ import Diagram from "../Diagram/Diagram";
 import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
 import { DragItemType } from "../../../utils/DragItemType";
+import isBeginTimeNotOld from "../../../utils/isBeginTimeNotOld";
+import Scrollbar from "../../../lib/scrollbar";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
   const orderListContext: iOrderListContext = useContext(OrderListContext);
   const [techList, setTechList]: [st: iTechnician[] | null, set: (st: iTechnician[] | null) => void] =
     useState<iTechnician[] | null>(null);
+
+  useEffect((): () => void => {
+    let scrollbar: Scrollbar | null = null;
+    const techScrollContainer: HTMLElement | null = document.getElementById("tech-scrollbar");
+    if (techScrollContainer) {
+      scrollbar = new Scrollbar();
+      scrollbar.init(techScrollContainer);
+    }
+
+    return (): void => {
+      if (scrollbar) {
+        scrollbar.destroy();
+      }
+    };
+  }, []);
 
   useEffect((): void => {
     setTechList([...techListContext.techList])
@@ -21,7 +38,7 @@ export default function TechnicianList(): JSX.Element {
   function diagramDragOver(event: React.DragEvent<HTMLDivElement>): void {
     event.preventDefault();
 
-    if (localStorage.getItem("dragItemType") === DragItemType.Order) {
+    if (localStorage.getItem("dragItemType") === DragItemType.Order && isBeginTimeNotOld()) {
       event.dataTransfer.dropEffect = "move";
     } else {
       event.dataTransfer.dropEffect = "none";
@@ -78,66 +95,73 @@ export default function TechnicianList(): JSX.Element {
 
   return (
     <section className="undispatched-bottom container">
-      <div
-        className="content"
-      >
-        {!techList ? null :
-          (
-            techList.map((technician: iTechnician): JSX.Element => {
-              return (
-                <div className="item" key={technician.id} data-tech-block-id={technician.id}>
-                  <div className="item-left"
-                     onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {techDragOver(event)}}
-                     onDrop={(event: React.DragEvent<HTMLDivElement>): void => {techDropHandler(event, technician.id)}}
-                  >
-                    <div className="item-left-top">
-                      <div
-                        className="dots"
-                        draggable={"true"}
-                        onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {
-                          setAttr2DragTech(event, technician.id);
-                        }}
-                      >
-                        <svg width="8" height="19" viewBox="0 0 8 19" fill="none">
-                          <use href="#points"/>
-                        </svg>
+      <div className="content">
+        <div className="main-container">
+          <div id={"tech-scrollbar"} className="scroll-cont scroll-cont-bottom">
+            <div className="scroll-content-wrapper">
+              {!techList ? null :
+                (
+                  techList.map((technician: iTechnician): JSX.Element => {
+                    return (
+                      <div className="item" key={technician.id} data-tech-block-id={technician.id}>
+                        <div className="item-left"
+                           onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {techDragOver(event)}}
+                           onDrop={(event: React.DragEvent<HTMLDivElement>): void => {techDropHandler(event, technician.id)}}
+                        >
+                          <div className="item-left-top">
+                            <div
+                              className="dots"
+                              draggable={"true"}
+                              onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {
+                                setAttr2DragTech(event, technician.id);
+                              }}
+                            >
+                              <svg width="8" height="19" viewBox="0 0 8 19" fill="none">
+                                <use href="#points"/>
+                              </svg>
+                            </div>
+                            <div className="person">
+                              <img
+                                // src={technician.avatar ? technician.avatar : "https://i.ibb.co/C1ZFCsr/person-1.png"}
+                                src={"https://i.ibb.co/C1ZFCsr/person-1.png"}
+                                alt="#"
+                              />
+                            </div>
+                            <div className="names">
+                              <p className="title">
+                                Technicians
+                              </p>
+                              <p className="post-title">
+                                {technician.name}
+                              </p>
+                            </div>
+                            <div className="item-left-bottom">
+                              <svg width="35" height="35" viewBox="0 0 35 35" fill="none">
+                                <use href="#but"/>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="item-right"
+                          onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {diagramDragOver(event)}}
+                          onDrop={(event: React.DragEvent<HTMLDivElement>): void => {orderDropHandler(event, technician.id)}}
+                        >
+                          <Diagram
+                            orderListProp={orderListContext.getOrdersByTechId(technician.id)}
+                            technicianId={technician.id}
+                          />
+                        </div>
                       </div>
-                      <div className="person">
-                        <img
-                          // src={technician.avatar ? technician.avatar : "https://i.ibb.co/C1ZFCsr/person-1.png"}
-                          src={"https://i.ibb.co/C1ZFCsr/person-1.png"}
-                          alt="#"
-                        />
-                      </div>
-                      <div className="names">
-                        <p className="title">
-                          Technicians
-                        </p>
-                        <p className="post-title">
-                          {technician.name}
-                        </p>
-                      </div>
-                      <div className="item-left-bottom">
-                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none">
-                          <use href="#but"/>
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="item-right"
-                    onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {diagramDragOver(event)}}
-                    onDrop={(event: React.DragEvent<HTMLDivElement>): void => {orderDropHandler(event, technician.id)}}
-                  >
-                    <Diagram
-                      orderListProp={orderListContext.getOrdersByTechId(technician.id)}
-                      technicianId={technician.id}
-                    />
-                  </div>
-                </div>
-              )
-          }))
-        }
+                    )
+                }))
+              }
+            </div>
+            <div className="scroll-vtrack">
+              <div className="scroll-thumb"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
