@@ -146,6 +146,7 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
     event.dataTransfer.setData("before-drag-cur-pos-x", event.pageX.toString());
     localStorage.setItem("dragItemType", DragItemType.Order);
     localStorage.setItem("techIdInDragOrder", techId === null ? "-1" : techId);
+    localStorage.setItem("order-time-begin", timeBegin === null ? "-1" : timeBegin);
   }
 
   return (

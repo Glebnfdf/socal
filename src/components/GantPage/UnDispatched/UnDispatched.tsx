@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import "./unDispatched.scss";
 import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
 import { DragItemType } from "../../../utils/DragItemType";
+import isBeginTimeNotOld from "../../../utils/isBeginTimeNotOld";
 
 export default function UnDispatched(): JSX.Element {
   const orderListContext: iOrderListContext = useContext(OrderListContext);
@@ -19,7 +20,7 @@ export default function UnDispatched(): JSX.Element {
   function dragOverHandler(event: React.DragEvent<HTMLDivElement>): void {
     event.preventDefault();
     const dragItemType = localStorage.getItem("dragItemType");
-    if (dragItemType === DragItemType.Order) {
+    if (dragItemType === DragItemType.Order && isBeginTimeNotOld()) {
       const techIdFromLS: number | null = getTechIdFromLS();
       if (techIdFromLS === -1) {
         console.warn("При перетаскивании заявки у неё не оказалось techId");

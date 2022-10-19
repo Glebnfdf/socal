@@ -7,6 +7,7 @@ import Diagram from "../Diagram/Diagram";
 import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
 import { DragItemType } from "../../../utils/DragItemType";
+import isBeginTimeNotOld from "../../../utils/isBeginTimeNotOld";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
@@ -21,7 +22,7 @@ export default function TechnicianList(): JSX.Element {
   function diagramDragOver(event: React.DragEvent<HTMLDivElement>): void {
     event.preventDefault();
 
-    if (localStorage.getItem("dragItemType") === DragItemType.Order) {
+    if (localStorage.getItem("dragItemType") === DragItemType.Order && isBeginTimeNotOld()) {
       event.dataTransfer.dropEffect = "move";
     } else {
       event.dataTransfer.dropEffect = "none";
