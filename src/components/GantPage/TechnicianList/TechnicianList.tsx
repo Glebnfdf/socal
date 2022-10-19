@@ -18,7 +18,7 @@ export default function TechnicianList(): JSX.Element {
 
   useEffect((): () => void => {
     let scrollbar: Scrollbar | null = null;
-    const techScrollContainer: HTMLDivElement | null = document.querySelector(".scroll-cont-bottom");
+    const techScrollContainer: HTMLElement | null = document.getElementById("tech-scrollbar");
     if (techScrollContainer) {
       scrollbar = new Scrollbar();
       scrollbar.init(techScrollContainer);
@@ -97,7 +97,7 @@ export default function TechnicianList(): JSX.Element {
     <section className="undispatched-bottom container">
       <div className="content">
         <div className="main-container">
-          <div className="scroll-cont scroll-cont-bottom">
+          <div id={"tech-scrollbar"} className="scroll-cont scroll-cont-bottom">
             <div className="scroll-content-wrapper">
               {!techList ? null :
                 (
