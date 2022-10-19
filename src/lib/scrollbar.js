@@ -30,10 +30,22 @@ export default class Scrollbar {
   }
 
   addObserver() {
+    // наблюдаем за изменением высоты контейнера
     this.resizeContObserver = new ResizeObserver(() => {
       this.resizeContHandle();
     });
     this.resizeContObserver.observe(this.container);
+
+    // наблюдаем за изменением дочерних элементов
+    this.mutationObserver = new MutationObserver(() => {
+      this.resizeContHandle();
+    })
+    this.mutationObserver.observe(this.contentWrapper, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    })
+
     this.resizeContHandle();
   }
 
@@ -45,6 +57,9 @@ export default class Scrollbar {
   destroy() {
     if (this.resizeContObserver) {
       this.resizeContObserver.disconnect();
+    }
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
     }
     this.contentWrapper.removeEventListener("scroll", this.scrollHandle);
     this.thumb.removeEventListener("mousedown", this.startDragThumb);
