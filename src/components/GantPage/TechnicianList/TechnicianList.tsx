@@ -53,9 +53,11 @@ export default function TechnicianList(): JSX.Element {
       return;
     }
 
+    const isOrderHaveTargetTech: boolean = orderListContext.doOrderHaveThatTech(orderDropData.orderId, technicianId);
     orderListContext.updateOrder(
       orderDropData.orderId,
-      technicianId,
+      isOrderHaveTargetTech ? orderListContext.getMainTechId(orderDropData.orderId) : technicianId,
+      isOrderHaveTargetTech ? orderListContext.getSecondTechId(orderDropData.orderId) : null,
       orderDropData.timeBegin,
       orderDropData.timeEnd
     );

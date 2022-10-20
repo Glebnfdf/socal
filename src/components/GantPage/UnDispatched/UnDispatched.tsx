@@ -59,6 +59,7 @@ export default function UnDispatched(): JSX.Element {
     orderListContext.updateOrder(
       orderDropData.orderId,
       null,
+      null,
       orderDropData.timeBegin,
       orderDropData.timeEnd
     );
