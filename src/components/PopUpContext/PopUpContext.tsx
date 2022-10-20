@@ -8,37 +8,38 @@ interface iProps {
 
 export interface iPopUpContext {
   data: iPopUpData
-  setData: (popUpName: PopUpName | null, transmittedData: unknown) => void
+  setData: (name: PopUpName | null, transmittedData: unknown) => void
 }
 
 export interface iPopUpData {
-  popUpName: PopUpName | null,
+  name: PopUpName | null,
   transmittedData: unknown
 }
 
 export const PopUpContext: React.Context<iPopUpContext> = React.createContext<iPopUpContext>({
   data: {
-    popUpName: null,
+    name: null,
     transmittedData: null
   },
   //eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  setData: (popUpName: PopUpName | null, transmittedData: unknown) => {}
+  setData: (name: PopUpName | null, transmittedData: unknown) => {}
 })
 
 export default function PopUpContextProvider({children}: iProps): JSX.Element {
   const [contextState, setContextState]: [st: iPopUpContext, set: (st: iPopUpContext) => void] =
     useState<iPopUpContext>({
       data: {
-        popUpName: null,
+        name: null,
         transmittedData: null
       },
       setData: setPopUpData
     });
 
-  function setPopUpData(_popUpName: PopUpName | null, _transmittedData: unknown): void {
+  function setPopUpData(_name: PopUpName | null, _transmittedData: unknown): void {
     setContextState({
-      ...contextState, data:{
-        popUpName: _popUpName,
+      ...contextState,
+      data: {
+        name: _name,
         transmittedData: _transmittedData
     }});
   }

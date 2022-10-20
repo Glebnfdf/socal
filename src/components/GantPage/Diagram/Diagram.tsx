@@ -1,8 +1,10 @@
 import * as React from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { iOrder } from "../OrderListModel/OrderListModel";
-import { useEffect, useRef, useState } from "react";
 import "./diagram.scss";
 import { DragItemType } from "../../../utils/DragItemType";
+import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
+import { PopUpName } from "../PopUpList/PopUpList";
 
 interface iProps {
   orderListProp: iOrder[] | null,
@@ -16,6 +18,7 @@ interface iOrderWithLine extends iOrder {
 export default function Diagram({orderListProp, technicianId}: iProps): JSX.Element {
   const [orderListWithLine, setOrderListWithLine]: [st: iOrderWithLine[] | null, set: (st: iOrderWithLine[] | null) => void] =
     useState<iOrderWithLine[] | null>(addLine2Order(orderListProp));
+  const popUpContext: iPopUpContext = useContext(PopUpContext);
   const container: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
   const scrollbarWidth: number = 0; // поставить 13, когда будет scrollbar;
@@ -171,6 +174,7 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
             }}
             draggable={"true"}
             onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {setAttr2DragElm(event)}}
+            onClick={(): void => {popUpContext.setData(PopUpName.testPopUp, null)}}
           >
             <div className={"id"}>№ {order.id}</div>
             <div className={"address"}>{order.address}</div>
