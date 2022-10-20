@@ -57,8 +57,8 @@ function getNewDate(date: Date, beforeDragCurPosX: number, afterDragCurPosX: num
   if (date.getHours() < 7) {
     date.setHours(7,0,0,0);
   }
-  if (date.getHours() > 21) {
-    date.setHours(21);
+  if (date.getHours() >= 22) {
+    date.setHours(21, 59,59);
   }
   return date;
 }

@@ -16,15 +16,30 @@ export interface iOrder extends iOrderResponse {
 export interface iOrderListContext {
   orderLst: iOrder[] | null,
   getOrdersByTechId: (techId: number | null) => iOrder[] | null,
-  updateOrder: (orderId: number, technicianId: number | null, orderTimeBegin: Date, orderTmeEnd: Date) => void
+  doOrderHaveThatTech: (orderId: number, techId: number | null) => boolean,
+  getMainTechId: (orderId: number) => number | null,
+  getSecondTechId: (orderId: number) => number | null,
+  updateOrder: (
+    orderId: number,
+    technicianId: number | null,
+    secondTechId: number | null,
+    orderTimeBegin: Date,
+    orderTmeEnd: Date
+  ) => void,
 }
 
 export const OrderListContext: React.Context<iOrderListContext> = React.createContext<iOrderListContext>({
   orderLst: null,
   //eslint-disable-next-line @typescript-eslint/no-unused-vars
   getOrdersByTechId: (techId: number | null): iOrder[] | null => null,
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doOrderHaveThatTech: (orderId: number, techId: number | null) => false,
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getMainTechId: (orderId: number) => null,
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getSecondTechId: (orderId: number) => null,
   //eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  updateOrder: (orderId: number, technicianId: number | null, orderTimeBegin: Date, orderTmeEnd: Date) => {}
+  updateOrder: (orderId: number, technicianId: number | null, secondTechId: number | null, orderTimeBegin: Date, orderTmeEnd: Date) => {}
 })
 
 export default function OrderListModel({children}: iProps): JSX.Element {
@@ -34,6 +49,9 @@ export default function OrderListModel({children}: iProps): JSX.Element {
     useState<iOrderListContext>({
       orderLst: null,
       getOrdersByTechId: getOrdersByTechId,
+      doOrderHaveThatTech: doOrderHaveThatTech,
+      getMainTechId: getMainTechId,
+      getSecondTechId: getSecondTechId,
       updateOrder: updateOrderHandler
   });
   const { requestData }: {
@@ -69,6 +87,7 @@ export default function OrderListModel({children}: iProps): JSX.Element {
   function updateOrderHandler(
     orderId: number,
     technicianId: number | null,
+    secondTechId: number | null,
     orderTimeBegin: Date,
     orderTmeEnd: Date
   ): void {
@@ -78,7 +97,7 @@ export default function OrderListModel({children}: iProps): JSX.Element {
         orders.push({
           ...order,
           mainTechId: orderId === order.id ? technicianId : order.mainTechId,
-          secondTechId: orderId === order.id ? null : order.secondTechId,
+          secondTechId: orderId === order.id ? secondTechId : order.secondTechId,
           time_slot_from: orderId === order.id ? orderTimeBegin.toJSON() : order.time_slot_from,
           time_slot_to: orderId === order.id ? orderTmeEnd.toJSON() : order.time_slot_to
         });
@@ -114,6 +133,42 @@ export default function OrderListModel({children}: iProps): JSX.Element {
       };
       await requestData(url, request);
     })();
+  }
+
+  function doOrderHaveThatTech(orderId: number, techId: number | null): boolean {
+    if (orderList.current) {
+      for (let i = 0; i < orderList.current.length; i++) {
+        if (orderList.current[i].id === orderId &&
+           (orderList.current[i].mainTechId === techId || orderList.current[i].secondTechId == techId)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  function getMainTechId(orderId: number): number | null {
+    if (!orderList.current) {
+      return null
+    }
+    for (let i = 0; i < orderList.current.length; i++) {
+      if (orderList.current[i].id === orderId) {
+        return orderList.current[i].mainTechId;
+      }
+    }
+    return null;
+  }
+
+  function getSecondTechId(orderId: number): number | null {
+    if (!orderList.current) {
+      return null
+    }
+    for (let i = 0; i < orderList.current.length; i++) {
+      if (orderList.current[i].id === orderId) {
+        return orderList.current[i].secondTechId;
+      }
+    }
+    return null;
   }
 
   return (

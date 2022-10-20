@@ -93,7 +93,8 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
       })
     } else {
       return new URLSearchParams({
-        date_start: shortDateFormat(date)
+        date_start: shortDateFormat(date),
+        date_end: shortDateFormat(date)
       });
     }
   }
