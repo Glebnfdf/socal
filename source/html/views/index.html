@@ -18,17 +18,19 @@
   <script src="https://cdn.jsdelivr.net/npm/simplebar@latest/dist/simplebar.min.js"></script>
   <link rel="stylesheet" href="vendors/normalize-css/normalize.min.css" />
 </head>
-<body style="overflow: hidden;">
+<body>
 <div id="react-app-cont">
-  <!--header.html-->
-  <%= _.template(require('../includes/common/header.html').default)({version:
-  htmlWebpackPlugin.options.custom.version,}) %>
-  <main>
-    <!--index/hero.html-->
-    <%= _.template(require('../includes/index/undispatched.html').default)({}) %>
-  </main>
-  <!--footer.html-->
-  <%= _.template(require('../includes/common/footer.html').default)({}) %>
+  <div style="overflow: hidden;">
+    <!--header.html-->
+    <%= _.template(require('../includes/common/header.html').default)({version:
+    htmlWebpackPlugin.options.custom.version,}) %>
+    <main>
+      <!--index/hero.html-->
+      <%= _.template(require('../includes/index/undispatched.html').default)({}) %>
+    </main>
+    <!--footer.html-->
+    <%= _.template(require('../includes/common/footer.html').default)({}) %>
+  </div>
 </div>
 </body>
 </html>
