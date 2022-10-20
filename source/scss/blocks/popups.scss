@@ -15,20 +15,30 @@
     width: 11px;
     height: 11px;
     fill: #81A6E7;
+    color: #81A6E7;
 
     &:hover {
       fill: #0866FB;
+      color: #0866FB;
     }
   }
 }
 
 .popup {
   z-index: 10000000;
-  width: 580px;
   background: #fff;
   border-radius: 15px;
-  padding: 15px 25px 30px 25px;
   box-shadow: 0 4px 24px rgba(67, 108, 180, 0.39);
+
+  &.big {
+    width: 580px;
+    padding: 15px 25px 30px;
+  }
+
+  &.small {
+    width: 354px;
+    padding: 8px 16px 24px 26px;
+  }
 
   .status {
     display: flex;
@@ -479,6 +489,33 @@
       color: #0866fb;
     }
   }
+
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .btn-add-2 {
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #0866fb;
+    padding: 16px 24px;
+    background: #e4efff;
+    border-radius: 15px;
+
+    &:hover {
+      background: #d1e3fe;
+      color: #0866fb;
+    }
+  }
 }
 
 .popup-search {
@@ -702,7 +739,7 @@
 .btn-save {
   transition: .2s;
   cursor: pointer;
-  width: 96px;
+  display: inline-block;
   margin-top: 14px;
   background: #0866FB;
   border-radius: 15px;

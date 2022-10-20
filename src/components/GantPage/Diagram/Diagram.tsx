@@ -5,6 +5,7 @@ import "./diagram.scss";
 import { DragItemType } from "../../../utils/DragItemType";
 import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList/PopUpList";
+import { OrderPopUpType } from "../PopUpList/OrderPopUp/OrderPopUp";
 
 interface iProps {
   orderListProp: iOrder[] | null,
@@ -174,7 +175,9 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
             }}
             draggable={"true"}
             onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {setAttr2DragElm(event)}}
-            onClick={(): void => {popUpContext.setData(PopUpName.testPopUp, null)}}
+            onClick={(): void => {popUpContext.setData(PopUpName.orderPopUp, {
+              type: OrderPopUpType.Small
+            })}}
           >
             <div className={"id"}>№ {order.id}</div>
             <div className={"address"}>{order.address}</div>

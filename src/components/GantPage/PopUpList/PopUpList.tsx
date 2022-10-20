@@ -2,9 +2,10 @@ import * as React from "react";
 import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import "./PopUpList.scss";
+import OrderPopUp, { iOrderPopUpInData } from "./OrderPopUp/OrderPopUp";
 
 export enum PopUpName {
-  testPopUp
+  orderPopUp
 }
 
 export default function PopUpList(): JSX.Element {
@@ -20,9 +21,13 @@ export default function PopUpList(): JSX.Element {
   const popUp: JSX.Element | null = getPopUp();
 
   function getPopUp(): JSX.Element | null {
+    let data4PopUp: unknown = null;
     switch (popUpName) {
-      case PopUpName.testPopUp:
-        return <>Hello world!</>
+      case PopUpName.orderPopUp:
+        if (Object.prototype.hasOwnProperty.call(transmittedData.current as object, "type")) {
+          data4PopUp = transmittedData.current;
+        }
+        return <OrderPopUp incomingData={data4PopUp as iOrderPopUpInData}/>
       default:
         return null
     }
