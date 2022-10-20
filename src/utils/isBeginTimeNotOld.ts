@@ -10,7 +10,6 @@ export default function isBeginTimeNotOld(): boolean {
 
   const dragOrderTime: Date = new Date(timeInLS);
   const todayDate: Date = new Date();
-  return !(dragOrderTime.getFullYear() < todayDate.getFullYear() ||
-           dragOrderTime.getMonth()    < todayDate.getMonth()    ||
-           dragOrderTime.getDate()     < todayDate.getDate());
+  todayDate.setHours(0,0,0,0);
+  return todayDate.getTime() < dragOrderTime.getTime();
 }
