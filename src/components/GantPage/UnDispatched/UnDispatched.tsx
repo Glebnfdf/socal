@@ -400,7 +400,7 @@ export default function UnDispatched(): JSX.Element {
             <div className="main-container">
               <div id={"undis-scrollbar"} className="scroll-cont scroll-cont-undispatche">
                 <div className="scroll-content-wrapper">
-                  <div className="content">
+                  <div className="content undis-content-padding">
                     {orderListHaveOrder &&
                       <Diagram orderListProp={orderListContext.getOrdersByTechId(null)} technicianId={null} />
                     }
