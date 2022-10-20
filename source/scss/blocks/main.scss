@@ -351,10 +351,16 @@
       border-color: rgba(148, 187, 255, 0.5);
       position: relative;
 
+      margin-bottom: 10px;
+
       &:first-child {
         border-top: 1px solid rgba(148, 187, 255, 0.5);
         position: relative;
         z-index: 20;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
       }
 
       .item-left {
