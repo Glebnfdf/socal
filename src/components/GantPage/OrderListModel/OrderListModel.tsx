@@ -3,6 +3,7 @@ import iOrderResponse from "../../../APIInterfaces/iOrderResponse";
 import { useContext, useEffect, useRef, useState } from "react";
 import { GrantLoaderContext } from "../GantDataLoader/GantDataLoader";
 import { useFetch } from "../../../hooks/useFetch";
+import twoDigitOutput from "../../../utils/twoDigitsOutput";
 
 interface iProps {
   children: React.ReactNode
@@ -127,12 +128,22 @@ export default function OrderListModel({children}: iProps): JSX.Element {
           task_id: orderId,
           technician_id: technicianId,
           second_technician_id: secondTechId,
-          time_slot_from: orderTimeBegin.toJSON(),
-          time_slot_to: orderTmeEnd.toJSON()
+          time_slot_from: shortDateFormat(orderTimeBegin),
+          time_slot_to: shortDateFormat(orderTmeEnd)
         })
       };
       await requestData(url, request);
     })();
+  }
+
+  function shortDateFormat(date: Date): string {
+    return `${
+      date.getFullYear()}-${
+      twoDigitOutput(date.getMonth() + 1)}-${
+      twoDigitOutput(date.getDate())} ${
+      twoDigitOutput(date.getHours())}-${
+      twoDigitOutput(date.getMinutes())}-${
+      twoDigitOutput(date.getSeconds())}`
   }
 
   function doOrderHaveThatTech(orderId: number, techId: number | null): boolean {
