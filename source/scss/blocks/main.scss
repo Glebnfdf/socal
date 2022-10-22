@@ -318,6 +318,7 @@
   }
 }
 
+
 .undispatched-bottom {
   position: relative;
   margin-top: 7px;
@@ -342,6 +343,7 @@
     height: 355px;
 
     .item {
+      position: relative;
       width: 100%;
       display: flex;
       background: rgba(233, 241, 255, 0.5);
@@ -349,7 +351,6 @@
       z-index: 19;
       border-bottom: 1px solid;
       border-color: rgba(148, 187, 255, 0.5);
-      position: relative;
 
       margin-bottom: 10px;
 
@@ -512,4 +513,12 @@
       }
     }
   }
+}
+
+.blur-item {
+  position: absolute;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.46);
+  height: 74px;
+  z-index: 22;
 }
