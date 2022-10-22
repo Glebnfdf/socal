@@ -530,6 +530,11 @@
 }
 
 .blur-item {
+  display: none;
+}
+
+.blur-item-show {
+  display: block;
   position: absolute;
   width: 100%;
   background: rgba(255, 255, 255, 0.46);
@@ -539,6 +544,11 @@
 }
 
 .undispatched-blur {
+  display: none;
+}
+
+.undispatched-blur-show {
+  display: block;
   z-index: 24;
   position: absolute;
   width: 100%;
