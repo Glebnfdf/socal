@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { GrantLoaderContext } from "../GantDataLoader/GantDataLoader";
 import { useFetch } from "../../../hooks/useFetch";
 import twoDigitOutput from "../../../utils/twoDigitsOutput";
+import { IOrderUpdateReqData } from "../../../APIInterfaces/iOrderUpdateReqData";
 
 interface iProps {
   children: React.ReactNode
@@ -119,18 +120,25 @@ export default function OrderListModel({children}: iProps): JSX.Element {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async (): Promise<void> => {
       const url: string = "/api/schedule/update";
+      if (technicianId === null) {
+        return;
+      }
+      const data: IOrderUpdateReqData = {
+        task_id: orderId,
+        technician_id: technicianId,
+        time_slot_from: shortDateFormat(orderTimeBegin),
+        time_slot_to: shortDateFormat(orderTmeEnd)
+      }
+      if (secondTechId !== null) {
+        data.second_technician_id = secondTechId;
+      }
+
       const request: RequestInit = {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          task_id: orderId,
-          technician_id: technicianId,
-          second_technician_id: secondTechId,
-          time_slot_from: shortDateFormat(orderTimeBegin),
-          time_slot_to: shortDateFormat(orderTmeEnd)
-        })
+        body: JSON.stringify(data)
       };
       await requestData(url, request);
     })();
