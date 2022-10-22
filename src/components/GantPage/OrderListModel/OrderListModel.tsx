@@ -107,7 +107,7 @@ export default function OrderListModel({children}: iProps): JSX.Element {
     }
     orderList.current = orders;
     setOLContext({...OLContext, orderLst: orders});
-    updateOrderOnServer(orderId, technicianId, null, orderTimeBegin, orderTmeEnd);
+    updateOrderOnServer(orderId, technicianId, secondTechId, orderTimeBegin, orderTmeEnd);
   }
 
   function updateOrderOnServer(
