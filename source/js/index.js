@@ -1,4 +1,4 @@
-import Scrollbar from './scrollbar.js';
+import Scrollbar from '../../src/lib/scrollbar';
 import './script';
 import './main';
 
