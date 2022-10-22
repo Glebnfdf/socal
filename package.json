@@ -14,6 +14,7 @@
     "webpack-server": "webpack serve --config webpack4React.js --mode development"
   },
   "dependencies": {
+    "@googlemaps/react-wrapper": "^1.1.35",
     "picturefill": "^3.0.3",
     "react": "^18.2.0",
     "react-calendar": "^3.9.0",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
+    "@types/google.maps": "^3.50.4",
     "@types/react": "^18.0.21",
     "@types/react-calendar": "^3.5.3",
     "@types/react-dom": "^18.0.6",
@@ -34,6 +36,7 @@
     "concurrently": "^7.2.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.14.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",

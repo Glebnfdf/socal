@@ -5,6 +5,7 @@ import iOrderResponse, { iOrderResponseRaw } from "../../../APIInterfaces/iOrder
 import iTechResponse, { iTechResponseRaw } from "../../../APIInterfaces/iTechResponse";
 import { iOrder } from "../OrderListModel/OrderListModel";
 import { iTechnician } from "../TechnicianListModel/TechnicianListModel";
+import twoDigitOutput from "../../../utils/twoDigitsOutput";
 
 interface iProps {
   children: React.ReactNode
@@ -102,8 +103,8 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   function shortDateFormat(date: Date): string {
     return `${
       date.getFullYear()}-${
-      new Intl.DateTimeFormat("en-US", {month: "2-digit"}).format(date)}-${
-      new Intl.DateTimeFormat("en-US", {day: "2-digit"}).format(date)}`
+      twoDigitOutput(date.getMonth() + 1)}-${
+      twoDigitOutput(date.getDate())}`
   }
 
   function saveRespData(url: string, data: unknown): void {

@@ -17,9 +17,11 @@ function App(): JSX.Element {
   }
 
   return (
-    <Authorization>
-      <GantPage/>
-    </Authorization>
+    <div className="overflow">
+      <Authorization>
+        <GantPage/>
+      </Authorization>
+    </div>
   );
 }
 

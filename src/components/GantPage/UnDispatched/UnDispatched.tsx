@@ -2,9 +2,6 @@ import * as React from "react";
 import Diagram from "../Diagram/Diagram";
 import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import { useContext, useEffect, useState } from "react";
-import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
-import { DragItemType } from "../../../utils/DragItemType";
-import isBeginTimeNotOld from "../../../utils/isBeginTimeNotOld";
 import Scrollbar from "../../../lib/scrollbar";
 
 export default function UnDispatched(): JSX.Element {
@@ -32,49 +29,9 @@ export default function UnDispatched(): JSX.Element {
     }
   }, [orderListContext.orderLst]);
 
-  function dragOverHandler(event: React.DragEvent<HTMLDivElement>): void {
-    event.preventDefault();
-    const dragItemType = localStorage.getItem("dragItemType");
-    if (dragItemType === DragItemType.Order && isBeginTimeNotOld()) {
-      const techIdFromLS: number | null = getTechIdFromLS();
-      if (techIdFromLS === -1) {
-        console.warn("При перетаскивании заявки у неё не оказалось techId");
-        event.dataTransfer.dropEffect = "none";
-      } else {
-        techIdFromLS === null ? event.dataTransfer.dropEffect = "move" : event.dataTransfer.dropEffect = "none";
-      }
-    } else {
-      event.dataTransfer.dropEffect = "none";
-    }
-  }
-
-  function orderDropHandler(event: React.DragEvent<HTMLDivElement>): void {
-    event.preventDefault();
-
-    const orderDropData: iOrderDropData = OrderDropData(event);
-    if (!orderDropData.dataIsValid) {
-      return;
-    }
-
-    orderListContext.updateOrder(
-      orderDropData.orderId,
-      null,
-      null,
-      orderDropData.timeBegin,
-      orderDropData.timeEnd
-    );
-  }
-
-  function getTechIdFromLS(): number | null {
-    const techIdFromLS: string | null = localStorage.getItem("techIdInDragOrder");
-    if (!techIdFromLS || techIdFromLS === "-1") {
-      return -1;
-    }
-    return techIdFromLS === "null" ? null : Number(techIdFromLS);
-  }
-
   return (
     <section className="container undispatched">
+      {/*<div className="undispatched-blur"></div>*/}
       {/* Левая часть блока с легендой диаграммы */}
       <div className="left">
         <div className="top">
@@ -393,11 +350,7 @@ export default function UnDispatched(): JSX.Element {
             </div>
           </div>
           {/* Заявки */}
-          <div
-            className="bottom"
-            onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {dragOverHandler(event)}}
-            onDrop={(event: React.DragEvent<HTMLDivElement>): void => {orderDropHandler(event)}}
-          >
+          <div className="bottom">
             <div className="main-container">
               <div id={"undis-scrollbar"} className="scroll-cont scroll-cont-undispatche">
                 <div className="scroll-content-wrapper">

@@ -1,3 +1,5 @@
+// определяем является ли заявка старее сегодняшнего дня
+
 export default function isBeginTimeNotOld(): boolean {
   const timeInLS: string | null = localStorage.getItem("order-time-begin");
   if (!timeInLS) {
