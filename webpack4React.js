@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require("dotenv-webpack");
 
 module.exports = (env, argv) => {
   const webpackMode = argv.mode
@@ -67,6 +68,9 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './src/index.html',
         filename: 'index.html'
+      }),
+      new Dotenv({
+        path: "./credentials.env"
       })
     ]
   }
