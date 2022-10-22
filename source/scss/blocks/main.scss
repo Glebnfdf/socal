@@ -360,7 +360,12 @@
         content: " ";
         width: 100%;
         height: 10px;
-        background: red;
+        background: #fff;
+        top: 63px;
+      }
+
+      &:last-child:before {
+        display: none;
       }
 
       &:first-child {
@@ -480,7 +485,7 @@
         align-items: center;
         flex-wrap: wrap;
 
-        .item {
+        .item-two {
           position: absolute;
           transition: .3s;
           width: 401px;
