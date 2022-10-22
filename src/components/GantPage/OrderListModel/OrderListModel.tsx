@@ -149,8 +149,8 @@ export default function OrderListModel({children}: iProps): JSX.Element {
       date.getFullYear()}-${
       twoDigitOutput(date.getMonth() + 1)}-${
       twoDigitOutput(date.getDate())} ${
-      twoDigitOutput(date.getHours())}-${
-      twoDigitOutput(date.getMinutes())}-${
+      twoDigitOutput(date.getHours())}:${
+      twoDigitOutput(date.getMinutes())}:${
       twoDigitOutput(date.getSeconds())}`
   }
 
