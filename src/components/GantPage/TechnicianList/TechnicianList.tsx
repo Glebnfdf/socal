@@ -98,7 +98,7 @@ export default function TechnicianList(): JSX.Element {
   return (
     <section className="undispatched-bottom container">
       <div className="content">
-        <div className="main-container">
+        <div className="main-container main-container-two">
           <div id={"tech-scrollbar"} className="scroll-cont scroll-cont-bottom">
             <div className="scroll-content-wrapper">
               <div className="content">
@@ -107,6 +107,7 @@ export default function TechnicianList(): JSX.Element {
                     techList.map((technician: iTechnician): JSX.Element => {
                       return (
                         <div className="item" key={technician.id} data-tech-block-id={technician.id}>
+                          {/*<div className="blur-item"></div>*/}
                           <div className="item-left"
                              onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {techDragOver(event)}}
                              onDrop={(event: React.DragEvent<HTMLDivElement>): void => {techDropHandler(event, technician.id)}}
@@ -146,7 +147,7 @@ export default function TechnicianList(): JSX.Element {
                             </div>
                           </div>
                           <div
-                            className="item-right"
+                            className="item-right item-right-first"
                             onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {diagramDragOver(event)}}
                             onDrop={(event: React.DragEvent<HTMLDivElement>): void => {orderDropHandler(event, technician.id)}}
                           >
