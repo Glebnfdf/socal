@@ -81,34 +81,18 @@
 
       &.red {
         background-color: $red;
-
-        &:hover {
-          background-color: #dd3053;
-        }
       }
 
       &.orange {
         background-color: $orange;
-
-        &:hover {
-          background-color: #f90;
-        }
       }
 
       &.violet {
         background-color: $violet;
-
-        &:hover {
-          background-color: #2d10b2;
-        }
       }
 
       &.unknown-tag {
         background-color: #94bbff;
-
-        &:hover {
-          background-color: #7493c8;
-        }
       }
     }
   }
