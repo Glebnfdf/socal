@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import "../../../../../source/img/svgIcons/close-icon.svg";
 import "../../../../../source/img/svgIcons/point-dark.svg";
 import "../../../../../source/img/svgIcons/three-points.svg";
@@ -31,6 +31,19 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   if (incomingData) {
     orderData = orderListContext.getOrderById(incomingData.orderId);
   }
+
+  useEffect((): () => void => {
+    const pageClickHandler = (event: MouseEvent): void => {
+      if ((event.target as HTMLElement).closest(".popup") === null) {
+        popUpContext.setData(PopUpName.none, null)
+      }
+    }
+
+    document.addEventListener("click", pageClickHandler);
+    return (): void => {
+      document.removeEventListener("click", pageClickHandler);
+    };
+  }, []);
 
   return (
     <>
