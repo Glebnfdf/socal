@@ -163,10 +163,12 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
             }}
             draggable={"true"}
             onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {setAttr2DragElm(event)}}
-            onClick={(): void => {
+            onClick={(event: React.MouseEvent): void => {
               const transmittedData: iOrderPopUpInData = {
                 type: OrderPopUpType.Small,
-                orderId: order.id
+                orderId: order.id,
+                orderElm: event.currentTarget as HTMLElement,
+                container: container.current
               }
               popUpContext.setData(PopUpName.orderPopUp, transmittedData);
           }}

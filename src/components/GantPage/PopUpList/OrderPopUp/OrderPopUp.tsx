@@ -21,16 +21,37 @@ export enum OrderPopUpType {
 
 export interface iOrderPopUpInData {
   type: OrderPopUpType,
-  orderId: number
+  orderId: number,
+  orderElm: HTMLElement | null,
+  container: HTMLElement | null
 }
 
 export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
   const orderListContext: iOrderListContext = useContext(OrderListContext);
+  const smallPopUpWidth: number = 354;
+  const padding: number = 8;
 
   let orderData: iOrder | null = null;
+  let popUpStyles: React.CSSProperties = {};
+
   if (incomingData) {
     orderData = orderListContext.getOrderById(incomingData.orderId);
+
+    if (incomingData.orderElm && incomingData.container) {
+      const orderElmRect: DOMRect = incomingData.orderElm.getBoundingClientRect();
+      const container4Order: DOMRect = incomingData.container.getBoundingClientRect();
+      const sizeFromLeftOfOrder: number = orderElmRect.x - container4Order.x;
+      const sizeFromRightOfOrder: number =
+        (container4Order.x +  container4Order.width) - (orderElmRect.x + orderElmRect.width);
+      popUpStyles = {
+        position: "absolute",
+        left: sizeFromLeftOfOrder >= sizeFromRightOfOrder
+          ? (orderElmRect.x - smallPopUpWidth - padding).toString() + "px"
+          : (orderElmRect.x + orderElmRect.width + padding).toString() + "px",
+        top: orderElmRect.y
+      }
+    }
   }
 
   useEffect((): () => void => {
@@ -49,7 +70,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   return (
     <>
       {incomingData && orderData &&
-        <div className={"popup" + (incomingData.type === OrderPopUpType.Big ? " big" : " small")}>
+        <div className={"popup" + (incomingData.type === OrderPopUpType.Big ? " big" : " small")} style={popUpStyles}>
           <div className="close">
             <svg
               width="11"
