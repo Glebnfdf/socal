@@ -8,6 +8,7 @@ import "../../../../../source/img/svgIcons/clock-icon.svg";
 import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
+import getTagColorClass from "../../../../utils/getTagColorClass";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -64,7 +65,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
             <div className="number">
               № {orderData.id}
             </div>
-            <div className="btn-recall">
+            <div className={`btn-recall ${getTagColorClass(orderData.type)}`}>
               {orderData.type}
             </div>
           </div>

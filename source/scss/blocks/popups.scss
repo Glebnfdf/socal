@@ -67,10 +67,8 @@
 
     .btn-recall {
       transition: 0.2s;
-      background: #ee3e62;
       border-radius: 8px;
       padding: 5px 10px;
-
       font-family: $main-font;
       font-style: normal;
       font-weight: 700;
@@ -80,6 +78,38 @@
       align-items: center;
       text-align: center;
       color: #fff;
+
+      &.red {
+        background-color: $red;
+
+        &:hover {
+          background-color: #dd3053;
+        }
+      }
+
+      &.orange {
+        background-color: $orange;
+
+        &:hover {
+          background-color: #f90;
+        }
+      }
+
+      &.violet {
+        background-color: $violet;
+
+        &:hover {
+          background-color: #2d10b2;
+        }
+      }
+
+      &.unknown-tag {
+        background-color: #94bbff;
+
+        &:hover {
+          background-color: #7493c8;
+        }
+      }
     }
   }
 

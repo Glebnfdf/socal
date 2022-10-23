@@ -6,6 +6,7 @@ import { DragItemType } from "../../../utils/DragItemType";
 import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList/PopUpList";
 import { iOrderPopUpInData, OrderPopUpType } from "../PopUpList/OrderPopUp/OrderPopUp";
+import getTagColorClass from "../../../utils/getTagColorClass";
 
 interface iProps {
   orderListProp: iOrder[] | null,
@@ -123,19 +124,6 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
     return (lineNumber - 1) * lineHeight;
   }
 
-  function getColorClass(orderType: string): string {
-    switch (orderType.toLowerCase()) {
-      case "recall":
-        return "red";
-      case "repair":
-        return "orange";
-      case "estimation":
-        return "violet";
-      default:
-        return "unknown-tag";
-    }
-  }
-
   function setAttr2DragElm(event: React.DragEvent<HTMLDivElement>): void {
     const htmlElement: HTMLElement = event.target as HTMLElement;
     const orderId: string | null = htmlElement.getAttribute("data-order-id");
@@ -163,7 +151,7 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
         return (
           <div
             key={order.id}
-            className={`diagram order ${getColorClass(order.type)}`}
+            className={`diagram order ${getTagColorClass(order.type)}`}
             data-order-id={order.id}
             data-tech-id={technicianId === null ? "null" : technicianId}
             data-time-begin={order.time_slot_from}
