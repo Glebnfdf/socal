@@ -107,7 +107,7 @@ export default function TechnicianList(): JSX.Element {
                     techList.map((technician: iTechnician): JSX.Element => {
                       return (
                         <div className="item" key={technician.id} data-tech-block-id={technician.id}>
-                          {/*<div className="blur-item"></div>*/}
+                          <div className="blur-item"></div>
                           <div className="item-left"
                              onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {techDragOver(event)}}
                              onDrop={(event: React.DragEvent<HTMLDivElement>): void => {techDropHandler(event, technician.id)}}
