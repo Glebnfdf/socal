@@ -7,6 +7,7 @@ import "../../../../../source/img/svgIcons/calendar-icon.svg";
 import "../../../../../source/img/svgIcons/clock-icon.svg";
 import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList";
+import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -18,15 +19,22 @@ export enum OrderPopUpType {
 }
 
 export interface iOrderPopUpInData {
-  type: OrderPopUpType
+  type: OrderPopUpType,
+  orderId: number
 }
 
 export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
+  const orderListContext: iOrderListContext = useContext(OrderListContext);
+
+  let orderData: iOrder | null = null;
+  if (incomingData) {
+    orderData = orderListContext.getOrderById(incomingData.orderId);
+  }
 
   return (
     <>
-      {incomingData &&
+      {incomingData && orderData &&
         <div className={"popup" + (incomingData.type === OrderPopUpType.Big ? " big" : " small")}>
           <div className="close" onClick={(): void => {popUpContext.setData(PopUpName.none, null)}}>
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
@@ -35,10 +43,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
           </div>
           <div className="status">
             <div className="number">
-              № 1765798
+              № {orderData.id}
             </div>
             <div className="btn-recall">
-              Recall
+              {orderData.type}
             </div>
           </div>
           <div className="info">
@@ -46,12 +54,12 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
               <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
                 <use href="#point-dark"/>
               </svg>
-              <p className="txt">2429 E Clay Ave, Fresno, CA 93701</p>
+              <p className="txt">{orderData.address}</p>
             </div>
             <div className="contacts">
               <div className="top">
                 <div className="name">
-                  Jonh Smith
+                  {orderData.main_contact_name}
                 </div>
                 <div className="description">
                   Service#3 (Toshiba)
@@ -59,7 +67,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
               </div>
               <div className="bottom">
                 <div className="phone">
-                  +123 234 345 67 89
+                  {orderData.main_contact_phone}
                 </div>
                 <div className="mail">
                   mail@mail.com
