@@ -62,7 +62,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   {orderData.main_contact_name}
                 </div>
                 <div className="description">
-                  Service#3 (Toshiba)
+                  <span className={"dot-separator"}>&#9679;</span> Service#3 (Toshiba)
                 </div>
               </div>
               <div className="bottom">
@@ -70,7 +70,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   {orderData.main_contact_phone}
                 </div>
                 <div className="mail">
-                  mail@mail.com
+                  <span className={"dot-separator"}>&#9679;</span> mail@mail.com
                 </div>
               </div>
             </div>
