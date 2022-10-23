@@ -160,7 +160,7 @@ export default function UnDispatched(): JSX.Element {
             </div>
             <div className="col-hour">
               <p className="hour">
-                12 am
+                12 pm
               </p>
               <ul className="list">
                 <li className="item">
