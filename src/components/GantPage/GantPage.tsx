@@ -17,7 +17,7 @@ export default function GantPage(): JSX.Element {
           <PopUpContextProvider>
             <Header/>
             <main className="main">
-              <div className="blur-main blur-main-show"/>
+              <div className="blur-main"/>
               <UnDispatched/>
               <TechnicianList />
               <GMap/>
