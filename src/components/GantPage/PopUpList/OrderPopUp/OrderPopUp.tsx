@@ -10,6 +10,7 @@ import { PopUpName } from "../PopUpList";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
 import getTagColorClass from "../../../../utils/getTagColorClass";
 import { iTechInPopUpContext, TechInPopUpContext } from "../../../PopUpContext/TechInPopUpContext/TechInPopUpContext";
+import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -33,6 +34,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
   const orderListContext: iOrderListContext = useContext(OrderListContext);
   const techInPopUpContext: iTechInPopUpContext = useContext(TechInPopUpContext);
+  const techListContext: iTechListContext = useContext(TechListContext);
   const smallPopUpWidth: number = 354;
   const paddingFromOrder: number = 8;
   const paddingTopFromMap: number = 28;
@@ -44,10 +46,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const [isPopUpOnMap, setIsPopUpOnMap]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const [beginTime, setBeginTime]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date());
   const [endTime, setEndTime]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date());
-  const [mainTechId, setMainTechId]: [st: number | null, set: (st: number | null) => void] =
-    useState<number | null>(null);
-  const [secondTechId, setSecondTechId]: [st: number | null, set: (st: number | null) => void] =
-    useState<number | null>(null);
+  const [mainTech, setMainTech]: [st: iTechnician | null, set: (st: iTechnician | null) => void] =
+    useState<iTechnician | null>(null);
+  const [secondTech, setSecondTech]: [st: iTechnician | null, set: (st: iTechnician | null) => void] =
+    useState<iTechnician | null>(null);
 
   let orderData: iOrder | null = null;
 
@@ -90,8 +92,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       if (order) {
         setBeginTime(new Date(order.time_slot_from));
         setEndTime(new Date(order.time_slot_to));
-        setMainTechId(techInPopUpContext.getMainTechId());
-        setSecondTechId(techInPopUpContext.getSecondTechId());
+        const mainTechId: number | null = techInPopUpContext.getMainTechId();
+        const secondTechId: number | null = techInPopUpContext.getSecondTechId();
+        if (mainTechId !== null) {
+          setMainTech(techListContext.getTechDataById(mainTechId));
+        }
+        if (secondTechId !== null) {
+          setSecondTech(techListContext.getTechDataById(secondTechId));
+        }
       }
     }
   }, [incomingData]);
@@ -206,22 +214,39 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 </div>
               </div>
               <div className="add-block">
-
-                <div className="added-technical">
-                  <div className="left">
-                    <div className="person"><img src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#" /></div>
-                    <div className="names">
-                      <p className="top">Technicianc</p>
-                      <p className="name">Vasiliy Popandoplus</p>
+                {mainTech &&
+                  <div className="added-technical">
+                    <div className="left">
+                      <div className="person"><img src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#" /></div>
+                      <div className="names">
+                        <p className="top">Technicianc</p>
+                        <p className="name">{mainTech.name}</p>
+                      </div>
+                    </div>
+                    <div className="right">
+                      <svg width="37" height="38" viewBox="0 0 37 38" fill="none">
+                        <use href="#three-points" />
+                      </svg>
                     </div>
                   </div>
-                  <div className="right">
-                    <svg width="37" height="38" viewBox="0 0 37 38" fill="none">
-                      <use href="#three-points" />
-                    </svg>
+                }
+                {secondTech &&
+                  <div className="added-technical">
+                    <div className="left">
+                      <div className="person"><img src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#" /></div>
+                      <div className="names">
+                        <p className="top">Technicianc</p>
+                        <p className="name">{secondTech.name}</p>
+                      </div>
+                    </div>
+                    <div className="right">
+                      <svg width="37" height="38" viewBox="0 0 37 38" fill="none">
+                        <use href="#three-points" />
+                      </svg>
+                    </div>
                   </div>
-                </div>
-                <div className="btn-add">Add technicial</div>
+                }
+                {secondTech === null ? <div className="btn-add">Add technicial</div> : null}
               </div>
               <div className="btn-save">Save</div>
             </>

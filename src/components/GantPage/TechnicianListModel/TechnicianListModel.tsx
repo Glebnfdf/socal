@@ -13,13 +13,16 @@ export interface iTechnician extends iTechResponse {
 
 export interface iTechListContext {
   techList: iTechnician[],
-  changeTechSequence: (dragTechId: number, targetTechId: number) => void
+  changeTechSequence: (dragTechId: number, targetTechId: number) => void,
+  getTechDataById: (techId: number) => iTechnician | null
 }
 
 export const TechListContext: React.Context<iTechListContext> = React.createContext<iTechListContext>({
   techList: [],
   //eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  changeTechSequence: (dragTechId: number, targetTechId: number): void => {}
+  changeTechSequence: (dragTechId: number, targetTechId: number): void => {},
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  getTechDataById: (techId: number) => null
 })
 
 export default function TechnicianListModel({children}: iProps): JSX.Element {
@@ -28,7 +31,8 @@ export default function TechnicianListModel({children}: iProps): JSX.Element {
   const [TLContext, setTLContext]: [st: iTechListContext, set: (st: iTechListContext) => void] =
     useState<iTechListContext>({
       techList: [],
-      changeTechSequence: changeTechSeqHandler
+      changeTechSequence: changeTechSeqHandler,
+      getTechDataById: getTechDataById
     });
 
   useEffect((): void => {
@@ -86,6 +90,18 @@ export default function TechnicianListModel({children}: iProps): JSX.Element {
         return 1
       }
     })
+  }
+
+  function getTechDataById(techId: number): iTechnician | null {
+    if (!techList.current) {
+      return null;
+    }
+    for (let i = 0; i < techList.current.length; i++) {
+      if (techList.current[i].id === techId) {
+        return techList.current[i];
+      }
+    }
+    return null
   }
 
   return (
