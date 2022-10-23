@@ -49,8 +49,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     <>
       {incomingData && orderData &&
         <div className={"popup" + (incomingData.type === OrderPopUpType.Big ? " big" : " small")}>
-          <div className="close" onClick={(): void => {popUpContext.setData(PopUpName.none, null)}}>
-            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+          <div className="close">
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 11 11"
+              fill="none"
+              onClick={(): void => {popUpContext.setData(PopUpName.none, null)}}
+            >
               <use href="#close-icon"/>
             </svg>
           </div>
