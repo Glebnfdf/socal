@@ -556,6 +556,27 @@
       color: #0866fb;
     }
   }
+
+  .white-btn {
+    background-color: white;
+    color: #81a6e7;
+    border: 1px solid #e4efff;
+    cursor: pointer;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    transition: 0.2s;
+    border-radius: 15px;
+    padding: 16px 24px;
+
+    &:hover {
+      background-color: #edf6fe;
+    }
+  }
 }
 
 .popup-search {
