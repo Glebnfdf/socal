@@ -9,6 +9,7 @@ import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext"
 import { PopUpName } from "../PopUpList";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
 import getTagColorClass from "../../../../utils/getTagColorClass";
+import { iTechInPopUpContext, TechInPopUpContext } from "../../../PopUpContext/TechInPopUpContext/TechInPopUpContext";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -23,12 +24,15 @@ export interface iOrderPopUpInData {
   type: OrderPopUpType,
   orderId: number,
   orderElm: HTMLElement | null,
-  container: HTMLElement | null
+  container: HTMLElement | null,
+  mainTechId?: number | null,
+  secondTechId?: number | null
 }
 
 export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
   const orderListContext: iOrderListContext = useContext(OrderListContext);
+  const techInPopUpContext: iTechInPopUpContext = useContext(TechInPopUpContext);
   const smallPopUpWidth: number = 354;
   const paddingFromOrder: number = 8;
   const paddingTopFromMap: number = 28;
@@ -40,6 +44,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const [isPopUpOnMap, setIsPopUpOnMap]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const [beginTime, setBeginTime]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date());
   const [endTime, setEndTime]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date());
+  const [mainTechId, setMainTechId]: [st: number | null, set: (st: number | null) => void] =
+    useState<number | null>(null);
+  const [secondTechId, setSecondTechId]: [st: number | null, set: (st: number | null) => void] =
+    useState<number | null>(null);
 
   let orderData: iOrder | null = null;
 
@@ -82,6 +90,8 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       if (order) {
         setBeginTime(new Date(order.time_slot_from));
         setEndTime(new Date(order.time_slot_to));
+        setMainTechId(techInPopUpContext.getMainTechId());
+        setSecondTechId(techInPopUpContext.getSecondTechId());
       }
     }
   }, [incomingData]);
@@ -196,6 +206,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 </div>
               </div>
               <div className="add-block">
+
                 <div className="added-technical">
                   <div className="left">
                     <div className="person"><img src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#" /></div>
