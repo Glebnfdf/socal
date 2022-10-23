@@ -51,6 +51,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     useState<iTechnician | null>(null);
   const [secondTech, setSecondTech]: [st: iTechnician | null, set: (st: iTechnician | null) => void] =
     useState<iTechnician | null>(null);
+  const [isShowScroll4Info, setIsShowScroll4Info]: [st: boolean, set: (st: boolean) => void] = useState(false);
 
   let orderData: iOrder | null = null;
 
@@ -73,11 +74,18 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
   useEffect((): () => void => {
     let scrollbar: Scrollbar | null = null;
+
+    const showScrollHandler = (isShow: boolean): void => {
+      setIsShowScroll4Info(isShow);
+    }
+
     if (popUpType === OrderPopUpType.Big) {
       const orderInfoScrollCont: HTMLElement | null = document.getElementById("order-popup-info-scroll");
       if (orderInfoScrollCont) {
         scrollbar = new Scrollbar();
         scrollbar.init(orderInfoScrollCont);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        scrollbar.showScrollListener(showScrollHandler);
       }
     }
     return (): void => {
@@ -180,7 +188,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
           {popUpType === OrderPopUpType.Big
             ?
             <>
-              <div className="main-text">
+              <div className={"main-text" + (isShowScroll4Info ? " main-text-go-scroll" : "")}>
                 <div className="main-container">
                   <div id="order-popup-info-scroll" className="scroll-cont scroll-cont-popup">
                     <div className="scroll-content-wrapper">
@@ -199,7 +207,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                         officia deserunt mollitia animi, id est Laborum et dolorum fuga.
                       </div>
                     </div>
-                    <div className="scroll-vtrack">
+                    <div className="scroll-vtrack border-radius">
                       <div className="scroll-thumb"></div>
                     </div>
                   </div>
