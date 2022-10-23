@@ -5,6 +5,7 @@ import "./PopUpList.scss";
 import OrderPopUp, { iOrderPopUpInData } from "./OrderPopUp/OrderPopUp";
 
 export enum PopUpName {
+  none,
   orderPopUp
 }
 

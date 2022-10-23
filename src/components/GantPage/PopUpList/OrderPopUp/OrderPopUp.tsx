@@ -1,9 +1,12 @@
 import * as React from "react";
+import { useContext } from "react";
 import "../../../../../source/img/svgIcons/close-icon.svg";
 import "../../../../../source/img/svgIcons/point-dark.svg";
 import "../../../../../source/img/svgIcons/three-points.svg";
 import "../../../../../source/img/svgIcons/calendar-icon.svg";
 import "../../../../../source/img/svgIcons/clock-icon.svg";
+import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
+import { PopUpName } from "../PopUpList";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -19,11 +22,13 @@ export interface iOrderPopUpInData {
 }
 
 export default function OrderPopUp({incomingData}: iProps): JSX.Element {
+  const popUpContext: iPopUpContext = useContext(PopUpContext);
+
   return (
     <>
       {incomingData &&
         <div className={"popup" + (incomingData.type === OrderPopUpType.Big ? " big" : " small")}>
-          <div className="close">
+          <div className="close" onClick={(): void => {popUpContext.setData(PopUpName.none, null)}}>
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
               <use href="#close-icon"/>
             </svg>
