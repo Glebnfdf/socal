@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../../../../source/img/svgIcons/close-icon.svg";
 import "../../../../../source/img/svgIcons/point-dark.svg";
 import "../../../../../source/img/svgIcons/three-points.svg";
@@ -31,6 +31,8 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const orderListContext: iOrderListContext = useContext(OrderListContext);
   const smallPopUpWidth: number = 354;
   const padding: number = 8;
+  const [popUpType, setPopUpType]: [st: OrderPopUpType, set: (st: OrderPopUpType) => void] =
+    useState<OrderPopUpType>(incomingData ? incomingData.type : OrderPopUpType.Small);
 
   let orderData: iOrder | null = null;
   let popUpStyles: React.CSSProperties = {};
@@ -38,7 +40,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   if (incomingData) {
     orderData = orderListContext.getOrderById(incomingData.orderId);
 
-    if (incomingData.orderElm && incomingData.container) {
+    if (incomingData.orderElm && incomingData.container && popUpType === OrderPopUpType.Small) {
       const orderElmRect: DOMRect = incomingData.orderElm.getBoundingClientRect();
       const container4Order: DOMRect = incomingData.container.getBoundingClientRect();
       const sizeFromLeftOfOrder: number = orderElmRect.x - container4Order.x;
@@ -56,7 +58,8 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
   useEffect((): () => void => {
     const pageClickHandler = (event: MouseEvent): void => {
-      if ((event.target as HTMLElement).closest(".popup") === null) {
+      if ((event.target as HTMLElement).closest(".popup") === null &&
+        (event.target as HTMLElement).closest(".btn-save") === null) {
         popUpContext.setData(PopUpName.none, null)
       }
     }
@@ -70,7 +73,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   return (
     <>
       {incomingData && orderData &&
-        <div className={"popup" + (incomingData.type === OrderPopUpType.Big ? " big" : " small")} style={popUpStyles}>
+        <div className={"popup" + (popUpType === OrderPopUpType.Big ? " big" : " small")} style={popUpStyles}>
           <div className="close">
             <svg
               width="11"
@@ -116,7 +119,8 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
               </div>
             </div>
           </div>
-          {incomingData.type === OrderPopUpType.Big ?
+          {popUpType === OrderPopUpType.Big
+            ?
             <>
               <div className="main-text">
                 <main className="main-container">
@@ -200,7 +204,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
             </>
             :
             <div className={"button-row"}>
-              <div className="btn-save">
+              <div className="btn-save" onClick={(): void => {
+                setPopUpType(OrderPopUpType.Big);
+              }}>
                 Details
               </div>
               <div className="btn-add-2">
