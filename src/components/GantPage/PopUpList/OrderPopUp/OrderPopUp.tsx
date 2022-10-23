@@ -2,6 +2,8 @@ import * as React from "react";
 import "../../../../../source/img/svgIcons/close-icon.svg";
 import "../../../../../source/img/svgIcons/point-dark.svg";
 import "../../../../../source/img/svgIcons/three-points.svg";
+import "../../../../../source/img/svgIcons/calendar-icon.svg";
+import "../../../../../source/img/svgIcons/clock-icon.svg";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -88,9 +90,30 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 </main>
               </div>
               <div className="inputs">
-                <input type="date" className="date" />
-                <input type="time" className="time-from time" />
-                <input type="time" className="time-to time" />
+                <div className="date">
+                  <p className="title">
+                    15/03/2022
+                  </p>
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <use href="#calendar-icon"/>
+                  </svg>
+                </div>
+                <div className="time-from time">
+                  <p className="title">
+                    10:45 am
+                  </p>
+                  <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
+                    <use href="#clock-icon"/>
+                  </svg>
+                </div>
+                <div className="time-to time">
+                  <p className="title">
+                    2:00 pm
+                  </p>
+                  <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
+                    <use href="#clock-icon"/>
+                  </svg>
+                </div>
               </div>
               <div className="add-block">
                 <div className="added-technical">
