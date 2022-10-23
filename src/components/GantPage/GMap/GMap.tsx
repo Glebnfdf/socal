@@ -14,7 +14,7 @@ export default function GMap(): JSX.Element {
           </svg>
         </div>
       </div>
-      <Wrapper key={`${process.env.mapkey ? process.env.mapkey : ""}`}>
+      <Wrapper apiKey={`${process.env.mapkey ? process.env.mapkey : ""}`} language={"en"}>
         <MapComp/>
       </Wrapper>
     </div>
