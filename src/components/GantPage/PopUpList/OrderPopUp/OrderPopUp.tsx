@@ -38,6 +38,8 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const [popUpPosition, setPopUpPosition]: [st: React.CSSProperties, set: (st: React.CSSProperties) => void] =
     useState<React.CSSProperties>({display: "none"});
   const [isPopUpOnMap, setIsPopUpOnMap]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const [beginTime, setBeginTime]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date());
+  const [endTime, setEndTime]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date());
 
   let orderData: iOrder | null = null;
 
@@ -75,8 +77,34 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
           top: orderElmRect.y
         });
       }
+
+      const order: iOrder | null = orderListContext.getOrderById(incomingData.orderId);
+      if (order) {
+        setBeginTime(new Date(order.time_slot_from));
+        setEndTime(new Date(order.time_slot_to));
+      }
     }
   }, [incomingData]);
+
+  function getDate(date: Date): string {
+    return new Intl.DateTimeFormat("en-US", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    }).format(date);
+  }
+
+  function getTime(date: Date): string {
+    return new Intl.DateTimeFormat("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    }).format(date).slice(0, -2);
+  }
+
+  function getTimeType(date: Date): string {
+    return date.getHours() < 12 ? "am" : "pm";
+  }
 
   return (
     <>
@@ -145,19 +173,23 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
               </div>
               <div className="inputs">
                 <div className="date">
-                  <p className="title">15/03/2022</p>
+                  <p className="title">{getDate(beginTime)}</p>
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <use href="#calendar-icon"/>
                   </svg>
                 </div>
                 <div className="time-from time">
-                  <p className="title">10:45 am</p>
+                  <p className="title">
+                    {getTime(beginTime)} <span>{getTimeType(beginTime)}</span>
+                  </p>
                   <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <use href="#clock-icon"/>
                   </svg>
                 </div>
                 <div className="time-to time">
-                  <p className="title">2:00 pm</p>
+                  <p className="title">
+                    {getTime(endTime)} <span>{getTimeType(endTime)}</span>
+                  </p>
                   <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <use href="#clock-icon"/>
                   </svg>
