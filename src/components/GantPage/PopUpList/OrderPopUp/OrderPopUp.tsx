@@ -9,7 +9,7 @@ import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext"
 import { PopUpName } from "../PopUpList";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
 import getTagColorClass from "../../../../utils/getTagColorClass";
-import { iTechInPopUpContext, TechInPopUpContext } from "../../../PopUpContext/TechInPopUpContext/TechInPopUpContext";
+import { iOrderPopUpContext, OrderPopUpContext } from "../../../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
 import Scrollbar from "../../../../lib/scrollbar";
 
@@ -34,7 +34,7 @@ export interface iOrderPopUpInData {
 export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
   const orderListContext: iOrderListContext = useContext(OrderListContext);
-  const techInPopUpContext: iTechInPopUpContext = useContext(TechInPopUpContext);
+  const techInPopUpContext: iOrderPopUpContext = useContext(OrderPopUpContext);
   const techListContext: iTechListContext = useContext(TechListContext);
   const smallPopUpWidth: number = 354;
   const paddingFromOrder: number = 8;
@@ -114,8 +114,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
       const order: iOrder | null = orderListContext.getOrderById(incomingData.orderId);
       if (order) {
-        setBeginTime(new Date(order.time_slot_from));
-        setEndTime(new Date(order.time_slot_to));
+        const orderBeginTime: Date | null = techInPopUpContext.getBeginTime();
+        const orderEndTime: Date | null = techInPopUpContext.getEndTime();
+        if (orderBeginTime) {
+          setBeginTime(orderBeginTime);
+        }
+        if (orderEndTime) {
+          setEndTime(orderEndTime);
+        }
         const mainTechId: number | null = techInPopUpContext.getMainTechId();
         const secondTechId: number | null = techInPopUpContext.getSecondTechId();
         if (mainTechId !== null) {

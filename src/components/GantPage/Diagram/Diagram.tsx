@@ -7,7 +7,7 @@ import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList/PopUpList";
 import { iOrderPopUpInData, OrderPopUpType } from "../PopUpList/OrderPopUp/OrderPopUp";
 import getTagColorClass from "../../../utils/getTagColorClass";
-import { iTechInPopUpContext, TechInPopUpContext } from "../../PopUpContext/TechInPopUpContext/TechInPopUpContext";
+import { iOrderPopUpContext, OrderPopUpContext } from "../../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
 
 interface iProps {
   orderListProp: iOrder[] | null,
@@ -22,7 +22,7 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
   const [orderListWithLine, setOrderListWithLine]: [st: iOrderWithLine[] | null, set: (st: iOrderWithLine[] | null) => void] =
     useState<iOrderWithLine[] | null>(addLine2Order(orderListProp));
   const popUpContext: iPopUpContext = useContext(PopUpContext);
-  const techInPopUpContext: iTechInPopUpContext = useContext(TechInPopUpContext);
+  const techInPopUpContext: iOrderPopUpContext = useContext(OrderPopUpContext);
   const orderListContext: iOrderListContext = useContext(OrderListContext);
   const container: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
@@ -167,8 +167,11 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
             draggable={"true"}
             onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {setAttr2DragElm(event)}}
             onClick={(event: React.MouseEvent): void => {
-              techInPopUpContext.setMainTechId(orderListContext.getMainTechId(order.id));
-              techInPopUpContext.setSecondTechId(orderListContext.getSecondTechId(order.id));
+              techInPopUpContext.setTechIds(
+                orderListContext.getMainTechId(order.id),
+                orderListContext.getSecondTechId(order.id)
+              );
+              techInPopUpContext.setTimes(new Date(order.time_slot_from), new Date(order.time_slot_to));
               const transmittedData: iOrderPopUpInData = {
                 type: OrderPopUpType.Small,
                 orderId: order.id,

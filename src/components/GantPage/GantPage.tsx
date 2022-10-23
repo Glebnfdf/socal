@@ -8,7 +8,7 @@ import OrderListModel from "./OrderListModel/OrderListModel";
 import TechnicianListModel from "./TechnicianListModel/TechnicianListModel";
 import PopUpContextProvider from "../PopUpContext/PopUpContext";
 import GMap from "./GMap/GMap";
-import TechInPopUpProvider from "../PopUpContext/TechInPopUpContext/TechInPopUpContext";
+import OrderPopUpProvider from "../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
 
 export default function GantPage(): JSX.Element {
   return (
@@ -16,7 +16,7 @@ export default function GantPage(): JSX.Element {
       <OrderListModel>
         <TechnicianListModel>
           <PopUpContextProvider>
-            <TechInPopUpProvider>
+            <OrderPopUpProvider>
               <Header/>
               <main className="main">
                 <div className="blur-main"/>
@@ -26,7 +26,7 @@ export default function GantPage(): JSX.Element {
               </main>
               <footer className="container" />
               <PopUpList/>
-            </TechInPopUpProvider>
+            </OrderPopUpProvider>
           </PopUpContextProvider>
         </TechnicianListModel>
       </OrderListModel>
