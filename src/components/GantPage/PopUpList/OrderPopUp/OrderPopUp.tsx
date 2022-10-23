@@ -11,6 +11,7 @@ import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListMode
 import getTagColorClass from "../../../../utils/getTagColorClass";
 import { iTechInPopUpContext, TechInPopUpContext } from "../../../PopUpContext/TechInPopUpContext/TechInPopUpContext";
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
+import Scrollbar from "../../../../lib/scrollbar";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -64,12 +65,27 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
         popUpContext.setData(PopUpName.none, null)
       }
     }
-
     document.addEventListener("click", pageClickHandler);
     return (): void => {
       document.removeEventListener("click", pageClickHandler);
     };
   }, []);
+
+  useEffect((): () => void => {
+    let scrollbar: Scrollbar | null = null;
+    if (popUpType === OrderPopUpType.Big) {
+      const orderInfoScrollCont: HTMLElement | null = document.getElementById("order-popup-info-scroll");
+      if (orderInfoScrollCont) {
+        scrollbar = new Scrollbar();
+        scrollbar.init(orderInfoScrollCont);
+      }
+    }
+    return (): void => {
+      if (scrollbar) {
+        scrollbar.destroy();
+      }
+    };
+  }, [popUpType]);
 
   useEffect((): void => {
     if (incomingData) {
@@ -165,10 +181,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
             ?
             <>
               <div className="main-text">
-                <main className="main-container">
-                  <div className="scroll-cont-popup">
+                <div className="main-container">
+                  <div id="order-popup-info-scroll" className="scroll-cont scroll-cont-popup">
                     <div className="scroll-content-wrapper">
-                      <article className="content">
+                      <div className="content">
                         At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
                         deleniti atque
                         Corpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique
@@ -181,13 +197,13 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                         sunt in
                         culpa qui
                         officia deserunt mollitia animi, id est Laborum et dolorum fuga.
-                      </article>
+                      </div>
                     </div>
                     <div className="scroll-vtrack">
                       <div className="scroll-thumb"></div>
                     </div>
                   </div>
-                </main>
+                </div>
               </div>
               <div className="inputs">
                 <div className="date">

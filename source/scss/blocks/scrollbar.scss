@@ -59,3 +59,10 @@
 .main-container-two {
   width: 106%;
 }
+
+#order-popup-info-scroll {
+  .content {
+    max-height: 370px;
+    padding-right: 15px;
+  }
+}
