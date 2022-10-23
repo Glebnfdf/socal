@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "../../../../../source/img/svgIcons/close-icon.svg";
 import "../../../../../source/img/svgIcons/point-dark.svg";
 import "../../../../../source/img/svgIcons/three-points.svg";
@@ -12,6 +12,7 @@ import getTagColorClass from "../../../../utils/getTagColorClass";
 import { iOrderPopUpContext, OrderPopUpContext } from "../../../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
 import Scrollbar from "../../../../lib/scrollbar";
+import Calendar from "react-calendar";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -34,7 +35,7 @@ export interface iOrderPopUpInData {
 export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
   const orderListContext: iOrderListContext = useContext(OrderListContext);
-  const techInPopUpContext: iOrderPopUpContext = useContext(OrderPopUpContext);
+  const orderPopUpContext: iOrderPopUpContext = useContext(OrderPopUpContext);
   const techListContext: iTechListContext = useContext(TechListContext);
   const smallPopUpWidth: number = 354;
   const paddingFromOrder: number = 8;
@@ -52,6 +53,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const [secondTech, setSecondTech]: [st: iTechnician | null, set: (st: iTechnician | null) => void] =
     useState<iTechnician | null>(null);
   const [isShowScroll4Info, setIsShowScroll4Info]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const isShowCalendar: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const [showCalendar, setShowCalendar]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const [calendarDate, setCalendarDate]: [st: Date, set: (st: Date) => void] = useState(new Date());
 
   let orderData: iOrder | null = null;
 
@@ -61,9 +65,26 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
   useEffect((): () => void => {
     const pageClickHandler = (event: MouseEvent): void => {
+      // костыль: почему-то выбор месяца или года в календаре при проверке через closest указывает, что target не
+      // относится к классу календаря, поэтому мы отталкиваемся, что target в тех случаях является abbr и просто игнорим
+      // проверки для этого тега
+      if ((event.target as HTMLElement).tagName === "ABBR") {
+        return;
+      }
+
       if ((event.target as HTMLElement).closest(".popup") === null &&
         (event.target as HTMLElement).closest(".btn-save") === null) {
         popUpContext.setData(PopUpName.none, null)
+      } else {
+        // логика тут такая: когда пользователь нажимает на иконку календаря, мы переключаем состояние на показ
+        // компонента, но только после этого срабатывает событие click и чтобы оно само себя не закрывало при первом
+        // проходе мы переключаем isShowCalendar.current
+        if (isShowCalendar.current) {
+          isShowCalendar.current = false;
+          setShowCalendar(false);
+        } else {
+          isShowCalendar.current = true;
+        }
       }
     }
     document.addEventListener("click", pageClickHandler);
@@ -111,28 +132,27 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
           top: orderElmRect.y
         });
       }
-
-      const order: iOrder | null = orderListContext.getOrderById(incomingData.orderId);
-      if (order) {
-        const orderBeginTime: Date | null = techInPopUpContext.getBeginTime();
-        const orderEndTime: Date | null = techInPopUpContext.getEndTime();
-        if (orderBeginTime) {
-          setBeginTime(orderBeginTime);
-        }
-        if (orderEndTime) {
-          setEndTime(orderEndTime);
-        }
-        const mainTechId: number | null = techInPopUpContext.getMainTechId();
-        const secondTechId: number | null = techInPopUpContext.getSecondTechId();
-        if (mainTechId !== null) {
-          setMainTech(techListContext.getTechDataById(mainTechId));
-        }
-        if (secondTechId !== null) {
-          setSecondTech(techListContext.getTechDataById(secondTechId));
-        }
-      }
-    }
+   }
   }, [incomingData]);
+
+  useEffect((): void => {
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime) {
+      setBeginTime(orderBeginTime);
+    }
+    if (orderEndTime) {
+      setEndTime(orderEndTime);
+    }
+    const mainTechId: number | null = orderPopUpContext.getMainTechId();
+    const secondTechId: number | null = orderPopUpContext.getSecondTechId();
+    if (mainTechId !== null) {
+      setMainTech(techListContext.getTechDataById(mainTechId));
+    }
+    if (secondTechId !== null) {
+      setSecondTech(techListContext.getTechDataById(secondTechId));
+    }
+  }, [orderPopUpContext.contextData]);
 
   function getDate(date: Date): string {
     return new Intl.DateTimeFormat("en-US", {
@@ -147,7 +167,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true
-    }).format(date).slice(0, -2);
+    }).format(date).slice(0, -3);
   }
 
   function getTimeType(date: Date): string {
@@ -220,11 +240,17 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 </div>
               </div>
               <div className="inputs">
-                <div className="date">
+                <div className="date" onClick={(): void => {
+                  isShowCalendar.current = false;
+                  setShowCalendar(true);
+                }}>
                   <p className="title">{getDate(beginTime)}</p>
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <use href="#calendar-icon"/>
                   </svg>
+                  <div className={"popup-calendar-cont" + (showCalendar ? "" : " hide")}>
+                    <Calendar calendarType={"US"} locale={"en"} value={calendarDate} onChange={setCalendarDate} />
+                  </div>
                 </div>
                 <div className="time-from time">
                   <p className="title">

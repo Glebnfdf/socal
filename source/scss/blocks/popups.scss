@@ -306,6 +306,17 @@
         align-items: center;
       }
 
+      .popup-calendar-cont {
+        position: absolute;
+        z-index: 41;
+        top: -110px;
+        right: -1px;
+
+        &.hide {
+          display: none;
+        }
+      }
+
       &:after {
         top: -9px;
         background: #fff;
@@ -325,6 +336,8 @@
         border: 1px solid #81a6e7;
       }
     }
+
+
 
     .time-error {
       border: 1px solid #EE3E62 !important;

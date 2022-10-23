@@ -6,6 +6,7 @@ interface iProps {
 }
 
 export interface iOrderPopUpContext {
+  contextData: iOrderPopUpData,
   getMainTechId: () => number | null,
   getSecondTechId: () => number | null,
   setTechIds: (mainTechId: number | null, secondTechId: number | null) => void,
@@ -22,6 +23,12 @@ interface iOrderPopUpData {
 }
 
 export const OrderPopUpContext: React.Context<iOrderPopUpContext> = React.createContext<iOrderPopUpContext>({
+  contextData: {
+    mainTechId: null,
+    secondTechId: null,
+    beginTime: new Date(),
+    endTime: new Date()
+  },
   getMainTechId: () => null,
   getSecondTechId: () => null,
   //eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
@@ -41,9 +48,14 @@ export default function OrderPopUpProvider({children}: iProps): JSX.Element {
     beginTime: new Date(),
     endTime: new Date()
   });
-  //eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [contextState, setContextState]: [st: iOrderPopUpContext, set: (st: iOrderPopUpContext) => void] =
     useState<iOrderPopUpContext>({
+      contextData: {
+        mainTechId: null,
+        secondTechId: null,
+        beginTime: new Date(),
+        endTime: new Date()
+      },
       getMainTechId: getMainTechId,
       getSecondTechId: getSecondTechId,
       setTechIds: setTechIds,
@@ -72,6 +84,7 @@ export default function OrderPopUpProvider({children}: iProps): JSX.Element {
     }
     orderPopUpData.current.mainTechId = mainTechId;
     orderPopUpData.current.secondTechId = secondTechId;
+    setContextState({...contextState, contextData: orderPopUpData.current});
   }
 
   function getBeginTime(): Date | null {
@@ -94,6 +107,7 @@ export default function OrderPopUpProvider({children}: iProps): JSX.Element {
     }
     orderPopUpData.current.beginTime = beginOrderTime;
     orderPopUpData.current.endTime = endOrderTime;
+    setContextState({...contextState, contextData: orderPopUpData.current});
   }
 
   return (
