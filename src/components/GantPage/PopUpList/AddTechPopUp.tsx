@@ -61,7 +61,21 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
         <div id={"add-tech-scroll-cont"} className="scroll-cont">
           <div className="scroll-content-wrapper scroll-content-wrapper-popup-add">
             <ul className="list">
-              {techListContext.techList.map((technician: iTechnician): JSX.Element => {
+              {techListContext.techList.map((technician: iTechnician): JSX.Element | null => {
+                let isShowTechInList: boolean = true;
+                if (incomingData) {
+                  if (incomingData.operationType === AddTechOperationType.AddMainTech &&
+                      incomingData.secondTechId === technician.id) {
+                    isShowTechInList = false;
+                  }
+                  if (incomingData.operationType === AddTechOperationType.AddSecondTech &&
+                    incomingData.mainTechId === technician.id) {
+                    isShowTechInList = false;
+                  }
+                }
+                if (!isShowTechInList) {
+                  return null;
+                }
                 return (
                   <li className="item" key={technician.id}>
                     <div className="left">
