@@ -100,13 +100,19 @@ export default function OrderListModel({children}: iProps): JSX.Element {
     const orders: iOrder[] = [];
     if (orderList.current) {
       orderList.current.forEach((order: iOrder): void => {
-        orders.push({
-          ...order,
-          mainTechId: orderId === order.id ? technicianId : order.mainTechId,
-          secondTechId: orderId === order.id ? secondTechId : order.secondTechId,
-          time_slot_from: orderId === order.id ? orderTimeBegin.toJSON() : order.time_slot_from,
-          time_slot_to: orderId === order.id ? orderTmeEnd.toJSON() : order.time_slot_to
-        });
+        let isOrderNeedPutInModel: boolean = true;
+        if (order.id === orderId && orderTimeBegin.toDateString() !== gantLoaderContext.getSelectedDate().toDateString()) {
+          isOrderNeedPutInModel = false;
+        }
+        if (isOrderNeedPutInModel) {
+          orders.push({
+            ...order,
+            mainTechId: orderId === order.id ? technicianId : order.mainTechId,
+            secondTechId: orderId === order.id ? secondTechId : order.secondTechId,
+            time_slot_from: orderId === order.id ? orderTimeBegin.toJSON() : order.time_slot_from,
+            time_slot_to: orderId === order.id ? orderTmeEnd.toJSON() : order.time_slot_to
+          });
+        }
       })
     }
     orderList.current = orders;
@@ -130,11 +136,9 @@ export default function OrderListModel({children}: iProps): JSX.Element {
       const data: IOrderUpdateReqData = {
         task_id: orderId,
         technician_id: technicianId,
+        second_technician_id: secondTechId,
         time_slot_from: shortDateFormat(orderTimeBegin),
         time_slot_to: shortDateFormat(orderTmeEnd)
-      }
-      if (secondTechId !== null) {
-        data.second_technician_id = secondTechId;
       }
 
       const request: RequestInit = {

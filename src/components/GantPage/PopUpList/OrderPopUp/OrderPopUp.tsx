@@ -5,6 +5,8 @@ import "../../../../../source/img/svgIcons/point-dark.svg";
 import "../../../../../source/img/svgIcons/three-points.svg";
 import "../../../../../source/img/svgIcons/calendar-icon.svg";
 import "../../../../../source/img/svgIcons/clock-icon.svg";
+import "../../../../../source/img/svgIcons/trash.svg";
+import "../../../../../source/img/svgIcons/pen.svg";
 import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
@@ -13,6 +15,9 @@ import { iOrderPopUpContext, OrderPopUpContext } from "../../../PopUpContext/Ord
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
 import Scrollbar from "../../../../lib/scrollbar";
 import Calendar from "react-calendar";
+import twoDigitOutput from "../../../../utils/twoDigitsOutput";
+import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
+import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -56,6 +61,17 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const isShowCalendar: React.MutableRefObject<boolean> = useRef<boolean>(false);
   const [showCalendar, setShowCalendar]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const [calendarDate, setCalendarDate]: [st: Date, set: (st: Date) => void] = useState(new Date());
+  const isShowBeginTimeDrop: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const [showBeginTimeDrop, setShowBeginTimeDrop]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const isShowEndTimeDrop: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const [showEndTimeDrop, setShowEndTimeDrop]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const [isDateWrong, setIsDateWrong]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const [isBeginTimeWrong, setIsBeginTimeWrong]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const [isEndTimeWrong, setIsEndTimeWrong]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const isShowMenu4MainTech: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const [showMenu4MainTech, setShowMenu4MainTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const isShowMenu4SecondTech: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const [showMenu4SecondTech, setShowMenu4SecondTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
 
   let orderData: iOrder | null = null;
 
@@ -84,6 +100,34 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
           setShowCalendar(false);
         } else {
           isShowCalendar.current = true;
+        }
+
+        if (isShowBeginTimeDrop.current) {
+          isShowBeginTimeDrop.current = false;
+          setShowBeginTimeDrop(false);
+        } else {
+          isShowBeginTimeDrop.current = true;
+        }
+
+        if (isShowEndTimeDrop.current) {
+          isShowEndTimeDrop.current = false;
+          setShowEndTimeDrop(false);
+        } else {
+          isShowEndTimeDrop.current = true;
+        }
+
+        if (isShowMenu4MainTech.current) {
+          isShowMenu4MainTech.current = false;
+          setShowMenu4MainTech(false);
+        } else {
+          isShowMenu4MainTech.current = true;
+        }
+
+        if (isShowMenu4SecondTech.current) {
+          isShowMenu4SecondTech.current = false;
+          setShowMenu4SecondTech(false);
+        } else {
+          isShowMenu4SecondTech.current = true;
         }
       }
     }
@@ -132,6 +176,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
           top: orderElmRect.y
         });
       }
+
+      if (incomingData.type === OrderPopUpType.Big) {
+        setPopUpPosition({});
+      }
+
+      if (incomingData.mainTechId !== undefined && incomingData.secondTechId !== undefined) {
+        orderPopUpContext.setTechIds(incomingData.mainTechId, incomingData.secondTechId);
+      }
    }
   }, [incomingData]);
 
@@ -140,6 +192,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     const orderEndTime: Date | null = orderPopUpContext.getEndTime();
     if (orderBeginTime) {
       setBeginTime(orderBeginTime);
+      setCalendarDate(orderBeginTime);
     }
     if (orderEndTime) {
       setEndTime(orderEndTime);
@@ -148,18 +201,19 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     const secondTechId: number | null = orderPopUpContext.getSecondTechId();
     if (mainTechId !== null) {
       setMainTech(techListContext.getTechDataById(mainTechId));
+    } else {
+      setMainTech(null);
     }
     if (secondTechId !== null) {
       setSecondTech(techListContext.getTechDataById(secondTechId));
+    } else {
+      setSecondTech(null);
     }
-  }, [orderPopUpContext.contextData]);
+  }, [orderPopUpContext]);
 
   function getDate(date: Date): string {
-    return new Intl.DateTimeFormat("en-US", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric"
-    }).format(date);
+    // dd/mm/yyyy
+    return `${twoDigitOutput(date.getDate())}/${twoDigitOutput(date.getMonth() + 1)}/${date.getFullYear()}`
   }
 
   function getTime(date: Date): string {
@@ -172,6 +226,150 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
   function getTimeType(date: Date): string {
     return date.getHours() < 12 ? "am" : "pm";
+  }
+
+  useEffect((): void => {
+    setIsDateWrong(false);
+    if (!showCalendar) {
+      return;
+    }
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      orderBeginTime.setFullYear(calendarDate.getFullYear(), calendarDate.getMonth(), calendarDate.getDate());
+      orderEndTime.setFullYear(calendarDate.getFullYear(), calendarDate.getMonth(), calendarDate.getDate());
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+    setShowCalendar(false);
+  }, [calendarDate]);
+
+  function beginTChangeHour(newHour: number): void {
+    setIsBeginTimeWrong(false);
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      orderBeginTime.setHours(convert12To42(orderBeginTime, newHour));
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function beginTChangeMinute(newMinutes: number): void {
+    setIsBeginTimeWrong(false);
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      orderBeginTime.setMinutes(newMinutes);
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function endTChangeHour(newHour: number): void {
+    setIsEndTimeWrong(false);
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      orderEndTime.setHours(convert12To42(orderEndTime, newHour));
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function endTChangeMinute(newMinutes: number): void {
+    setIsEndTimeWrong(false);
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      orderEndTime.setMinutes(newMinutes);
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function convert12To42(date: Date, hour: number): number {
+    const isPM: boolean = date.getHours() > 12;
+    if (isPM && hour < 12) {
+      hour += 12;
+    }
+    if (!isPM && hour === 12) {
+      hour = 0;
+    }
+    return hour;
+  }
+
+  function switchHourInBeginT(): void {
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      const isPM: boolean = orderBeginTime.getHours() >= 12;
+      if (isPM) {
+        orderBeginTime.setHours(orderBeginTime.getHours() - 12);
+      } else {
+        orderBeginTime.setHours(orderBeginTime.getHours() + 12);
+      }
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function switchHourInEndT(): void {
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      const isPM: boolean = orderEndTime.getHours() >= 12;
+      if (isPM) {
+        orderEndTime.setHours(orderEndTime.getHours() - 12);
+      } else {
+        orderEndTime.setHours(orderEndTime.getHours() + 12);
+      }
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function saveBtnHandler(): void {
+    let isValid: boolean = true;
+    const today: Date = new Date();
+    today.setHours(0,0,0,0);
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    const mainTechId: number | null = orderPopUpContext.getMainTechId();
+    const secondTechId: number | null = orderPopUpContext.getSecondTechId();
+
+    if (!orderBeginTime || !orderEndTime) {
+      return
+    }
+    if (today.getTime() > orderBeginTime.getTime()) {
+      isValid = false;
+      setIsDateWrong(true);
+    }
+
+    if (orderBeginTime.getHours() < 7 || orderBeginTime.getHours() > 21) {
+      isValid = false;
+      setIsBeginTimeWrong(true);
+    }
+
+    if (orderEndTime.getHours() < 7 || orderEndTime.getHours() > 21) {
+      isValid = false;
+      setIsEndTimeWrong(true);
+    }
+
+    if (orderBeginTime.getTime() > orderEndTime.getTime()) {
+      isValid = false;
+      setIsEndTimeWrong(true);
+    }
+
+    if (mainTechId === null) {
+      isValid = false;
+      popUpContext.setData(PopUpName.simpleError, null)
+    }
+
+    if (!orderData || !isValid) {
+      return;
+    }
+
+    orderListContext.updateOrder(orderData.id, mainTechId, secondTechId, orderBeginTime, orderEndTime);
+    popUpContext.setData(PopUpName.none, null)
+  }
+
+  function removeSecondTech(): void {
+    const mainTechId: number | null = orderPopUpContext.getMainTechId();
+    orderPopUpContext.setTechIds(mainTechId, null);
   }
 
   return (
@@ -240,7 +438,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 </div>
               </div>
               <div className="inputs">
-                <div className="date" onClick={(): void => {
+                <div className={"date" + (isDateWrong ? " time-error": "")} onClick={(): void => {
                   isShowCalendar.current = false;
                   setShowCalendar(true);
                 }}>
@@ -252,21 +450,47 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <Calendar calendarType={"US"} locale={"en"} value={calendarDate} onChange={setCalendarDate} />
                   </div>
                 </div>
-                <div className="time-from time">
-                  <p className="title">
-                    {getTime(beginTime)} <span>{getTimeType(beginTime)}</span>
-                  </p>
+                <div className={"time-from time" + (isBeginTimeWrong ? " time-error" : "")}>
+                  <div>
+                    <div className={"time-inline-block time-padding-right"} onClick={(): void => {
+                      isShowBeginTimeDrop.current = false;
+                      setShowBeginTimeDrop(true);
+                    }}>
+                      {getTime(beginTime)}
+                    </div>
+                    <div className={"time-inline-block"} onClick={(): void => {
+                      switchHourInBeginT();
+                    }}>
+                      {getTimeType(beginTime)}
+                    </div>
+                  </div>
                   <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <use href="#clock-icon"/>
                   </svg>
+                  <div className={"time-drop-menu-cont" + (showBeginTimeDrop ? "" : " hide")}>
+                    <TimeDropMenu dateProp={beginTime} changeHour={beginTChangeHour} changeMinute={beginTChangeMinute}/>
+                  </div>
                 </div>
-                <div className="time-to time">
-                  <p className="title">
-                    {getTime(endTime)} <span>{getTimeType(endTime)}</span>
-                  </p>
+                <div className={"time-to time" + (isEndTimeWrong ? " time-error" : "")}>
+                  <div>
+                    <div className={"time-inline-block time-padding-right"} onClick={(): void => {
+                      isShowEndTimeDrop.current = false;
+                      setShowEndTimeDrop(true);
+                    }}>
+                      {getTime(endTime)}
+                    </div>
+                    <div className={"time-inline-block"} onClick={(): void => {
+                      switchHourInEndT();
+                    }}>
+                      {getTimeType(endTime)}
+                    </div>
+                  </div>
                   <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <use href="#clock-icon"/>
                   </svg>
+                  <div className={"time-drop-menu-cont" + (showEndTimeDrop ? "" : " hide")}>
+                    <TimeDropMenu dateProp={endTime} changeHour={endTChangeHour} changeMinute={endTChangeMinute}/>
+                  </div>
                 </div>
               </div>
               <div className="add-block">
@@ -280,9 +504,33 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       </div>
                     </div>
                     <div className="right">
-                      <svg width="37" height="38" viewBox="0 0 37 38" fill="none">
+                      <svg width="37" height="38" viewBox="0 0 37 38" fill="none" onClick={(): void => {
+                        isShowMenu4MainTech.current = false;
+                        setShowMenu4MainTech(true);
+                      }}>
                         <use href="#three-points" />
                       </svg>
+                      <div className={"tech-drop-menu-cont" + (showMenu4MainTech ? "" : " hide")}>
+                        <div className="delete-popup">
+                          <div className="bottom" onClick={(): void => {
+                            if (!orderData) {
+                              return;
+                            }
+                            const transmittedData: iAddTechInData = {
+                              orderId: orderData.id,
+                              operationType: AddTechOperationType.AddMainTech,
+                              mainTechId: mainTech ? mainTech.id : null,
+                              secondTechId: secondTech ? secondTech.id : null
+                            }
+                            popUpContext.setData(PopUpName.addTech, transmittedData);
+                          }}>
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                              <use href="#pen" />
+                            </svg>
+                            <p className="title">Edit</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 }
@@ -296,15 +544,63 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       </div>
                     </div>
                     <div className="right">
-                      <svg width="37" height="38" viewBox="0 0 37 38" fill="none">
+                      <svg width="37" height="38" viewBox="0 0 37 38" fill="none" onClick={(): void => {
+                        isShowMenu4SecondTech.current = false;
+                        setShowMenu4SecondTech(true);
+                      }}>
                         <use href="#three-points" />
                       </svg>
+                      <div className={"tech-drop-menu-cont" + (showMenu4SecondTech ? "" : " hide")}>
+                        <div className="delete-popup">
+                          <div className="top" onClick={(): void => {removeSecondTech();}}>
+                            <svg width="11" height="13" viewBox="0 0 11 13" fill="none">
+                              <use href="#trash" />
+                            </svg>
+                            <p className="title">Delete</p>
+                          </div>
+                          <div className="bottom" onClick={(): void => {
+                            if (!orderData) {
+                              return;
+                            }
+                            const transmittedData: iAddTechInData = {
+                              orderId: orderData.id,
+                              operationType: AddTechOperationType.AddSecondTech,
+                              mainTechId: mainTech ? mainTech.id : null,
+                              secondTechId: secondTech ? secondTech.id : null
+                            }
+                            popUpContext.setData(PopUpName.addTech, transmittedData);
+                          }}>
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                              <use href="#pen" />
+                            </svg>
+                            <p className="title">Edit</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 }
-                {secondTech === null ? <div className="btn-add">Add technicial</div> : null}
+                {secondTech === null
+                  ?
+                  <div
+                    className="btn-add"
+                    onClick={(): void => {
+                      if (!orderData) {
+                        return;
+                      }
+                      const transmittedData: iAddTechInData = {
+                        orderId: orderData.id,
+                        operationType: mainTech ? AddTechOperationType.AddSecondTech : AddTechOperationType.AddMainTech,
+                        mainTechId: mainTech ? mainTech.id : null,
+                        secondTechId: null
+                      }
+                      popUpContext.setData(PopUpName.addTech, transmittedData);
+                    }}
+                  >Add technicial</div>
+                  : null
+                }
               </div>
-              <div className="btn-save">Save</div>
+              <div className="btn-save" onClick={(): void => {saveBtnHandler()}}>Save</div>
             </>
             :
             <div className={"button-row"}>
