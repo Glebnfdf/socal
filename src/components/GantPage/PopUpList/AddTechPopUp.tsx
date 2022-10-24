@@ -37,7 +37,14 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
       scrollbar.init(scrollCont);
     }
 
+    const pageClickHandler = (event: MouseEvent): void => {
+      if ((event.target as HTMLElement).closest(".popup-search") === null) {
+        popUpContext.setData(PopUpName.none, null)
+      }
+    }
+    document.addEventListener("click", pageClickHandler);
     return (): void => {
+      document.removeEventListener("click", pageClickHandler);
       if (scrollbar) {
         scrollbar.destroy();
       }
