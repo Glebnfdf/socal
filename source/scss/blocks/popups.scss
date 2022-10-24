@@ -894,8 +894,19 @@
   height: 283px;
   overflow-x: hidden;
 
-  &::-webkit-scrollbar {
-    width: 0;
+  //&::-webkit-scrollbar {
+  //  width: 0;
+  //}
+
+  .left,
+  .right {
+    height: 273px;
+    overflow: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .item {
