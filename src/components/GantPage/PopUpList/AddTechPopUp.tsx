@@ -1,8 +1,25 @@
 import * as React from "react";
 import "../../../../source/img/svgIcons/close-icon.svg";
 import "../../../../source/img/svgIcons/union.svg";
+import Scrollbar from "../../../lib/scrollbar";
+import { useEffect } from "react";
 
 export default function AddTechPopUp(): JSX.Element {
+  useEffect((): () => void => {
+    let scrollbar: Scrollbar | null = null;
+    const scrollCont: HTMLElement | null = document.getElementById("add-tech-scroll-cont");
+    if (scrollCont) {
+      scrollbar = new Scrollbar();
+      scrollbar.init(scrollCont);
+    }
+
+    return (): void => {
+      if (scrollbar) {
+        scrollbar.destroy();
+      }
+    };
+  }, []);
+
   return (
     <div className="popup-search">
       <div className="close">
@@ -22,7 +39,7 @@ export default function AddTechPopUp(): JSX.Element {
         <input className="search" placeholder="Search" id="search-input" type="text"/>
       </div>
       <main className="main-container">
-        <div className="scroll-cont">
+        <div id={"add-tech-scroll-cont"} className="scroll-cont">
           <div className="scroll-content-wrapper scroll-content-wrapper-popup-add">
             <ul className="list">
               <li className="item">
