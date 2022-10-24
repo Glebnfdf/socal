@@ -343,7 +343,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
     if (mainTechId === null) {
       isValid = false;
-      popUpContext.setData(PopUpName.SimpleError, null)
+      popUpContext.setData(PopUpName.simpleError, null)
     }
 
     if (!orderData || !isValid) {
@@ -546,7 +546,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     </div>
                   </div>
                 }
-                {secondTech === null ? <div className="btn-add">Add technicial</div> : null}
+                {secondTech === null
+                  ?
+                  <div
+                    className="btn-add"
+                    onClick={(): void => {popUpContext.setData(PopUpName.addTech, null)}}
+                  >Add technicial</div>
+                  : null
+                }
               </div>
               <div className="btn-save" onClick={(): void => {saveBtnHandler()}}>Save</div>
             </>
