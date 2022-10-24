@@ -253,6 +253,34 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     return hour;
   }
 
+  function switchHourInBeginT(): void {
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      const isPM: boolean = orderBeginTime.getHours() >= 12;
+      if (isPM) {
+        orderBeginTime.setHours(orderBeginTime.getHours() - 12);
+      } else {
+        orderBeginTime.setHours(orderBeginTime.getHours() + 12);
+      }
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function switchHourInEndT(): void {
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      const isPM: boolean = orderEndTime.getHours() >= 12;
+      if (isPM) {
+        orderEndTime.setHours(orderEndTime.getHours() - 12);
+      } else {
+        orderEndTime.setHours(orderEndTime.getHours() + 12);
+      }
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
   return (
     <>
       {incomingData && orderData &&
@@ -339,7 +367,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     }}>
                       {getTime(beginTime)}
                     </div>
-                    <div className={"time-inline-block"}>
+                    <div className={"time-inline-block"} onClick={(): void => {
+                      switchHourInBeginT();
+                    }}>
                       {getTimeType(beginTime)}
                     </div>
                   </div>
@@ -358,7 +388,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     }}>
                       {getTime(endTime)}
                     </div>
-                    <div className={"time-inline-block"}>
+                    <div className={"time-inline-block"} onClick={(): void => {
+                      switchHourInEndT();
+                    }}>
                       {getTimeType(endTime)}
                     </div>
                   </div>
