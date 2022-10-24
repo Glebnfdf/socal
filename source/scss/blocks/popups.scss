@@ -461,7 +461,7 @@
     align-items: center;
 
     .added-technical {
-      cursor: pointer;
+      //cursor: pointer;
       transition: 0.2s;
       padding: 9px 12px;
       background: #E9F1FF;
@@ -507,6 +507,7 @@
       .right {
         margin-left: 12px;
         position: relative;
+        cursor: pointer;
 
         svg {
           transition: .2s;
@@ -518,10 +519,10 @@
         }
       }
 
-      &:hover {
-        background: #d1e3fe;
-        color: #0866fb;
-      }
+      //&:hover {
+      //  background: #d1e3fe;
+      //  color: #0866fb;
+      //}
 
       &:first-child {
         margin-right: 14px;
