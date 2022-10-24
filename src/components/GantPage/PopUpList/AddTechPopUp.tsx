@@ -46,7 +46,20 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
 
   return (
     <div className="popup-search">
-      <div className="close">
+      <div className="close" onClick={(): void => {
+        if (!incomingData) {
+          return;
+        }
+        const transmittedDate: iOrderPopUpInData = {
+          type: OrderPopUpType.Big,
+          orderId: incomingData.orderId,
+          orderElm: null,
+          container: null,
+          mainTechId: incomingData.mainTechId,
+          secondTechId: incomingData.secondTechId
+        }
+        popUpContext.setData(PopUpName.orderPopUp, transmittedDate);
+      }}>
         <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
           <use href="#close-icon"/>
         </svg>
