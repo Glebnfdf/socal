@@ -4,7 +4,23 @@ import "../../../../source/img/svgIcons/union.svg";
 import Scrollbar from "../../../lib/scrollbar";
 import { useEffect } from "react";
 
-export default function AddTechPopUp(): JSX.Element {
+interface iProps {
+  incomingData: iAddTechInData | null
+}
+
+export interface iAddTechInData {
+  orderId: number,
+  operationType: AddTechOperationType,
+  mainTechId: number | null,
+  secondTechId: number | null
+}
+
+export enum AddTechOperationType {
+  AddMainTech,
+  AddSecondTech
+}
+
+export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
   useEffect((): () => void => {
     let scrollbar: Scrollbar | null = null;
     const scrollCont: HTMLElement | null = document.getElementById("add-tech-scroll-cont");

@@ -17,6 +17,7 @@ import Scrollbar from "../../../../lib/scrollbar";
 import Calendar from "react-calendar";
 import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
+import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -550,7 +551,18 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   ?
                   <div
                     className="btn-add"
-                    onClick={(): void => {popUpContext.setData(PopUpName.addTech, null)}}
+                    onClick={(): void => {
+                      if (!orderData) {
+                        return;
+                      }
+                      const transmittedData: iAddTechInData = {
+                        orderId: orderData.id,
+                        operationType: mainTech ? AddTechOperationType.AddSecondTech : AddTechOperationType.AddMainTech,
+                        mainTechId: mainTech ? mainTech.id : null,
+                        secondTechId: null
+                      }
+                      popUpContext.setData(PopUpName.addTech, transmittedData);
+                    }}
                   >Add technicial</div>
                   : null
                 }

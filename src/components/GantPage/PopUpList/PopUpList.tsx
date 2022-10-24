@@ -4,7 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import "./PopUpList.scss";
 import OrderPopUp, { iOrderPopUpInData } from "./OrderPopUp/OrderPopUp";
 import SimpleErrorPopUp from "./SimpleErrorPopUp/SimpleErrorPopUp";
-import AddTechPopUp from "./AddTechPopUp";
+import AddTechPopUp, { iAddTechInData } from "./AddTechPopUp";
 
 export enum PopUpName {
   none,
@@ -29,14 +29,23 @@ export default function PopUpList(): JSX.Element {
     let data4PopUp: unknown = null;
     switch (popUpName) {
       case PopUpName.orderPopUp:
-        if (Object.prototype.hasOwnProperty.call(transmittedData.current as object, "type")) {
+        if (Object.prototype.hasOwnProperty.call(transmittedData.current as object, "type") &&
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "orderId") &&
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "orderElm") &&
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "container")) {
           data4PopUp = transmittedData.current;
         }
         return <OrderPopUp incomingData={data4PopUp as iOrderPopUpInData}/>
       case PopUpName.simpleError:
         return <SimpleErrorPopUp/>
       case PopUpName.addTech:
-        return <AddTechPopUp/>
+        if (Object.prototype.hasOwnProperty.call(transmittedData.current as object, "orderId") &&
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "operationType") &&
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "mainTechId") &&
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "secondTechId")) {
+          data4PopUp = transmittedData.current;
+        }
+        return <AddTechPopUp incomingData={data4PopUp as iAddTechInData}/>
       default:
         return null
     }
