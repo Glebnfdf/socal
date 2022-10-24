@@ -62,6 +62,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const [showBeginTimeDrop, setShowBeginTimeDrop]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const isShowEndTimeDrop: React.MutableRefObject<boolean> = useRef<boolean>(false);
   const [showEndTimeDrop, setShowEndTimeDrop]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const [isDateWrong, setIsDateWrong]: [st: boolean, set: (st: boolean) => void] = useState(false);
 
   let orderData: iOrder | null = null;
 
@@ -193,6 +194,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   }
 
   useEffect((): void => {
+    setIsDateWrong(false);
     if (!showCalendar) {
       return;
     }
@@ -281,6 +283,21 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     }
   }
 
+  function saveBtnHandler(): void {
+    let isValid: boolean = true;
+    const today: Date = new Date();
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (!orderBeginTime || !orderEndTime) {
+      return
+    }
+    if (today.getTime() > orderBeginTime.getTime()) {
+      isValid = false;
+      setIsDateWrong(true);
+    }
+
+  }
+
   return (
     <>
       {incomingData && orderData &&
@@ -347,7 +364,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 </div>
               </div>
               <div className="inputs">
-                <div className="date" onClick={(): void => {
+                <div className={"date" + (isDateWrong ? " time-error": "")} onClick={(): void => {
                   isShowCalendar.current = false;
                   setShowCalendar(true);
                 }}>
@@ -437,7 +454,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 }
                 {secondTech === null ? <div className="btn-add">Add technicial</div> : null}
               </div>
-              <div className="btn-save">Save</div>
+              <div className="btn-save" onClick={(): void => {saveBtnHandler()}}>Save</div>
             </>
             :
             <div className={"button-row"}>
