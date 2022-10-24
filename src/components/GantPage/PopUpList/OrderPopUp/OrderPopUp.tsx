@@ -311,6 +311,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       isValid = false;
       setIsEndTimeWrong(true);
     }
+
+    if (orderBeginTime.getTime() > orderEndTime.getTime()) {
+      isValid = false;
+      setIsEndTimeWrong(true);
+    }
   }
 
   return (
