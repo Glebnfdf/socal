@@ -512,13 +512,22 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       </svg>
                       <div className={"tech-drop-menu-cont" + (showMenu4MainTech ? "" : " hide")}>
                         <div className="delete-popup">
-                          <div className="bottom">
+                          <div className="bottom" onClick={(): void => {
+                            if (!orderData) {
+                              return;
+                            }
+                            const transmittedData: iAddTechInData = {
+                              orderId: orderData.id,
+                              operationType: AddTechOperationType.AddMainTech,
+                              mainTechId: mainTech ? mainTech.id : null,
+                              secondTechId: secondTech ? secondTech.id : null
+                            }
+                            popUpContext.setData(PopUpName.addTech, transmittedData);
+                          }}>
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                               <use href="#pen" />
                             </svg>
-                            <p className="title">
-                              Edit
-                            </p>
+                            <p className="title">Edit</p>
                           </div>
                         </div>
                       </div>
@@ -549,13 +558,22 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                             </svg>
                             <p className="title">Delete</p>
                           </div>
-                          <div className="bottom">
+                          <div className="bottom" onClick={(): void => {
+                            if (!orderData) {
+                              return;
+                            }
+                            const transmittedData: iAddTechInData = {
+                              orderId: orderData.id,
+                              operationType: AddTechOperationType.AddSecondTech,
+                              mainTechId: mainTech ? mainTech.id : null,
+                              secondTechId: secondTech ? secondTech.id : null
+                            }
+                            popUpContext.setData(PopUpName.addTech, transmittedData);
+                          }}>
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                               <use href="#pen" />
                             </svg>
-                            <p className="title">
-                              Edit
-                            </p>
+                            <p className="title">Edit</p>
                           </div>
                         </div>
                       </div>
