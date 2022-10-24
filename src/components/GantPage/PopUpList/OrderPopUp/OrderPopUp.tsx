@@ -292,6 +292,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   function saveBtnHandler(): void {
     let isValid: boolean = true;
     const today: Date = new Date();
+    today.setHours(0,0,0,0);
     const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
     const orderEndTime: Date | null = orderPopUpContext.getEndTime();
     if (!orderBeginTime || !orderEndTime) {
