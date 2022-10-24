@@ -58,6 +58,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const isShowCalendar: React.MutableRefObject<boolean> = useRef<boolean>(false);
   const [showCalendar, setShowCalendar]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const [calendarDate, setCalendarDate]: [st: Date, set: (st: Date) => void] = useState(new Date());
+  const isShowBeginTimeDrop: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const [showBeginTimeDrop, setShowBeginTimeDrop]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const isShowEndTimeDrop: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const [showEndTimeDrop, setShowEndTimeDrop]: [st: boolean, set: (st: boolean) => void] = useState(false);
 
   let orderData: iOrder | null = null;
 
@@ -86,6 +90,20 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
           setShowCalendar(false);
         } else {
           isShowCalendar.current = true;
+        }
+
+        if (isShowBeginTimeDrop.current) {
+          isShowBeginTimeDrop.current = false;
+          setShowBeginTimeDrop(false);
+        } else {
+          isShowBeginTimeDrop.current = true;
+        }
+
+        if (isShowEndTimeDrop.current) {
+          isShowEndTimeDrop.current = false;
+          setShowEndTimeDrop(false);
+        } else {
+          isShowEndTimeDrop.current = true;
         }
       }
     }
@@ -266,24 +284,33 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <Calendar calendarType={"US"} locale={"en"} value={calendarDate} onChange={setCalendarDate} />
                   </div>
                 </div>
-                <div className="time-from time">
+                <div className="time-from time" onClick={(): void => {
+                  isShowBeginTimeDrop.current = false;
+                  setShowBeginTimeDrop(true);
+                }}>
                   <p className="title">
                     {getTime(beginTime)} <span>{getTimeType(beginTime)}</span>
                   </p>
                   <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <use href="#clock-icon"/>
                   </svg>
-                  <div className={"time-drop-menu-cont"}>
+                  <div className={"time-drop-menu-cont" + (showBeginTimeDrop ? "" : " hide")}>
                     <TimeDropMenu dateProp={beginTime}/>
                   </div>
                 </div>
-                <div className="time-to time">
+                <div className="time-to time" onClick={(): void => {
+                  isShowEndTimeDrop.current = false;
+                  setShowEndTimeDrop(true);
+                }}>
                   <p className="title">
                     {getTime(endTime)} <span>{getTimeType(endTime)}</span>
                   </p>
                   <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <use href="#clock-icon"/>
                   </svg>
+                  <div className={"time-drop-menu-cont" + (showEndTimeDrop ? "" : " hide")}>
+                    <TimeDropMenu dateProp={endTime}/>
+                  </div>
                 </div>
               </div>
               <div className="add-block">
