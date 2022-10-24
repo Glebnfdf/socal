@@ -176,6 +176,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
           top: orderElmRect.y
         });
       }
+
+      if (incomingData.type === OrderPopUpType.Big) {
+        setPopUpPosition({});
+      }
+
+      if (incomingData.mainTechId !== undefined && incomingData.secondTechId !== undefined) {
+        orderPopUpContext.setTechIds(incomingData.mainTechId, incomingData.secondTechId);
+      }
    }
   }, [incomingData]);
 
