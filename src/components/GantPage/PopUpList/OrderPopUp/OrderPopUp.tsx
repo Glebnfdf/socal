@@ -13,6 +13,7 @@ import { iOrderPopUpContext, OrderPopUpContext } from "../../../PopUpContext/Ord
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
 import Scrollbar from "../../../../lib/scrollbar";
 import Calendar from "react-calendar";
+import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -140,6 +141,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     const orderEndTime: Date | null = orderPopUpContext.getEndTime();
     if (orderBeginTime) {
       setBeginTime(orderBeginTime);
+      setCalendarDate(orderBeginTime);
     }
     if (orderEndTime) {
       setEndTime(orderEndTime);
@@ -152,14 +154,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     if (secondTechId !== null) {
       setSecondTech(techListContext.getTechDataById(secondTechId));
     }
-  }, [orderPopUpContext.contextData]);
+  }, [orderPopUpContext]);
 
   function getDate(date: Date): string {
-    return new Intl.DateTimeFormat("en-US", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric"
-    }).format(date);
+    // dd/mm/yyyy
+    return `${twoDigitOutput(date.getDate())}/${twoDigitOutput(date.getMonth() + 1)}/${date.getFullYear()}`
   }
 
   function getTime(date: Date): string {
@@ -173,6 +172,20 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   function getTimeType(date: Date): string {
     return date.getHours() < 12 ? "am" : "pm";
   }
+
+  useEffect((): void => {
+    if (!showCalendar) {
+      return;
+    }
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      orderBeginTime.setFullYear(calendarDate.getFullYear(), calendarDate.getMonth(), calendarDate.getDate());
+      orderEndTime.setFullYear(calendarDate.getFullYear(), calendarDate.getMonth(), calendarDate.getDate());
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+    setShowCalendar(false);
+  }, [calendarDate]);
 
   return (
     <>
