@@ -19,12 +19,12 @@
     background: url("../img/auth-left.png") no-repeat center center;
   }
 
-  .right {
+  .auth-form-cont {
     padding: 60px 63px;
     background: #FFFFFF;
     border-radius: 30px;
 
-    .login-title {
+    .title {
       padding-bottom: 35px;
       font-family: $main-font;
       width: 274px;
@@ -37,7 +37,7 @@
       color: #0F244A;
     }
 
-    .insert-phone {
+    .phone {
       font-family: $main-font;
       text-align: center;
       font-style: normal;
@@ -49,7 +49,7 @@
       padding-bottom: 56px;
     }
 
-    .login-input {
+    .auth-input {
       transition: .3s;
       outline: none;
       width: 100%;
@@ -82,7 +82,8 @@
       }
     }
 
-    .next-btn {
+    .auth-btn {
+      border: 0;
       transition: .2s;
       cursor: pointer;
       background: #0866FB;
