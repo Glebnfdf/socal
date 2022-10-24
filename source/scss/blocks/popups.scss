@@ -15,9 +15,11 @@
     width: 11px;
     height: 11px;
     fill: #81A6E7;
+    color: #81a6e7;
 
     &:hover {
       fill: #0866FB;
+      color: #0866FB;
     }
   }
 }
@@ -35,7 +37,6 @@
   width: 580px;
   background: #fff;
   border-radius: 15px;
-  padding: 15px 25px 30px 25px;
   box-shadow: 0 4px 24px rgba(67, 108, 180, 0.39);
 
   &.big {
@@ -66,10 +67,8 @@
 
     .btn-recall {
       transition: 0.2s;
-      background: #ee3e62;
       border-radius: 8px;
       padding: 5px 10px;
-
       font-family: $main-font;
       font-style: normal;
       font-weight: 700;
@@ -79,12 +78,33 @@
       align-items: center;
       text-align: center;
       color: #fff;
+
+      &.red {
+        background-color: $red;
+      }
+
+      &.orange {
+        background-color: $orange;
+      }
+
+      &.violet {
+        background-color: $violet;
+      }
+
+      &.unknown-tag {
+        background-color: #94bbff;
+      }
     }
   }
 
   .info {
     .address {
       display: flex;
+      align-items: baseline;
+
+      svg {
+        flex-shrink: 0;
+      }
 
       img {
         margin-top: 2px;
@@ -134,17 +154,17 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding-right: 5px;
+          //padding-right: 5px;
 
-          &:after {
-            width: 5px;
-            height: 5px;
-            position: absolute;
-            content: " ";
-            background: #81a6e7;
-            border-radius: 100px;
-            margin-left: 96px;
-          }
+          //&:after {
+          //  width: 5px;
+          //  height: 5px;
+          //  position: absolute;
+          //  content: " ";
+          //  background: #81a6e7;
+          //  border-radius: 100px;
+          //  margin-left: 96px;
+          //}
         }
 
         .description {
@@ -156,25 +176,32 @@
         display: flex;
 
         .phone {
-          padding-right: 5px;
+          //padding-right: 5px;
           display: flex;
           align-items: center;
           position: relative;
 
-          &:after {
-            width: 5px;
-            height: 5px;
-            position: absolute;
-            content: " ";
-            background: #81a6e7;
-            border-radius: 100px;
-            margin-left: 151px;
-          }
+          //&:after {
+          //  width: 5px;
+          //  height: 5px;
+          //  position: absolute;
+          //  content: " ";
+          //  background: #81a6e7;
+          //  border-radius: 100px;
+          //  margin-left: 151px;
+          //}
         }
 
         .mail {
           padding-left: 5px;
         }
+      }
+
+      .dot-separator {
+        font-size: 12px;
+        vertical-align: top;
+        display: inline-block;
+        height: 16px;
       }
     }
   }
@@ -185,12 +212,12 @@
       width: 100%;
     }
 
-    .scroll-content-wrapper {
-      overflow: auto;
-      width: 100%;
-      max-height: 105px;
-      scrollbar-width: none;
-    }
+    //.scroll-content-wrapper {
+    //  overflow: auto;
+    //  width: 100%;
+    //  max-height: 105px;
+    //  scrollbar-width: none;
+    //}
 
     padding-top: 14px;
     padding-bottom: 14px;
@@ -279,6 +306,17 @@
         align-items: center;
       }
 
+      .popup-calendar-cont {
+        position: absolute;
+        z-index: 41;
+        top: -110px;
+        right: -1px;
+
+        &.hide {
+          display: none;
+        }
+      }
+
       &:after {
         top: -9px;
         background: #fff;
@@ -298,6 +336,8 @@
         border: 1px solid #81a6e7;
       }
     }
+
+
 
     .time-error {
       border: 1px solid #EE3E62 !important;
@@ -349,8 +389,8 @@
       color: #0f244a;
 
       .title {
-        display: flex;
-        align-items: center;
+        //display: flex;
+        //align-items: center;
       }
 
       &:hover {
@@ -489,6 +529,54 @@
     &:hover {
       background: #d1e3fe;
       color: #0866fb;
+    }
+  }
+
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .btn-add-2 {
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    color: #0866fb;
+    padding: 16px 24px;
+    background: #e4efff;
+    border-radius: 15px;
+
+    &:hover {
+      background: #d1e3fe;
+      color: #0866fb;
+    }
+  }
+
+  .white-btn {
+    background-color: white;
+    color: #81a6e7;
+    border: 1px solid #e4efff;
+    cursor: pointer;
+    font-family: $main-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.02em;
+    transition: 0.2s;
+    border-radius: 15px;
+    padding: 16px 24px;
+
+    &:hover {
+      background-color: #edf6fe;
     }
   }
 }
@@ -714,7 +802,7 @@
 .btn-save {
   transition: .2s;
   cursor: pointer;
-  width: 96px;
+  display: inline-block;
   margin-top: 14px;
   background: #0866FB;
   border-radius: 15px;

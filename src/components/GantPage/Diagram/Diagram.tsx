@@ -1,11 +1,13 @@
 import * as React from "react";
 import { useContext, useEffect, useRef, useState } from "react";
-import { iOrder } from "../OrderListModel/OrderListModel";
+import { iOrder, iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import "./diagram.scss";
 import { DragItemType } from "../../../utils/DragItemType";
 import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList/PopUpList";
-import { OrderPopUpType } from "../PopUpList/OrderPopUp/OrderPopUp";
+import { iOrderPopUpInData, OrderPopUpType } from "../PopUpList/OrderPopUp/OrderPopUp";
+import getTagColorClass from "../../../utils/getTagColorClass";
+import { iOrderPopUpContext, OrderPopUpContext } from "../../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
 
 interface iProps {
   orderListProp: iOrder[] | null,
@@ -20,6 +22,8 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
   const [orderListWithLine, setOrderListWithLine]: [st: iOrderWithLine[] | null, set: (st: iOrderWithLine[] | null) => void] =
     useState<iOrderWithLine[] | null>(addLine2Order(orderListProp));
   const popUpContext: iPopUpContext = useContext(PopUpContext);
+  const techInPopUpContext: iOrderPopUpContext = useContext(OrderPopUpContext);
+  const orderListContext: iOrderListContext = useContext(OrderListContext);
   const container: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
   const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
   const scrollbarWidth: number = 0; // поставить 13, когда будет scrollbar;
@@ -123,19 +127,6 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
     return (lineNumber - 1) * lineHeight;
   }
 
-  function getColorClass(orderType: string): string {
-    switch (orderType.toLowerCase()) {
-      case "recall":
-        return "red";
-      case "repair":
-        return "orange";
-      case "estimation":
-        return "violet";
-      default:
-        return "unknown-tag";
-    }
-  }
-
   function setAttr2DragElm(event: React.DragEvent<HTMLDivElement>): void {
     const htmlElement: HTMLElement = event.target as HTMLElement;
     const orderId: string | null = htmlElement.getAttribute("data-order-id");
@@ -163,7 +154,7 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
         return (
           <div
             key={order.id}
-            className={`diagram order ${getColorClass(order.type)}`}
+            className={`diagram order ${getTagColorClass(order.type)}`}
             data-order-id={order.id}
             data-tech-id={technicianId === null ? "null" : technicianId}
             data-time-begin={order.time_slot_from}
@@ -175,9 +166,20 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
             }}
             draggable={"true"}
             onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {setAttr2DragElm(event)}}
-            onClick={(): void => {popUpContext.setData(PopUpName.orderPopUp, {
-              type: OrderPopUpType.Small
-            })}}
+            onClick={(event: React.MouseEvent): void => {
+              techInPopUpContext.setTechIds(
+                orderListContext.getMainTechId(order.id),
+                orderListContext.getSecondTechId(order.id)
+              );
+              techInPopUpContext.setTimes(new Date(order.time_slot_from), new Date(order.time_slot_to));
+              const transmittedData: iOrderPopUpInData = {
+                type: OrderPopUpType.Small,
+                orderId: order.id,
+                orderElm: event.currentTarget as HTMLElement,
+                container: container.current
+              }
+              popUpContext.setData(PopUpName.orderPopUp, transmittedData);
+          }}
           >
             <div className={"id"}>№ {order.id}</div>
             <div className={"address"}>{order.address}</div>

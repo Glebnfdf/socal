@@ -9,5 +9,7 @@ declare module "scrollbar" {
     getIsScrollDrag(): boolean;
 
     scroll2Top(): void;
+
+    showScrollListener(showScrollHandler: (isShow: boolean) => void): void;
   }
 }

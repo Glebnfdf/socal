@@ -7,8 +7,8 @@ export default function MapComp(): JSX.Element {
   useEffect((): void => {
     if (mapRef.current) {
       new window.google.maps.Map(mapRef.current, {
-        center: {lat: -34.397, lng: 150.644},
-        zoom: 4,
+        center: {lat: 36.75983915395801, lng: -119.78824111455792},
+        zoom: 10,
       });
     }
   }, [mapRef.current]);

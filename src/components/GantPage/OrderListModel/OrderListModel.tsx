@@ -21,6 +21,7 @@ export interface iOrderListContext {
   doOrderHaveThatTech: (orderId: number, techId: number | null) => boolean,
   getMainTechId: (orderId: number) => number | null,
   getSecondTechId: (orderId: number) => number | null,
+  getOrderById: (orderId: number) => iOrder | null,
   updateOrder: (
     orderId: number,
     technicianId: number | null,
@@ -41,6 +42,8 @@ export const OrderListContext: React.Context<iOrderListContext> = React.createCo
   //eslint-disable-next-line @typescript-eslint/no-unused-vars
   getSecondTechId: (orderId: number) => null,
   //eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  getOrderById: (orderId: number) => null,
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   updateOrder: (orderId: number, technicianId: number | null, secondTechId: number | null, orderTimeBegin: Date, orderTmeEnd: Date) => {}
 })
 
@@ -54,6 +57,7 @@ export default function OrderListModel({children}: iProps): JSX.Element {
       doOrderHaveThatTech: doOrderHaveThatTech,
       getMainTechId: getMainTechId,
       getSecondTechId: getSecondTechId,
+      getOrderById: getOrderById,
       updateOrder: updateOrderHandler
   });
   const { requestData }: {
@@ -185,6 +189,18 @@ export default function OrderListModel({children}: iProps): JSX.Element {
     for (let i = 0; i < orderList.current.length; i++) {
       if (orderList.current[i].id === orderId) {
         return orderList.current[i].secondTechId;
+      }
+    }
+    return null;
+  }
+
+  function getOrderById(orderId: number): iOrder | null {
+    if (!orderList.current) {
+      return null
+    }
+    for (let i = 0; i < orderList.current.length; i++) {
+      if (orderList.current[i].id === orderId) {
+        return orderList.current[i];
       }
     }
     return null;

@@ -1,6 +1,7 @@
 export default class Scrollbar {
   constructor() {
     this.thumbMinSize = 20;
+    this.showScrollHandler = null;
   }
 
   init(container) {
@@ -67,6 +68,7 @@ export default class Scrollbar {
     this.contentWrapper = null;
     this.track = null;
     this.thumb = null;
+    this.showScrollHandler = null;
   }
 
   resizeContHandle() {
@@ -81,6 +83,9 @@ export default class Scrollbar {
     } else {
       this.trackVisible = true;
       this.track.style.display = "block";
+    }
+    if (this.showScrollHandler) {
+      this.showScrollHandler(this.contentWrapper.offsetHeight !== this.contentWrapper.scrollHeight);
     }
   }
 
@@ -136,5 +141,9 @@ export default class Scrollbar {
   scroll2Top() {
     this.contentWrapper.scrollTop = 0;
     this.thumb.style.top = 2 + "px";
+  }
+
+  showScrollListener = (_showScrollHandler) => {
+    this.showScrollHandler = _showScrollHandler;
   }
 }

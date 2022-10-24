@@ -31,7 +31,7 @@ export default function UnDispatched(): JSX.Element {
 
   return (
     <section className="container undispatched">
-      {/*<div className="undispatched-blur"></div>*/}
+      <div className="undispatched-blur"></div>
       {/* Левая часть блока с легендой диаграммы */}
       <div className="left">
         <div className="top">
@@ -160,7 +160,7 @@ export default function UnDispatched(): JSX.Element {
             </div>
             <div className="col-hour">
               <p className="hour">
-                12 am
+                12 pm
               </p>
               <ul className="list">
                 <li className="item">

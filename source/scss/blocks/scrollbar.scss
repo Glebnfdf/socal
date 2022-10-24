@@ -41,7 +41,7 @@
 }
 
 .undis-content-padding {
-  padding-right: 10px;
+  padding-right: 4px;
 }
 
 .scroll-cont-undispatche {
@@ -58,4 +58,15 @@
 
 .main-container-two {
   width: 106%;
+}
+
+#order-popup-info-scroll {
+  .content {
+    max-height: 370px;
+    padding-right: 15px;
+  }
+}
+
+.border-radius {
+  border-radius: 100px;
 }
