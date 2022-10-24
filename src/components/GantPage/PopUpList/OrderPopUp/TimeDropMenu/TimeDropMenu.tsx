@@ -2,10 +2,12 @@ import * as React from "react";
 import twoDigitOutput from "../../../../../utils/twoDigitsOutput";
 
 interface iProps {
-  dateProp: Date
+  dateProp: Date,
+  changeHour: (newHour: number) => void
+  changeMinute: (newMinutes: number) => void
 }
 
-export default function TimeDropMenu({dateProp}: iProps): JSX.Element {
+export default function TimeDropMenu({dateProp, changeHour, changeMinute}: iProps): JSX.Element {
   const hoursElemList: JSX.Element[] = [];
   const minutesElemList: JSX.Element[] = [];
 
@@ -25,6 +27,7 @@ export default function TimeDropMenu({dateProp}: iProps): JSX.Element {
       <li
         className={"item" + (convert24to12(dateProp) === i ? " item-select" : "")}
         key={"h" + i.toString()}
+        onClick={(): void => {changeHour(i);}}
       >{twoDigitOutput(i)}</li>
     );
   }
@@ -34,6 +37,7 @@ export default function TimeDropMenu({dateProp}: iProps): JSX.Element {
       <li
         className={"item" + (dateProp.getMinutes() === i ? " item-select" : "")}
         key={"m" + i.toString()}
+        onClick={(): void => {changeMinute(i);}}
       >{twoDigitOutput(i)}</li>
     );
   }

@@ -206,6 +206,53 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     setShowCalendar(false);
   }, [calendarDate]);
 
+  function beginTChangeHour(newHour: number): void {
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      orderBeginTime.setHours(convert12To42(orderBeginTime, newHour));
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function beginTChangeMinute(newMinutes: number): void {
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      orderBeginTime.setMinutes(newMinutes);
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function endTChangeHour(newHour: number): void {
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      orderEndTime.setHours(convert12To42(orderEndTime, newHour));
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function endTChangeMinute(newMinutes: number): void {
+    const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
+    const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    if (orderBeginTime && orderEndTime) {
+      orderEndTime.setMinutes(newMinutes);
+      orderPopUpContext.setTimes(orderBeginTime, orderEndTime);
+    }
+  }
+
+  function convert12To42(date: Date, hour: number): number {
+    const isPM: boolean = date.getHours() > 12;
+    if (isPM && hour < 12) {
+      hour += 12;
+    }
+    if (!isPM && hour === 12) {
+      hour = 0;
+    }
+    return hour;
+  }
+
   return (
     <>
       {incomingData && orderData &&
@@ -295,7 +342,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <use href="#clock-icon"/>
                   </svg>
                   <div className={"time-drop-menu-cont" + (showBeginTimeDrop ? "" : " hide")}>
-                    <TimeDropMenu dateProp={beginTime}/>
+                    <TimeDropMenu dateProp={beginTime} changeHour={beginTChangeHour} changeMinute={beginTChangeMinute}/>
                   </div>
                 </div>
                 <div className="time-to time" onClick={(): void => {
@@ -309,7 +356,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <use href="#clock-icon"/>
                   </svg>
                   <div className={"time-drop-menu-cont" + (showEndTimeDrop ? "" : " hide")}>
-                    <TimeDropMenu dateProp={endTime}/>
+                    <TimeDropMenu dateProp={endTime} changeHour={endTChangeHour} changeMinute={endTChangeMinute}/>
                   </div>
                 </div>
               </div>
