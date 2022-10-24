@@ -2,7 +2,7 @@ import * as React from "react";
 import "../../../../source/img/svgIcons/close-icon.svg";
 import "../../../../source/img/svgIcons/union.svg";
 import Scrollbar from "../../../lib/scrollbar";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { iTechListContext, iTechnician, TechListContext } from "../TechnicianListModel/TechnicianListModel";
 
 interface iProps {
@@ -23,6 +23,7 @@ export enum AddTechOperationType {
 
 export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
+  const [searchText, setSearchText]: [st: string, set: (st: string) => void] = useState("");
 
   useEffect((): () => void => {
     let scrollbar: Scrollbar | null = null;
@@ -55,7 +56,14 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
             <use href="#union"/>
           </svg>
         </i>
-        <input className="search" placeholder="Search" id="search-input" type="text"/>
+        <input
+          className="search"
+          placeholder="Search"
+          id="search-input"
+          type="text"
+          value={searchText}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {setSearchText(event.target.value)}}
+        />
       </div>
       <main className="main-container">
         <div id={"add-tech-scroll-cont"} className="scroll-cont">
@@ -72,6 +80,9 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
                     incomingData.mainTechId === technician.id) {
                     isShowTechInList = false;
                   }
+                }
+                if (!technician.name.toLowerCase().includes(searchText.toLowerCase())) {
+                  isShowTechInList = false;
                 }
                 if (!isShowTechInList) {
                   return null;
