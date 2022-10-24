@@ -63,6 +63,8 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const isShowEndTimeDrop: React.MutableRefObject<boolean> = useRef<boolean>(false);
   const [showEndTimeDrop, setShowEndTimeDrop]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const [isDateWrong, setIsDateWrong]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const [isBeginTimeWrong, setIsBeginTimeWrong]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const [isEndTimeWrong, setIsEndTimeWrong]: [st: boolean, set: (st: boolean) => void] = useState(false);
 
   let orderData: iOrder | null = null;
 
@@ -209,6 +211,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   }, [calendarDate]);
 
   function beginTChangeHour(newHour: number): void {
+    setIsBeginTimeWrong(false);
     const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
     const orderEndTime: Date | null = orderPopUpContext.getEndTime();
     if (orderBeginTime && orderEndTime) {
@@ -218,6 +221,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   }
 
   function beginTChangeMinute(newMinutes: number): void {
+    setIsBeginTimeWrong(false);
     const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
     const orderEndTime: Date | null = orderPopUpContext.getEndTime();
     if (orderBeginTime && orderEndTime) {
@@ -227,6 +231,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   }
 
   function endTChangeHour(newHour: number): void {
+    setIsEndTimeWrong(false);
     const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
     const orderEndTime: Date | null = orderPopUpContext.getEndTime();
     if (orderBeginTime && orderEndTime) {
@@ -236,6 +241,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   }
 
   function endTChangeMinute(newMinutes: number): void {
+    setIsEndTimeWrong(false);
     const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
     const orderEndTime: Date | null = orderPopUpContext.getEndTime();
     if (orderBeginTime && orderEndTime) {
@@ -296,6 +302,15 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       setIsDateWrong(true);
     }
 
+    if (orderBeginTime.getHours() < 7 || orderBeginTime.getHours() > 21) {
+      isValid = false;
+      setIsBeginTimeWrong(true);
+    }
+
+    if (orderEndTime.getHours() < 7 || orderEndTime.getHours() > 21) {
+      isValid = false;
+      setIsEndTimeWrong(true);
+    }
   }
 
   return (
@@ -376,7 +391,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <Calendar calendarType={"US"} locale={"en"} value={calendarDate} onChange={setCalendarDate} />
                   </div>
                 </div>
-                <div className="time-from time">
+                <div className={"time-from time" + (isBeginTimeWrong ? " time-error" : "")}>
                   <div>
                     <div className={"time-inline-block time-padding-right"} onClick={(): void => {
                       isShowBeginTimeDrop.current = false;
@@ -397,7 +412,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <TimeDropMenu dateProp={beginTime} changeHour={beginTChangeHour} changeMinute={beginTChangeMinute}/>
                   </div>
                 </div>
-                <div className="time-to time">
+                <div className={"time-to time" + (isEndTimeWrong ? " time-error" : "")}>
                   <div>
                     <div className={"time-inline-block time-padding-right"} onClick={(): void => {
                       isShowEndTimeDrop.current = false;
