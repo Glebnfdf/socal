@@ -331,12 +331,12 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <Calendar calendarType={"US"} locale={"en"} value={calendarDate} onChange={setCalendarDate} />
                   </div>
                 </div>
-                <div className="time-from time" onClick={(): void => {
-                  isShowBeginTimeDrop.current = false;
-                  setShowBeginTimeDrop(true);
-                }}>
+                <div className="time-from time">
                   <div>
-                    <div className={"time-inline-block time-padding-right"}>
+                    <div className={"time-inline-block time-padding-right"} onClick={(): void => {
+                      isShowBeginTimeDrop.current = false;
+                      setShowBeginTimeDrop(true);
+                    }}>
                       {getTime(beginTime)}
                     </div>
                     <div className={"time-inline-block"}>
@@ -350,12 +350,12 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <TimeDropMenu dateProp={beginTime} changeHour={beginTChangeHour} changeMinute={beginTChangeMinute}/>
                   </div>
                 </div>
-                <div className="time-to time" onClick={(): void => {
-                  isShowEndTimeDrop.current = false;
-                  setShowEndTimeDrop(true);
-                }}>
+                <div className="time-to time">
                   <div>
-                    <div className={"time-inline-block time-padding-right"}>
+                    <div className={"time-inline-block time-padding-right"} onClick={(): void => {
+                      isShowEndTimeDrop.current = false;
+                      setShowEndTimeDrop(true);
+                    }}>
                       {getTime(endTime)}
                     </div>
                     <div className={"time-inline-block"}>

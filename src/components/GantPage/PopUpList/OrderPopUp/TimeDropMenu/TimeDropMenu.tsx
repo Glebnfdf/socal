@@ -27,7 +27,10 @@ export default function TimeDropMenu({dateProp, changeHour, changeMinute}: iProp
       <li
         className={"item" + (convert24to12(dateProp) === i ? " item-select" : "")}
         key={"h" + i.toString()}
-        onClick={(): void => {changeHour(i);}}
+        onClick={(event: React.MouseEvent): void => {
+          event.stopPropagation();
+          changeHour(i);
+        }}
       >{twoDigitOutput(i)}</li>
     );
   }
@@ -37,7 +40,10 @@ export default function TimeDropMenu({dateProp, changeHour, changeMinute}: iProp
       <li
         className={"item" + (dateProp.getMinutes() === i ? " item-select" : "")}
         key={"m" + i.toString()}
-        onClick={(): void => {changeMinute(i);}}
+        onClick={(event: React.MouseEvent): void => {
+          event.stopPropagation();
+          changeMinute(i);
+        }}
       >{twoDigitOutput(i)}</li>
     );
   }
