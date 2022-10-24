@@ -130,11 +130,9 @@ export default function OrderListModel({children}: iProps): JSX.Element {
       const data: IOrderUpdateReqData = {
         task_id: orderId,
         technician_id: technicianId,
+        second_technician_id: secondTechId,
         time_slot_from: shortDateFormat(orderTimeBegin),
         time_slot_to: shortDateFormat(orderTmeEnd)
-      }
-      if (secondTechId !== null) {
-        data.second_technician_id = secondTechId;
       }
 
       const request: RequestInit = {
