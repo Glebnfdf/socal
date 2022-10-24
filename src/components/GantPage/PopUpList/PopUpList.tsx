@@ -3,10 +3,12 @@ import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import "./PopUpList.scss";
 import OrderPopUp, { iOrderPopUpInData } from "./OrderPopUp/OrderPopUp";
+import SimpleErrorPopUp from "./SimpleErrorPopUp/SimpleErrorPopUp";
 
 export enum PopUpName {
   none,
-  orderPopUp
+  orderPopUp,
+  SimpleError
 }
 
 export default function PopUpList(): JSX.Element {
@@ -29,6 +31,8 @@ export default function PopUpList(): JSX.Element {
           data4PopUp = transmittedData.current;
         }
         return <OrderPopUp incomingData={data4PopUp as iOrderPopUpInData}/>
+      case PopUpName.SimpleError:
+        return <SimpleErrorPopUp/>
       default:
         return null
     }

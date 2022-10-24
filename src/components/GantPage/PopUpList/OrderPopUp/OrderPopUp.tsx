@@ -315,6 +315,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     today.setHours(0,0,0,0);
     const orderBeginTime: Date | null = orderPopUpContext.getBeginTime();
     const orderEndTime: Date | null = orderPopUpContext.getEndTime();
+    const mainTechId: number | null = orderPopUpContext.getMainTechId();
+    const secondTechId: number | null = orderPopUpContext.getSecondTechId();
+
     if (!orderBeginTime || !orderEndTime) {
       return
     }
@@ -338,12 +341,15 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       setIsEndTimeWrong(true);
     }
 
+    if (mainTechId === null) {
+      isValid = false;
+      popUpContext.setData(PopUpName.SimpleError, null)
+    }
+
     if (!orderData || !isValid) {
       return;
     }
 
-    const mainTechId: number | null = orderPopUpContext.getMainTechId();
-    const secondTechId: number | null = orderPopUpContext.getSecondTechId();
     orderListContext.updateOrder(orderData.id, mainTechId, secondTechId, orderBeginTime, orderEndTime);
     popUpContext.setData(PopUpName.none, null)
   }
