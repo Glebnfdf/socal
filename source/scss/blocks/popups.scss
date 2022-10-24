@@ -506,6 +506,7 @@
 
       .right {
         margin-left: 12px;
+        position: relative;
 
         svg {
           transition: .2s;
@@ -838,6 +839,16 @@
 
   &:hover {
     background: #045BE5;
+  }
+}
+
+.tech-drop-menu-cont {
+  position: absolute;
+  left: -47px;
+  top: 45px;
+
+  &.hide {
+    display: none;
   }
 }
 

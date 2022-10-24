@@ -5,6 +5,8 @@ import "../../../../../source/img/svgIcons/point-dark.svg";
 import "../../../../../source/img/svgIcons/three-points.svg";
 import "../../../../../source/img/svgIcons/calendar-icon.svg";
 import "../../../../../source/img/svgIcons/clock-icon.svg";
+import "../../../../../source/img/svgIcons/trash.svg";
+import "../../../../../source/img/svgIcons/pen.svg";
 import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
@@ -65,6 +67,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const [isDateWrong, setIsDateWrong]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const [isBeginTimeWrong, setIsBeginTimeWrong]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const [isEndTimeWrong, setIsEndTimeWrong]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const isShowMenu4MainTech: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const [showMenu4MainTech, setShowMenu4MainTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const isShowMenu4SecondTech: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const [showMenu4SecondTech, setShowMenu4SecondTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
 
   let orderData: iOrder | null = null;
 
@@ -107,6 +113,20 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
           setShowEndTimeDrop(false);
         } else {
           isShowEndTimeDrop.current = true;
+        }
+
+        if (isShowMenu4MainTech.current) {
+          isShowMenu4MainTech.current = false;
+          setShowMenu4MainTech(false);
+        } else {
+          isShowMenu4MainTech.current = true;
+        }
+
+        if (isShowMenu4SecondTech.current) {
+          isShowMenu4SecondTech.current = false;
+          setShowMenu4SecondTech(false);
+        } else {
+          isShowMenu4SecondTech.current = true;
         }
       }
     }
@@ -460,9 +480,24 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       </div>
                     </div>
                     <div className="right">
-                      <svg width="37" height="38" viewBox="0 0 37 38" fill="none">
+                      <svg width="37" height="38" viewBox="0 0 37 38" fill="none" onClick={(): void => {
+                        isShowMenu4MainTech.current = false;
+                        setShowMenu4MainTech(true);
+                      }}>
                         <use href="#three-points" />
                       </svg>
+                      <div className={"tech-drop-menu-cont" + (showMenu4MainTech ? "" : " hide")}>
+                        <div className="delete-popup">
+                          <div className="bottom">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                              <use href="#pen" />
+                            </svg>
+                            <p className="title">
+                              Edit
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 }
@@ -476,9 +511,32 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       </div>
                     </div>
                     <div className="right">
-                      <svg width="37" height="38" viewBox="0 0 37 38" fill="none">
+                      <svg width="37" height="38" viewBox="0 0 37 38" fill="none" onClick={(): void => {
+                        isShowMenu4SecondTech.current = false;
+                        setShowMenu4SecondTech(true);
+                      }}>
                         <use href="#three-points" />
                       </svg>
+                      <div className={"tech-drop-menu-cont" + (showMenu4SecondTech ? "" : " hide")}>
+                        <div className="delete-popup">
+                          <div className="top">
+                            <svg width="11" height="13" viewBox="0 0 11 13" fill="none">
+                              <use href="#trash" />
+                            </svg>
+                            <p className="title">
+                              Delete
+                            </p>
+                          </div>
+                          <div className="bottom">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                              <use href="#pen" />
+                            </svg>
+                            <p className="title">
+                              Edit
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 }
