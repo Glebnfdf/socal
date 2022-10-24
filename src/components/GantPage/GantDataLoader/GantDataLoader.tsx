@@ -16,14 +16,20 @@ interface iGrantLoaderContext {
   techList: iTechnician[],
   date: Date,
   changeDate: (newDate: Date) => void
+  getSelectedDate: () => Date
 }
+
 
 export const GrantLoaderContext: React.Context<iGrantLoaderContext> = React.createContext<iGrantLoaderContext>({
   orderList: [],
   techList: [],
   date: new Date(),
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-  changeDate: (newDate: Date) => {}
+  changeDate: (newDate: Date) => {},
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  getSelectedDate: () => {}
 })
 
 export default function GantDataLoader({children}: iProps): JSX.Element {
@@ -43,7 +49,8 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
       orderList: [],
       techList: [],
       date: new Date(),
-      changeDate: changeDateHandler
+      changeDate: changeDateHandler,
+      getSelectedDate: getSelectedDate
     });
 
   useEffect((): void => {
@@ -165,6 +172,10 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
     (async (): Promise<void> => {
       await updateData();
     })();
+  }
+
+  function getSelectedDate(): Date {
+    return gantDate.current;
   }
 
   return (

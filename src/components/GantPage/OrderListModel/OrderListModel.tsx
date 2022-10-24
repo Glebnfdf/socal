@@ -101,7 +101,7 @@ export default function OrderListModel({children}: iProps): JSX.Element {
     if (orderList.current) {
       orderList.current.forEach((order: iOrder): void => {
         let isOrderNeedPutInModel: boolean = true;
-        if (order.id === orderId && orderTimeBegin.toDateString() !== gantLoaderContext.date.toDateString()) {
+        if (order.id === orderId && orderTimeBegin.toDateString() !== gantLoaderContext.getSelectedDate().toDateString()) {
           isOrderNeedPutInModel = false;
         }
         if (isOrderNeedPutInModel) {
