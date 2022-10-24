@@ -2,7 +2,8 @@ import * as React from "react";
 import "../../../../source/img/svgIcons/close-icon.svg";
 import "../../../../source/img/svgIcons/union.svg";
 import Scrollbar from "../../../lib/scrollbar";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { iTechListContext, iTechnician, TechListContext } from "../TechnicianListModel/TechnicianListModel";
 
 interface iProps {
   incomingData: iAddTechInData | null
@@ -21,6 +22,8 @@ export enum AddTechOperationType {
 }
 
 export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
+  const techListContext: iTechListContext = useContext(TechListContext);
+
   useEffect((): () => void => {
     let scrollbar: Scrollbar | null = null;
     const scrollCont: HTMLElement | null = document.getElementById("add-tech-scroll-cont");
@@ -58,114 +61,24 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
         <div id={"add-tech-scroll-cont"} className="scroll-cont">
           <div className="scroll-content-wrapper scroll-content-wrapper-popup-add">
             <ul className="list">
-              <li className="item">
-                <div className="left">
-                  <img className="person-img" src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#"/>
-                    <div className="names">
-                      <div className="title-technical">
-                        Technician
-                      </div>
-                      <div className="name">
-                        Matthew David McCon...
-                      </div>
-                    </div>
-                </div>
-                <div className="right">
-                  <div className="add-btn">
-                    Add
-                  </div>
-                </div>
-              </li>
-              <li className="item">
-                <div className="left">
-                  <img className="person-img" src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#"/>
-                    <div className="names">
-                      <div className="title-technical">
-                        Technician
-                      </div>
-                      <div className="name">
-                        Matthew David McCon...
+              {techListContext.techList.map((technician: iTechnician): JSX.Element => {
+                return (
+                  <li className="item" key={technician.id}>
+                    <div className="left">
+                      <img className="person-img" src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#"/>
+                      <div className="names">
+                        <div className="title-technical">Technician</div>
+                        <div className="name">{technician.name}</div>
                       </div>
                     </div>
-                </div>
-                <div className="right">
-                  <div className="add-btn">
-                    Add
-                  </div>
-                </div>
-              </li>
-              <li className="item">
-                <div className="left">
-                  <img className="person-img" src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#"/>
-                    <div className="names">
-                      <div className="title-technical">
-                        Technician
-                      </div>
-                      <div className="name">
-                        Matthew David McCon...
+                    <div className="right">
+                      <div className="add-btn">
+                        Add
                       </div>
                     </div>
-                </div>
-                <div className="right">
-                  <div className="add-btn">
-                    Add
-                  </div>
-                </div>
-              </li>
-              <li className="item">
-                <div className="left">
-                  <img className="person-img" src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#"/>
-                    <div className="names">
-                      <div className="title-technical">
-                        Technician
-                      </div>
-                      <div className="name">
-                        Matthew David McCon...
-                      </div>
-                    </div>
-                </div>
-                <div className="right">
-                  <div className="add-btn">
-                    Add
-                  </div>
-                </div>
-              </li>
-              <li className="item">
-                <div className="left">
-                  <img className="person-img" src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#"/>
-                    <div className="names">
-                      <div className="title-technical">
-                        Technician
-                      </div>
-                      <div className="name">
-                        Matthew David McCon...
-                      </div>
-                    </div>
-                </div>
-                <div className="right">
-                  <div className="add-btn">
-                    Add
-                  </div>
-                </div>
-              </li>
-              <li className="item">
-                <div className="left">
-                  <img className="person-img" src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#"/>
-                    <div className="names">
-                      <div className="title-technical">
-                        Technician
-                      </div>
-                      <div className="name">
-                        Matthew David McCon...
-                      </div>
-                    </div>
-                </div>
-                <div className="right">
-                  <div className="add-btn">
-                    Add
-                  </div>
-                </div>
-              </li>
+                  </li>
+                )
+              })}
             </ul>
           </div>
           <div className="scroll-vtrack">
