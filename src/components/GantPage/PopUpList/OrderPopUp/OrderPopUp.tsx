@@ -316,6 +316,15 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       isValid = false;
       setIsEndTimeWrong(true);
     }
+
+    if (!orderData || !isValid) {
+      return;
+    }
+
+    const mainTechId: number | null = orderPopUpContext.getMainTechId();
+    const secondTechId: number | null = orderPopUpContext.getSecondTechId();
+    orderListContext.updateOrder(orderData.id, mainTechId, secondTechId, orderBeginTime, orderEndTime);
+    popUpContext.setData(PopUpName.none, null)
   }
 
   return (
