@@ -14,6 +14,7 @@ import { iTechListContext, iTechnician, TechListContext } from "../../Technician
 import Scrollbar from "../../../../lib/scrollbar";
 import Calendar from "react-calendar";
 import twoDigitOutput from "../../../../utils/twoDigitsOutput";
+import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -272,6 +273,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <use href="#clock-icon"/>
                   </svg>
+                  <div className={"time-drop-menu-cont"}>
+                    <TimeDropMenu dateProp={beginTime}/>
+                  </div>
                 </div>
                 <div className="time-to time">
                   <p className="title">

@@ -435,6 +435,16 @@
         color: #94bbff;
       }
     }
+
+    .time-drop-menu-cont {
+      position: absolute;
+      left: 0;
+      top: 66px;
+
+      &.hide {
+        display: none;
+      }
+    }
   }
 
   .add-block {
