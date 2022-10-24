@@ -201,9 +201,13 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     const secondTechId: number | null = orderPopUpContext.getSecondTechId();
     if (mainTechId !== null) {
       setMainTech(techListContext.getTechDataById(mainTechId));
+    } else {
+      setMainTech(null);
     }
     if (secondTechId !== null) {
       setSecondTech(techListContext.getTechDataById(secondTechId));
+    } else {
+      setSecondTech(null);
     }
   }, [orderPopUpContext]);
 
@@ -361,6 +365,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
     orderListContext.updateOrder(orderData.id, mainTechId, secondTechId, orderBeginTime, orderEndTime);
     popUpContext.setData(PopUpName.none, null)
+  }
+
+  function removeSecondTech(): void {
+    const mainTechId: number | null = orderPopUpContext.getMainTechId();
+    orderPopUpContext.setTechIds(mainTechId, null);
   }
 
   return (
@@ -534,13 +543,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       </svg>
                       <div className={"tech-drop-menu-cont" + (showMenu4SecondTech ? "" : " hide")}>
                         <div className="delete-popup">
-                          <div className="top">
+                          <div className="top" onClick={(): void => {removeSecondTech();}}>
                             <svg width="11" height="13" viewBox="0 0 11 13" fill="none">
                               <use href="#trash" />
                             </svg>
-                            <p className="title">
-                              Delete
-                            </p>
+                            <p className="title">Delete</p>
                           </div>
                           <div className="bottom">
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
