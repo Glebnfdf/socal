@@ -375,7 +375,7 @@
       display: flex;
       justify-content: space-between;
       outline: none;
-      cursor: pointer;
+      //cursor: pointer;
       background: #ffffff;
       border: 1px solid #94bbff;
       border-radius: 15px;
@@ -433,6 +433,15 @@
         font-size: 12px;
         line-height: 130%;
         color: #94bbff;
+      }
+    }
+
+    .time-inline-block {
+      display: inline-block;
+      cursor: pointer;
+
+      &.time-padding-right {
+        padding-right: 7px;
       }
     }
 

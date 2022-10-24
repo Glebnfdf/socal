@@ -335,9 +335,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   isShowBeginTimeDrop.current = false;
                   setShowBeginTimeDrop(true);
                 }}>
-                  <p className="title">
-                    {getTime(beginTime)} <span>{getTimeType(beginTime)}</span>
-                  </p>
+                  <div>
+                    <div className={"time-inline-block time-padding-right"}>
+                      {getTime(beginTime)}
+                    </div>
+                    <div className={"time-inline-block"}>
+                      {getTimeType(beginTime)}
+                    </div>
+                  </div>
                   <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <use href="#clock-icon"/>
                   </svg>
@@ -349,9 +354,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   isShowEndTimeDrop.current = false;
                   setShowEndTimeDrop(true);
                 }}>
-                  <p className="title">
-                    {getTime(endTime)} <span>{getTimeType(endTime)}</span>
-                  </p>
+                  <div>
+                    <div className={"time-inline-block time-padding-right"}>
+                      {getTime(endTime)}
+                    </div>
+                    <div className={"time-inline-block"}>
+                      {getTimeType(endTime)}
+                    </div>
+                  </div>
                   <svg width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <use href="#clock-icon"/>
                   </svg>
