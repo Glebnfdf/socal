@@ -205,6 +205,17 @@ $trans-options: 300ms ease;
   }
 }
 
+.auth-logo {
+  width: 100%;
+  position: relative;
+  height: 108px;
+  text-align: center;
+  margin-bottom: 92px;
+
+  img {
+  }
+}
+
 
 .auth-screen {
   max-width: 1406px;
@@ -223,6 +234,7 @@ $trans-options: 300ms ease;
   }
 
   .auth-form-cont {
+    width: 477px;
     padding: 60px 63px;
     background: #FFFFFF;
     border-radius: 30px;
@@ -250,7 +262,6 @@ $trans-options: 300ms ease;
       line-height: 130%;
       letter-spacing: 0.02em;
       color: #81A6E7;
-      padding-bottom: 56px;
     }
 
     .auth-input {
@@ -294,7 +305,6 @@ $trans-options: 300ms ease;
       opacity: 0.3;
       border-radius: 15px;
       width: 100%;
-      margin-top: 100px;
       padding-top: 15px;
       padding-bottom: 15px;
       font-family: $main-font;
