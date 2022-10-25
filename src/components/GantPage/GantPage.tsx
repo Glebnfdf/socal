@@ -10,6 +10,7 @@ import PopUpContextProvider from "../PopUpContext/PopUpContext";
 import GMap from "./GMap/GMap";
 import OrderPopUpProvider from "../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
 import MapProvider from "./MapProvider/MapProvider";
+import MapHeightProvider from "./MapHeightProvider/MapHeightProvider";
 
 export default function GantPage(): JSX.Element {
   return (
@@ -19,15 +20,17 @@ export default function GantPage(): JSX.Element {
           <PopUpContextProvider>
             <OrderPopUpProvider>
               <MapProvider>
-                <Header/>
-                <main className="main">
-                  <div className="blur-main"/>
-                  <UnDispatched/>
-                  <TechnicianList />
-                  <GMap/>
-                </main>
-                <footer className="container" />
-                <PopUpList/>
+                <MapHeightProvider>
+                  <Header/>
+                  <main className="main">
+                    <div className="blur-main"/>
+                    <UnDispatched/>
+                    <TechnicianList />
+                    <GMap/>
+                  </main>
+                  <footer className="container" />
+                  <PopUpList/>
+                </MapHeightProvider>
               </MapProvider>
             </OrderPopUpProvider>
           </PopUpContextProvider>

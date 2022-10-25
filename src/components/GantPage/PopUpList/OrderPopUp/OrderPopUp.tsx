@@ -19,6 +19,7 @@ import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
 import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
 import { iMapContext, MapContext } from "../../MapProvider/MapProvider";
+import { iMapHeightContext, MapHeightContext } from "../../MapHeightProvider/MapHeightProvider";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -45,7 +46,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
   const smallPopUpWidth: number = 354;
   const paddingFromOrder: number = 8;
-  const paddingTopFromMap: number = 28;
+  // const paddingTopFromMap: number = 28;
   const paddingLeftFromMap: number = 10;
   const [popUpType, setPopUpType]: [st: OrderPopUpType, set: (st: OrderPopUpType) => void] =
     useState<OrderPopUpType>(incomingData ? incomingData.type : OrderPopUpType.Small);
@@ -74,6 +75,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const isShowMenu4SecondTech: React.MutableRefObject<boolean> = useRef<boolean>(false);
   const [showMenu4SecondTech, setShowMenu4SecondTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const mapContext: iMapContext = useContext<iMapContext>(MapContext);
+  const mapHeightContext: iMapHeightContext = useContext<iMapHeightContext>(MapHeightContext);
 
   let orderData: iOrder | null = null;
 
@@ -375,6 +377,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
               onClick={(): void => {
                 popUpContext.setData(PopUpName.none, null);
                 mapContext.setOrderId(null);
+                mapHeightContext.decreaseMap();
               }}
             >
               <use href="#close-icon"/>
@@ -611,6 +614,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       popUpContext.setData(PopUpName.none, null);
                       mapContext.setOrderId(null);
                       mapContext.setTechId(null);
+                      mapHeightContext.decreaseMap();
                     }}
                     >Delete search</div>
                   </>
@@ -629,12 +633,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                         setPopUpPosition({
                           position: "absolute",
                           left: (mapRect.x + paddingLeftFromMap).toString() + "px",
-                          top: (mapRect.top + paddingTopFromMap).toString() + "px"
+                          // top: (mapRect.top + paddingTopFromMap).toString() + "px"
+                          top: "602px"
                         });
                         setPopUpType(OrderPopUpType.Small);
                         setIsPopUpOnMap(true);
                         if (orderData) {
                           mapContext.setOrderId(orderData.id);
+                          mapHeightContext.increaseMap();
                         }
                       }
                     }}
