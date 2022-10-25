@@ -20,6 +20,10 @@
     box-sizing: initial;
     height: 100%;
 
+    *:focus-visible {
+      outline: none;
+    }
+
     img {
       max-width: none;
     }
