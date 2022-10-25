@@ -82,7 +82,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   }
 
   useEffect((): () => void => {
-    const pageClickHandler = (event: MouseEvent): void => {
+    const pageClickHandler = (): void => {
       // логика тут такая: когда пользователь нажимает на иконку календаря, мы переключаем состояние на показ
       // компонента, но только после этого срабатывает событие click и чтобы оно само себя не закрывало при первом
       // проходе мы переключаем isShowCalendar.current
@@ -608,7 +608,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       Details
                     </div>
                     <div className="white-btn" onClick={(): void => {
-                        popUpContext.setData(PopUpName.none, null);
+                      popUpContext.setData(PopUpName.none, null);
+                      mapContext.setOrderId(null);
+                      mapContext.setTechId(null);
                     }}
                     >Delete search</div>
                   </>
