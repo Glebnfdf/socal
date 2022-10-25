@@ -21,7 +21,8 @@ export default function Marker({order, mapRef}: iProps): JSX.Element {
         )
       });
       infoWindow.current = new google.maps.InfoWindow({
-        content: order.time_slot_to
+        content: `${getTime12Format(new Date(order.time_slot_from))} - ${getTime12Format(new Date(order.time_slot_to))}`,
+        disableAutoPan: true
       });
       infoWindow.current.open(mapRef, markerRef.current);
     }
@@ -34,6 +35,14 @@ export default function Marker({order, mapRef}: iProps): JSX.Element {
       }
     };
   }, []);
+
+  function getTime12Format(date: Date): string {
+    return new Intl.DateTimeFormat("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    }).format(date).toLowerCase();
+  }
 
   return (
     <></>
