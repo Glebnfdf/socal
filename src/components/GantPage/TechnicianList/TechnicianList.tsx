@@ -9,12 +9,16 @@ import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
 import { DragItemType } from "../../../utils/DragItemType";
 import isBeginTimeNotOld from "../../../utils/isBeginTimeNotOld";
 import Scrollbar from "../../../lib/scrollbar";
+import { iMapContext, MapContext } from "../MapProvider/MapProvider";
+import { iMapHeightContext, MapHeightContext } from "../MapHeightProvider/MapHeightProvider";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
   const orderListContext: iOrderListContext = useContext(OrderListContext);
   const [techList, setTechList]: [st: iTechnician[] | null, set: (st: iTechnician[] | null) => void] =
     useState<iTechnician[] | null>(null);
+  const mapContext: iMapContext = useContext<iMapContext>(MapContext);
+  const mapHeightContext: iMapHeightContext = useContext<iMapHeightContext>(MapHeightContext);
 
   useEffect((): () => void => {
     let scrollbar: Scrollbar | null = null;
@@ -140,7 +144,15 @@ export default function TechnicianList(): JSX.Element {
                                 </p>
                               </div>
                               <div className="item-left-bottom">
-                                <svg width="35" height="35" viewBox="0 0 35 35" fill="none">
+                                <svg width="35" height="35" viewBox="0 0 35 35" fill="none" onClick={(): void => {
+                                  if (mapContext.getMapContextData().techId === technician.id) {
+                                    mapContext.setTechId(null);
+                                    mapHeightContext.decreaseMap();
+                                  } else {
+                                    mapContext.setTechId(technician.id);
+                                    mapHeightContext.increaseMap();
+                                  }
+                                }}>
                                   <use href="#but"/>
                                 </svg>
                               </div>

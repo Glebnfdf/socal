@@ -17,7 +17,9 @@ import Scrollbar from "../../../../lib/scrollbar";
 import Calendar from "react-calendar";
 import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
-import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp";
+import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
+import { iMapContext, MapContext } from "../../MapProvider/MapProvider";
+import { iMapHeightContext, MapHeightContext } from "../../MapHeightProvider/MapHeightProvider";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -44,7 +46,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
   const smallPopUpWidth: number = 354;
   const paddingFromOrder: number = 8;
-  const paddingTopFromMap: number = 28;
+  // const paddingTopFromMap: number = 28;
   const paddingLeftFromMap: number = 10;
   const [popUpType, setPopUpType]: [st: OrderPopUpType, set: (st: OrderPopUpType) => void] =
     useState<OrderPopUpType>(incomingData ? incomingData.type : OrderPopUpType.Small);
@@ -72,6 +74,8 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const [showMenu4MainTech, setShowMenu4MainTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const isShowMenu4SecondTech: React.MutableRefObject<boolean> = useRef<boolean>(false);
   const [showMenu4SecondTech, setShowMenu4SecondTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const mapContext: iMapContext = useContext<iMapContext>(MapContext);
+  const mapHeightContext: iMapHeightContext = useContext<iMapHeightContext>(MapHeightContext);
 
   let orderData: iOrder | null = null;
 
@@ -80,55 +84,43 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   }
 
   useEffect((): () => void => {
-    const pageClickHandler = (event: MouseEvent): void => {
-      // костыль: почему-то выбор месяца или года в календаре при проверке через closest указывает, что target не
-      // относится к классу календаря, поэтому мы отталкиваемся, что target в тех случаях является abbr и просто игнорим
-      // проверки для этого тега
-      if ((event.target as HTMLElement).tagName === "ABBR") {
-        return;
+    const pageClickHandler = (): void => {
+      // логика тут такая: когда пользователь нажимает на иконку календаря, мы переключаем состояние на показ
+      // компонента, но только после этого срабатывает событие click и чтобы оно само себя не закрывало при первом
+      // проходе мы переключаем isShowCalendar.current
+      if (isShowCalendar.current) {
+        isShowCalendar.current = false;
+        setShowCalendar(false);
+      } else {
+        isShowCalendar.current = true;
       }
 
-      if ((event.target as HTMLElement).closest(".popup") === null &&
-        (event.target as HTMLElement).closest(".btn-save") === null) {
-        popUpContext.setData(PopUpName.none, null)
+      if (isShowBeginTimeDrop.current) {
+        isShowBeginTimeDrop.current = false;
+        setShowBeginTimeDrop(false);
       } else {
-        // логика тут такая: когда пользователь нажимает на иконку календаря, мы переключаем состояние на показ
-        // компонента, но только после этого срабатывает событие click и чтобы оно само себя не закрывало при первом
-        // проходе мы переключаем isShowCalendar.current
-        if (isShowCalendar.current) {
-          isShowCalendar.current = false;
-          setShowCalendar(false);
-        } else {
-          isShowCalendar.current = true;
-        }
+        isShowBeginTimeDrop.current = true;
+      }
 
-        if (isShowBeginTimeDrop.current) {
-          isShowBeginTimeDrop.current = false;
-          setShowBeginTimeDrop(false);
-        } else {
-          isShowBeginTimeDrop.current = true;
-        }
+      if (isShowEndTimeDrop.current) {
+        isShowEndTimeDrop.current = false;
+        setShowEndTimeDrop(false);
+      } else {
+        isShowEndTimeDrop.current = true;
+      }
 
-        if (isShowEndTimeDrop.current) {
-          isShowEndTimeDrop.current = false;
-          setShowEndTimeDrop(false);
-        } else {
-          isShowEndTimeDrop.current = true;
-        }
+      if (isShowMenu4MainTech.current) {
+        isShowMenu4MainTech.current = false;
+        setShowMenu4MainTech(false);
+      } else {
+        isShowMenu4MainTech.current = true;
+      }
 
-        if (isShowMenu4MainTech.current) {
-          isShowMenu4MainTech.current = false;
-          setShowMenu4MainTech(false);
-        } else {
-          isShowMenu4MainTech.current = true;
-        }
-
-        if (isShowMenu4SecondTech.current) {
-          isShowMenu4SecondTech.current = false;
-          setShowMenu4SecondTech(false);
-        } else {
-          isShowMenu4SecondTech.current = true;
-        }
+      if (isShowMenu4SecondTech.current) {
+        isShowMenu4SecondTech.current = false;
+        setShowMenu4SecondTech(false);
+      } else {
+        isShowMenu4SecondTech.current = true;
       }
     }
     document.addEventListener("click", pageClickHandler);
@@ -382,7 +374,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
               height="11"
               viewBox="0 0 11 11"
               fill="none"
-              onClick={(): void => {popUpContext.setData(PopUpName.none, null)}}
+              onClick={(): void => {
+                popUpContext.setData(PopUpName.none, null);
+                mapContext.setOrderId(null);
+                mapHeightContext.decreaseMap();
+              }}
             >
               <use href="#close-icon"/>
             </svg>
@@ -615,7 +611,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       Details
                     </div>
                     <div className="white-btn" onClick={(): void => {
-                        popUpContext.setData(PopUpName.none, null);
+                      popUpContext.setData(PopUpName.none, null);
+                      mapContext.setOrderId(null);
+                      mapContext.setTechId(null);
+                      mapHeightContext.decreaseMap();
                     }}
                     >Delete search</div>
                   </>
@@ -634,10 +633,15 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                         setPopUpPosition({
                           position: "absolute",
                           left: (mapRect.x + paddingLeftFromMap).toString() + "px",
-                          top: (mapRect.top + paddingTopFromMap).toString() + "px"
+                          // top: (mapRect.top + paddingTopFromMap).toString() + "px"
+                          top: "602px"
                         });
                         setPopUpType(OrderPopUpType.Small);
                         setIsPopUpOnMap(true);
+                        if (orderData) {
+                          mapContext.setOrderId(orderData.id);
+                          mapHeightContext.increaseMap();
+                        }
                       }
                     }}
                     >Mark on the map</div>

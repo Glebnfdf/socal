@@ -1,24 +1,12 @@
 import * as React from "react";
 import "../../../../../source/img/svgIcons/error-icon.svg";
 import "../../../../../source/img/svgIcons/close-icon.svg";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { PopUpName } from "../PopUpList";
 import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
 
 export default function SimpleErrorPopUp(): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
-
-  useEffect((): () => void => {
-    const pageClickHandler = (event: MouseEvent): void => {
-      if ((event.target as HTMLElement).closest(".popup-error") === null) {
-        popUpContext.setData(PopUpName.none, null)
-      }
-    }
-    document.addEventListener("click", pageClickHandler);
-    return (): void => {
-      document.removeEventListener("click", pageClickHandler);
-    };
-  }, []);
 
   return (
     <div className="popup-error">

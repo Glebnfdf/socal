@@ -2,6 +2,8 @@
   position: relative;
   z-index: 21;
   background-color: #fdfeff;
+  height: 300px;
+  transition: height 300ms ease;
 
   .map-top-ine {
     height: 22px;
@@ -17,7 +19,11 @@
 
   #map {
     box-sizing: initial;
-    height: 259px;
+    height: 100%;
+
+    *:focus-visible {
+      outline: none;
+    }
 
     img {
       max-width: none;
