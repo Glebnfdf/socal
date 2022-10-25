@@ -18,6 +18,7 @@ import Calendar from "react-calendar";
 import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
 import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp";
+import { iMapContext, MapContext } from "../../MapProvider/MapProvider";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -72,6 +73,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const [showMenu4MainTech, setShowMenu4MainTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const isShowMenu4SecondTech: React.MutableRefObject<boolean> = useRef<boolean>(false);
   const [showMenu4SecondTech, setShowMenu4SecondTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const mapContext: iMapContext = useContext<iMapContext>(MapContext);
 
   let orderData: iOrder | null = null;
 
@@ -90,7 +92,8 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
       if ((event.target as HTMLElement).closest(".popup") === null &&
         (event.target as HTMLElement).closest(".btn-save") === null) {
-        popUpContext.setData(PopUpName.none, null)
+        popUpContext.setData(PopUpName.none, null);
+        mapContext.setOrderId(null);
       } else {
         // логика тут такая: когда пользователь нажимает на иконку календаря, мы переключаем состояние на показ
         // компонента, но только после этого срабатывает событие click и чтобы оно само себя не закрывало при первом
@@ -382,7 +385,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
               height="11"
               viewBox="0 0 11 11"
               fill="none"
-              onClick={(): void => {popUpContext.setData(PopUpName.none, null)}}
+              onClick={(): void => {
+                popUpContext.setData(PopUpName.none, null);
+                mapContext.setOrderId(null);
+              }}
             >
               <use href="#close-icon"/>
             </svg>
@@ -638,6 +644,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                         });
                         setPopUpType(OrderPopUpType.Small);
                         setIsPopUpOnMap(true);
+                        if (orderData) {
+                          mapContext.setOrderId(orderData.id);
+                        }
                       }
                     }}
                     >Mark on the map</div>
