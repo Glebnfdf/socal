@@ -83,55 +83,42 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
   useEffect((): () => void => {
     const pageClickHandler = (event: MouseEvent): void => {
-      // костыль: почему-то выбор месяца или года в календаре при проверке через closest указывает, что target не
-      // относится к классу календаря, поэтому мы отталкиваемся, что target в тех случаях является abbr и просто игнорим
-      // проверки для этого тега
-      if ((event.target as HTMLElement).tagName === "ABBR") {
-        return;
+      // логика тут такая: когда пользователь нажимает на иконку календаря, мы переключаем состояние на показ
+      // компонента, но только после этого срабатывает событие click и чтобы оно само себя не закрывало при первом
+      // проходе мы переключаем isShowCalendar.current
+      if (isShowCalendar.current) {
+        isShowCalendar.current = false;
+        setShowCalendar(false);
+      } else {
+        isShowCalendar.current = true;
       }
 
-      if ((event.target as HTMLElement).closest(".popup") === null &&
-        (event.target as HTMLElement).closest(".btn-save") === null) {
-        popUpContext.setData(PopUpName.none, null);
-        mapContext.setOrderId(null);
+      if (isShowBeginTimeDrop.current) {
+        isShowBeginTimeDrop.current = false;
+        setShowBeginTimeDrop(false);
       } else {
-        // логика тут такая: когда пользователь нажимает на иконку календаря, мы переключаем состояние на показ
-        // компонента, но только после этого срабатывает событие click и чтобы оно само себя не закрывало при первом
-        // проходе мы переключаем isShowCalendar.current
-        if (isShowCalendar.current) {
-          isShowCalendar.current = false;
-          setShowCalendar(false);
-        } else {
-          isShowCalendar.current = true;
-        }
+        isShowBeginTimeDrop.current = true;
+      }
 
-        if (isShowBeginTimeDrop.current) {
-          isShowBeginTimeDrop.current = false;
-          setShowBeginTimeDrop(false);
-        } else {
-          isShowBeginTimeDrop.current = true;
-        }
+      if (isShowEndTimeDrop.current) {
+        isShowEndTimeDrop.current = false;
+        setShowEndTimeDrop(false);
+      } else {
+        isShowEndTimeDrop.current = true;
+      }
 
-        if (isShowEndTimeDrop.current) {
-          isShowEndTimeDrop.current = false;
-          setShowEndTimeDrop(false);
-        } else {
-          isShowEndTimeDrop.current = true;
-        }
+      if (isShowMenu4MainTech.current) {
+        isShowMenu4MainTech.current = false;
+        setShowMenu4MainTech(false);
+      } else {
+        isShowMenu4MainTech.current = true;
+      }
 
-        if (isShowMenu4MainTech.current) {
-          isShowMenu4MainTech.current = false;
-          setShowMenu4MainTech(false);
-        } else {
-          isShowMenu4MainTech.current = true;
-        }
-
-        if (isShowMenu4SecondTech.current) {
-          isShowMenu4SecondTech.current = false;
-          setShowMenu4SecondTech(false);
-        } else {
-          isShowMenu4SecondTech.current = true;
-        }
+      if (isShowMenu4SecondTech.current) {
+        isShowMenu4SecondTech.current = false;
+        setShowMenu4SecondTech(false);
+      } else {
+        isShowMenu4SecondTech.current = true;
       }
     }
     document.addEventListener("click", pageClickHandler);

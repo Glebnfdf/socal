@@ -38,6 +38,7 @@
   background: #fff;
   border-radius: 15px;
   box-shadow: 0 4px 24px rgba(67, 108, 180, 0.39);
+  pointer-events: auto;
 
   &.big {
     width: 580px;
