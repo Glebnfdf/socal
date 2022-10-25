@@ -35,10 +35,10 @@ export default function MapComp(): JSX.Element {
   return (
     <>
       <div id={"map"} ref={div4MapRef}></div>
-      {orderId && <Marker/>}
+      {orderId && <Marker order={orderListContext.getOrderById(orderId)} mapRef={map.current}/>}
       {orderList4Tech.current && orderList4Tech.current.map((order: iOrder): JSX.Element => {
         return (
-          <Marker/>
+          <Marker order={order} mapRef={map.current}/>
         )
       })}
     </>
