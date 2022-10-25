@@ -2,18 +2,22 @@ import * as React from "react";
 import { useEffect, useRef } from "react";
 
 export default function MapComp(): JSX.Element {
-  const mapRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const div4MapRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const map: React.MutableRefObject<google.maps.Map | null> = useRef<google.maps.Map | null>(null);
+  const mapCenter: google.maps.LatLng =
+    new google.maps.LatLng(36.65342732855857, -119.89621977146605);
+  const defaultZoom: number = 7;
 
   useEffect((): void => {
-    if (mapRef.current) {
-      new window.google.maps.Map(mapRef.current, {
-        center: {lat: 36.75983915395801, lng: -119.78824111455792},
-        zoom: 10,
+    if (div4MapRef.current) {
+      map.current = new window.google.maps.Map(div4MapRef.current, {
+        center: mapCenter,
+        zoom: defaultZoom,
       });
     }
-  }, [mapRef.current]);
+  }, [div4MapRef.current]);
 
   return (
-    <div id={"map"} ref={mapRef}></div>
+    <div id={"map"} ref={div4MapRef}></div>
   );
 }
