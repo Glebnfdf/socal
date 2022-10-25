@@ -33,7 +33,45 @@ export default function MapComp(): JSX.Element {
     } else {
       setOrderList4Tech(orderListContext.getOrdersByTechId(techId));
     }
+    centerMap();
   }, [mapContext]);
+
+  function centerMap(): void {
+    if (!map.current) {
+      return;
+    }
+
+    const mapBounds: google.maps.LatLngBounds = new google.maps.LatLngBounds();
+    const orderIdFromContext: number | null = mapContext.getMapContextData().orderId;
+    if (orderIdFromContext !== null) {
+      const order: iOrder | null = orderListContext.getOrderById(orderIdFromContext);
+      if (order) {
+        mapBounds.extend(
+          new google.maps.LatLng(Number(order.coords.split(";")[0]), Number(order.coords.split(";")[1]))
+        );
+      }
+    }
+
+    const techIdFromContext: number | null = mapContext.getMapContextData().techId;
+    if (techIdFromContext !== null) {
+      const orderList: iOrder[] | null = orderListContext.getOrdersByTechId(techIdFromContext);
+      if (orderList && orderList.length) {
+        orderList.forEach((order: iOrder): void => {
+          mapBounds.extend(
+            new google.maps.LatLng(Number(order.coords.split(";")[0]), Number(order.coords.split(";")[1]))
+          );
+        });
+      }
+    }
+
+    if (!mapBounds.isEmpty()) {
+      map.current.fitBounds(mapBounds);
+      const newZoom: number | undefined = map.current.getZoom();
+      if (newZoom !== undefined && newZoom > 13) {
+        map.current.setZoom(13);
+      }
+    }
+  }
 
   return (
     <>
