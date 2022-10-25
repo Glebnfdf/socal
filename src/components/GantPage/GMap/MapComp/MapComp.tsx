@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { iMapContext, MapContext } from "../../MapProvider/MapProvider";
-import Marker from "../Marker/Marker";
+import Marker, { MarkerType } from "../Marker/Marker";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
 
 export default function MapComp(): JSX.Element {
@@ -76,11 +76,13 @@ export default function MapComp(): JSX.Element {
   return (
     <>
       <div id={"map"} ref={div4MapRef}></div>
-      {orderId && <Marker order={orderListContext.getOrderById(orderId)} mapRef={map.current}/>}
+      {orderId &&
+        <Marker order={orderListContext.getOrderById(orderId)} mapRef={map.current} markerType={MarkerType.Red}/>
+      }
       {orderList4Tech && orderList4Tech.length && orderList4Tech.map((order: iOrder): JSX.Element | null => {
         if (order.id !== orderId) {
           return (
-            <Marker order={order} mapRef={map.current} key={order.id}/>
+            <Marker order={order} mapRef={map.current} key={order.id} markerType={MarkerType.Blue}/>
           )
         } else {
           return null
