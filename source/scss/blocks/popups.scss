@@ -612,6 +612,7 @@
   border-radius: 15px;
   width: 402px;
   z-index: 22;
+  pointer-events: auto;
 
   .title {
     font-family: $main-font;

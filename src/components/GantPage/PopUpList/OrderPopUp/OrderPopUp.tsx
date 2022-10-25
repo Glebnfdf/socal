@@ -17,7 +17,7 @@ import Scrollbar from "../../../../lib/scrollbar";
 import Calendar from "react-calendar";
 import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
-import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp";
+import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
 import { iMapContext, MapContext } from "../../MapProvider/MapProvider";
 
 interface iProps {

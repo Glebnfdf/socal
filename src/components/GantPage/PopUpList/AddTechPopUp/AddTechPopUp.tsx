@@ -1,12 +1,12 @@
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";
-import "../../../../source/img/svgIcons/close-icon.svg";
-import "../../../../source/img/svgIcons/union.svg";
-import Scrollbar from "../../../lib/scrollbar";
-import { iTechListContext, iTechnician, TechListContext } from "../TechnicianListModel/TechnicianListModel";
-import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
-import { PopUpName } from "./PopUpList";
-import { iOrderPopUpInData, OrderPopUpType } from "./OrderPopUp/OrderPopUp";
+import "../../../../../source/img/svgIcons/close-icon.svg";
+import "../../../../../source/img/svgIcons/union.svg";
+import Scrollbar from "../../../../lib/scrollbar";
+import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
+import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
+import { PopUpName } from "../PopUpList";
+import { iOrderPopUpInData, OrderPopUpType } from "../OrderPopUp/OrderPopUp";
 
 interface iProps {
   incomingData: iAddTechInData | null
@@ -37,14 +37,7 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
       scrollbar.init(scrollCont);
     }
 
-    const pageClickHandler = (event: MouseEvent): void => {
-      if ((event.target as HTMLElement).closest(".popup-search") === null) {
-        popUpContext.setData(PopUpName.none, null)
-      }
-    }
-    document.addEventListener("click", pageClickHandler);
     return (): void => {
-      document.removeEventListener("click", pageClickHandler);
       if (scrollbar) {
         scrollbar.destroy();
       }
