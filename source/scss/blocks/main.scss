@@ -100,6 +100,10 @@
 
 .main {
   position: relative;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .blur-main {
@@ -119,6 +123,9 @@
 
 .overflow {
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .undispatched {
@@ -360,6 +367,8 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  flex-grow: 1;
+  min-height: 138px;
 
   &:after {
     position: absolute;
@@ -375,7 +384,7 @@
   .content {
     background: #fff;
     width: 100%;
-    height: 300px;
+    height: 100%;
 
     .item {
       position: relative;
