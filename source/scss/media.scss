@@ -63,3 +63,26 @@
     top: 0;
   }
 }
+
+@media (max-width: 1480px) {
+  .auth-screen {
+    justify-content: center !important;
+    display: flex;
+
+    .title {
+      font-size: 22px !important;
+    }
+
+    .phone {
+      font-size: 16px !important;
+    }
+
+    .left {
+      display: none;
+    }
+  }
+
+  .auth-form-cont:before {
+    margin-top: 411px !important;
+  }
+}
