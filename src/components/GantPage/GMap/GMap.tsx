@@ -1,5 +1,4 @@
 import * as React from "react";
-import "./GMap.scss";
 import "../../../../source/img/svgIcons/points.svg";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import MapComp from "./MapComp/MapComp";
