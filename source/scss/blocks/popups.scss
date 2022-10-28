@@ -882,6 +882,8 @@
   border-radius: 15px;
   height: 283px;
   overflow-x: hidden;
+  z-index: 22;
+  position: relative;
 
   .left,
   .right {
