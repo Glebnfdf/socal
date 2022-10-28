@@ -276,7 +276,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   }
 
   function convert12To42(date: Date, hour: number): number {
-    const isPM: boolean = date.getHours() > 12;
+    const isPM: boolean = date.getHours() >= 12;
     if (isPM && hour < 12) {
       hour += 12;
     }
