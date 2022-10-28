@@ -25,9 +25,12 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
   const techInPopUpContext: iOrderPopUpContext = useContext(OrderPopUpContext);
   const orderListContext: iOrderListContext = useContext(OrderListContext);
   const container: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const [, setSignal2Rerender]: [st: number, set: (st: number) => void] = useState(0);
+  const iterator: React.MutableRefObject<number> = useRef<number>(0);
   const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
   const scrollbarWidth: number = 0; // поставить 13, когда будет scrollbar;
   const numberOfHours: number = 15;
+  let contResizeObserver: ResizeObserver;
 
   function addLine2Order(orderList: iOrder[] | null): iOrderWithLine[] | null {
     if (!orderList) {
@@ -43,6 +46,21 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
   useEffect((): void => {
     setOrderListWithLine(addLine2Order(orderListProp));
   }, [orderListProp]);
+
+  useEffect((): () => void => {
+    if (container.current) {
+        contResizeObserver = new ResizeObserver((): void => {
+        iterator.current++;
+        setSignal2Rerender(iterator.current);
+      })
+      contResizeObserver.observe(container.current);
+    }
+    return (): void => {
+      if (contResizeObserver) {
+        contResizeObserver.disconnect();
+      }
+    };
+  }, []);
 
   function getLineNumber(ordersWithLine: iOrderWithLine[], order: iOrder): number {
     let lineNumber: number = 1;
