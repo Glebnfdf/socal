@@ -163,6 +163,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
 
   return (
     <div className={"auth-form-cont"}>
+      <div className="auth-bottom"></div>
       <p className="title">Insert code from<br/>SMS</p>
       <p className="action-label sms">We send sms to<br/>{phoneNumber}</p>
       <div className={"sms-inputs-cont"}>
