@@ -1,15 +1,20 @@
 import * as React from "react";
 import AuthScreenMng from "../AuthScreenMng/AuthScreenMng";
-import "./authPage.scss";
+// import "./authPage.scss";
+import AuthLogo from "../../../../source/img/logo/logo-for-auth.svg";
 
 export default function AuthPage(): JSX.Element {
   return (
     <div className={"auth-body auth-body-cont"}>
       <div className="auth-screen">
-        <div className="left">
-        </div>
+        <div className="left" />
         <div>
-          <AuthScreenMng/>
+          <div className="right">
+            <div className="auth-logo">
+              <img src={AuthLogo}/>
+            </div>
+            <AuthScreenMng/>
+          </div>
         </div>
       </div>
     </div>
