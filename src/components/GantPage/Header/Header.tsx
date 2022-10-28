@@ -62,6 +62,7 @@ export default function Header(): JSX.Element {
 
   return (
     <header className="header">
+      <div className="header-blur header-blur-show"/>
       <nav className="nav container">
         <div className="left">
           <div className="logo">
