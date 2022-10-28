@@ -155,17 +155,6 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          //padding-right: 5px;
-
-          //&:after {
-          //  width: 5px;
-          //  height: 5px;
-          //  position: absolute;
-          //  content: " ";
-          //  background: #81a6e7;
-          //  border-radius: 100px;
-          //  margin-left: 96px;
-          //}
         }
 
         .description {
@@ -177,20 +166,9 @@
         display: flex;
 
         .phone {
-          //padding-right: 5px;
           display: flex;
           align-items: center;
           position: relative;
-
-          //&:after {
-          //  width: 5px;
-          //  height: 5px;
-          //  position: absolute;
-          //  content: " ";
-          //  background: #81a6e7;
-          //  border-radius: 100px;
-          //  margin-left: 151px;
-          //}
         }
 
         .mail {
@@ -211,14 +189,11 @@
 
     .main-container {
       width: 100%;
-    }
 
-    //.scroll-content-wrapper {
-    //  overflow: auto;
-    //  width: 100%;
-    //  max-height: 105px;
-    //  scrollbar-width: none;
-    //}
+      #order-popup-info-scroll .content {
+        line-height: 150%;
+      }
+    }
 
     padding-top: 14px;
     padding-bottom: 14px;
@@ -376,7 +351,6 @@
       display: flex;
       justify-content: space-between;
       outline: none;
-      //cursor: pointer;
       background: #ffffff;
       border: 1px solid #94bbff;
       border-radius: 15px;
@@ -388,11 +362,6 @@
       line-height: 130%;
       letter-spacing: 0.02em;
       color: #0f244a;
-
-      .title {
-        //display: flex;
-        //align-items: center;
-      }
 
       &:hover {
         border: 1px solid #81a6e7;
@@ -462,7 +431,6 @@
     align-items: center;
 
     .added-technical {
-      //cursor: pointer;
       transition: 0.2s;
       padding: 9px 12px;
       background: #E9F1FF;
@@ -521,11 +489,6 @@
           }
         }
       }
-
-      //&:hover {
-      //  background: #d1e3fe;
-      //  color: #0866fb;
-      //}
 
       &:first-child {
         margin-right: 14px;
@@ -919,10 +882,8 @@
   border-radius: 15px;
   height: 283px;
   overflow-x: hidden;
-
-  //&::-webkit-scrollbar {
-  //  width: 0;
-  //}
+  z-index: 22;
+  position: relative;
 
   .left,
   .right {

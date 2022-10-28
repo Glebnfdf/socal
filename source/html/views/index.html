@@ -70,7 +70,8 @@
   <%= _.template(require('../includes/common/header.html').default)({version:
   htmlWebpackPlugin.options.custom.version,}) %>
   <main class="main">
-    <div class="blur-main blur-main-show">
+    <!-- добавить класс blur-main-show чтобы показать прелоадер -->
+    <div class="blur-main">
 
       <!--Прелоадер перед загрузкой react приложения -->
       <div id="before-app-preloader">
@@ -87,6 +88,9 @@
 
     <!--index/hero.html-->
     <%= _.template(require('../includes/index/undispatched.html').default)({}) %>
+
+    <!--google map-->
+    <%= _.template(require('../includes/index/google-map.html').default)({}) %>
   </main>
   <!--footer.html-->
   <%= _.template(require('../includes/common/footer.html').default)({}) %>

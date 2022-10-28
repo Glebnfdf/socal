@@ -15,13 +15,24 @@ export enum PopUpName {
 
 export default function PopUpList(): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
-  const [popUpName, setPopUpName]: [st: PopUpName | null, set: (st: PopUpName | null) => void] = useState<PopUpName | null>(null);
+  const [popUpName, setPopUpName]: [st: PopUpName, set: (st: PopUpName) => void] = useState<PopUpName>(PopUpName.none);
   const transmittedData: React.MutableRefObject<unknown> = useRef<unknown>(null);
+  const [newPopUpName, setNewPopUpName]: [st: PopUpName, set: (st: PopUpName) => void] = useState<PopUpName>(PopUpName.none);
 
   useEffect((): void => {
     transmittedData.current = popUpContext.data.transmittedData;
-    setPopUpName(popUpContext.data.name);
+    setNewPopUpName(popUpContext.data.name);
+    setPopUpName(PopUpName.none);
   }, [popUpContext.data]);
+
+  useEffect((): void => {
+    // логика такая: если открыт popUp и пользователь нажимает на открытие второго, то сперва сбрасываем первый путём
+    // установки popUpName в PopUpName.none, а уже после перерендера, устанавливаем нужное имя, иначе react будет
+    // использовать старую версию компонента
+    if (popUpName === PopUpName.none && newPopUpName !== PopUpName.none) {
+      setPopUpName(newPopUpName);
+    }
+  }, [popUpName, newPopUpName]);
 
   const popUp: JSX.Element | null = getPopUp();
 
