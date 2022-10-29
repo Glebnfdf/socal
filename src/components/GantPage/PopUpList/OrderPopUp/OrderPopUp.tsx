@@ -392,7 +392,15 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
               <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
                 <use href="#point-dark"/>
               </svg>
-              <p className="txt">{orderData.address}</p>
+              <p
+                className="txt"
+                onClick={(): void => {
+                  if (orderData) {
+                    mapContext.setOrderId(orderData.id);
+                    mapHeightContext.increaseMap();
+                  }
+                }}
+              >{orderData.address}</p>
             </div>
             <div className="contacts">
               <div className="top">
