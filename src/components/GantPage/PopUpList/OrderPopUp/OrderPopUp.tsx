@@ -592,7 +592,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       }
                       popUpContext.setData(PopUpName.addTech, transmittedData);
                     }}
-                  >Add technicial</div>
+                  >Add technician</div>
                   : null
                 }
               </div>
