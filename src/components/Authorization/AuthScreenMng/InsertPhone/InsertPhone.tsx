@@ -49,6 +49,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
 
   return (
     <div className={"auth-form-cont"}>
+      <div className="auth-bottom"></div>
       <p className="title">Login in to your account</p>
       <p className="action-label phone">Insert your phone number</p>
       <input

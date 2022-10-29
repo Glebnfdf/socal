@@ -241,19 +241,26 @@ $trans-options: 300ms ease;
     z-index: 30;
     position: relative;
 
-    &:before {
-      margin-left: -25.5px;
+    .auth-bottom {
       position: absolute;
-      content: " ";
       width: 403px;
       z-index: 24;
       height: 60px;
-      margin-top: 440px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       background: rgba(255, 255, 255, 0.25);
       border-radius: 30px;
+      margin-left: -25.5px;
+      margin-top: 440px;
+    }
+
+    .auth-bottom-two {
+      position: absolute;
+      width: 403px;
+      z-index: 24;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 30px;
+      margin-left: -25.5px;
+      margin-top: 500px;
     }
 
     .title {

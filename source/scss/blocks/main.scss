@@ -395,7 +395,7 @@
       z-index: 19;
       border-bottom: 1px solid;
       border-color: rgba(148, 187, 255, 0.5);
-
+      border-top: 1px solid rgba(148, 187, 255, 0.5);
       margin-bottom: 10px;
 
       &:before {
@@ -412,7 +412,6 @@
       }
 
       &:first-child {
-        border-top: 1px solid rgba(148, 187, 255, 0.5);
         position: relative;
         z-index: 20;
       }

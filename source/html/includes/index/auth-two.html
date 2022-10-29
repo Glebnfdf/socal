@@ -111,13 +111,24 @@
           </svg>
         </div>
         <div class="auth-form-cont">
-          <div class="auth-bottom"></div>
-          <p class="title">Login in to your account</p>
-          <p class="action-label phone">Insert your phone number</p>
-          <input class="auth-input phone-input" type="tel" placeholder="+ 1 (___) ___-__-__"/>
-          <div class="error-and-preloader-cont phone">
+          <div class="auth-bottom-two"></div>
+          <p class="title">Insert code from<br/>SMS</p>
+          <p class="action-label sms">We send sms to<br/>+1 403 905 88 78</p>
+          <div class="sms-inputs-cont">
+            <input type="text" name="num1" autoComplete="off" class="auth-input sms-input" />
+            <input type="text" name="num2" autoComplete="off" class="auth-input sms-input" />
+            <input type="text" name="num3" autoComplete="off" class="auth-input sms-input" />
+            <input type="text" name="num4" autoComplete="off" class="auth-input sms-input" />
           </div>
-          <button type="button" class="button auth-btn blue-btn">Next</button>
+          <div class="error-and-preloader-cont sms">
+            <!-- блок с прелоадером вставляется динамически скриптом, когда идёт передача данных -->
+            <!--<div class="insert-sms-preloader"></div> -->
+
+            <!-- блок с текстом ошибки вставляется динамически скриптом -->
+            <!-- <p class="error">Wrong code</p> -->
+          </div>
+          <button type="button" class="button auth-btn light-btn resend-code-btn">Resend Code</button>
+          <button type="button" class="button auth-btn white-btn">Come back</button>
         </div>
       </div>
     </div>
