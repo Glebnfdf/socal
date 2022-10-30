@@ -507,6 +507,7 @@
     text-align: center;
     letter-spacing: 0.02em;
     color: #0866fb;
+    white-space: nowrap;
 
     padding: 19.76px 24px;
     background: #e4efff;
@@ -539,6 +540,7 @@
     padding: 16px 24px;
     background: #e4efff;
     border-radius: 15px;
+    white-space: nowrap;
 
     &:hover {
       background: #d1e3fe;
