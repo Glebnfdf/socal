@@ -77,7 +77,7 @@ export default function MapComp(): JSX.Element {
     <>
       <div id={"map"} ref={div4MapRef}></div>
       {orderId &&
-        <Marker order={orderListContext.getOrderById(orderId)} mapRef={map.current} markerType={MarkerType.Red}/>
+        <Marker order={orderListContext.getOrderById(orderId)} mapRef={map.current} markerType={MarkerType.Red} key={orderId}/>
       }
       {orderList4Tech && orderList4Tech.length && orderList4Tech.map((order: iOrder): JSX.Element | null => {
         if (order.id !== orderId) {

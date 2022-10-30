@@ -65,7 +65,7 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
         </svg>
       </div>
       <div className="title">
-        Add technicial
+        Add technician
       </div>
       <div className="search-form">
         <i className="fa fa-address-book-o" aria-hidden="true" id="union">

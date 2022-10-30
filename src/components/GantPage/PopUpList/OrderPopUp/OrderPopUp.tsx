@@ -367,7 +367,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   return (
     <>
       {incomingData && orderData &&
-        <div className={"popup" + (popUpType === OrderPopUpType.Big ? " big" : " small")} style={popUpPosition}>
+        <div
+          id={"popup-order-container"}
+          className={"popup" + (popUpType === OrderPopUpType.Big ? " big" : " small")}
+          style={popUpPosition}
+        >
           <div className="close">
             <svg
               width="11"
@@ -392,7 +396,21 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
               <svg width="10" height="14" viewBox="0 0 10 14" fill="none">
                 <use href="#point-dark"/>
               </svg>
-              <p className="txt">{orderData.address}</p>
+              <p
+                className="txt"
+                onClick={(): void => {
+                  const popUpContainer: HTMLElement | null = document.getElementById("popup-order-container");
+                  if (popUpContainer && !isPopUpOnMap) {
+                    const popUpRect: DOMRect = popUpContainer.getBoundingClientRect();
+                    // расстояние между нижней границей popUp и нижней границей страницы
+                    const deltaHeight: number = window.innerHeight - (popUpRect.y + popUpRect.height);
+                    if (orderData) {
+                      mapContext.setOrderId(orderData.id);
+                      mapHeightContext.setHeight(deltaHeight);
+                    }
+                  }
+                }}
+              >{orderData.address}</p>
             </div>
             <div className="contacts">
               <div className="top">
@@ -592,7 +610,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       }
                       popUpContext.setData(PopUpName.addTech, transmittedData);
                     }}
-                  >Add technicial</div>
+                  >Add technician</div>
                   : null
                 }
               </div>
