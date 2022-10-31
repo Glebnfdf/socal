@@ -20,6 +20,7 @@ import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
 import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
 import { iMapContext, MapContext } from "../../MapProvider/MapProvider";
 import { iMapHeightContext, MapHeightContext } from "../../MapHeightProvider/MapHeightProvider";
+import "./OrderPopUp.scss";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -76,6 +77,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const [showMenu4SecondTech, setShowMenu4SecondTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const mapContext: iMapContext = useContext<iMapContext>(MapContext);
   const mapHeightContext: iMapHeightContext = useContext<iMapHeightContext>(MapHeightContext);
+  const [isShowPopUpAnim, setIsShowPopUpAnim]: [st: boolean, set: (st: boolean) => void] = useState(true);
 
   let orderData: iOrder | null = null;
 
@@ -369,8 +371,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       {incomingData && orderData &&
         <div
           id={"popup-order-container"}
-          className={"popup" + (popUpType === OrderPopUpType.Big ? " big" : " small")}
+          className={"popup" +
+            (popUpType === OrderPopUpType.Big ? " big" : " small") +
+            (isShowPopUpAnim ? " popup-show-anim" : "")}
           style={popUpPosition}
+          onAnimationEnd={(): void => {console.log("onAnimationEnd"); setIsShowPopUpAnim(false)}}
         >
           <div className="close">
             <svg
@@ -624,6 +629,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   <>
                     <div className="btn-save" onClick={(): void => {
                       setPopUpPosition({});
+                      setIsShowPopUpAnim(true);
                       setPopUpType(OrderPopUpType.Big);
                     }}>
                       Details
@@ -640,6 +646,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   <>
                     <div className="btn-save" onClick={(): void => {
                       setPopUpPosition({});
+                      setIsShowPopUpAnim(true);
                       setPopUpType(OrderPopUpType.Big);
                     }}>
                       Details
@@ -654,6 +661,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                           // top: (mapRect.top + paddingTopFromMap).toString() + "px"
                           top: "602px"
                         });
+                        setIsShowPopUpAnim(true);
                         setPopUpType(OrderPopUpType.Small);
                         setIsPopUpOnMap(true);
                         if (orderData) {
