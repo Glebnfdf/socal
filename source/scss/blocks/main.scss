@@ -372,7 +372,7 @@
 
   &:after {
     position: absolute;
-    width: 4px;
+    width: 3px;
     z-index: 16;
     background: #e4efff;
     min-height: 49vh;
@@ -382,6 +382,7 @@
 
     @media (max-width: 1910px) {
       display: none;
+      width: 4px;
     }
   }
 
