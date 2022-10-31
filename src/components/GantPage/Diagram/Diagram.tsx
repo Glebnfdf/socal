@@ -3,11 +3,11 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { iOrder, iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import "./diagram.scss";
 import { DragItemType } from "../../../utils/DragItemType";
-import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
+import { iPopUpContext, PopUpContext } from "../PopUpList/PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList/PopUpList";
 import { iOrderPopUpInData, OrderPopUpType } from "../PopUpList/OrderPopUp/OrderPopUp";
 import getTagColorClass from "../../../utils/getTagColorClass";
-import { iOrderPopUpContext, OrderPopUpContext } from "../../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
+import { iOrderPopUpContext, OrderPopUpContext } from "../PopUpList/OrderPopUpProvider/OrderPopUpContext";
 
 interface iProps {
   orderListProp: iOrder[] | null,

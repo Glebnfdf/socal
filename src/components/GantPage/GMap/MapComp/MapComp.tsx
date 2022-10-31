@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useContext, useEffect, useRef, useState } from "react";
-import { iMapContext, MapContext } from "../../MapProvider/MapProvider";
+import { iMapContext, MapContext } from "../MapProvider/MapProvider";
 import Marker, { MarkerType } from "../Marker/Marker";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
 

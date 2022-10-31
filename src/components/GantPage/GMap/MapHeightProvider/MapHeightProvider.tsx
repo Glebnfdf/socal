@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import MapConstants from "../GMap/MapConstants";
+import MapConstants from "../MapConstants";
 
 interface iProps {
   children: React.ReactNode

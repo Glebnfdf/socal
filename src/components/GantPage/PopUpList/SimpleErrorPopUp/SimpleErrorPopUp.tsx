@@ -3,7 +3,7 @@ import "../../../../../source/img/svgIcons/error-icon.svg";
 import "../../../../../source/img/svgIcons/close-icon.svg";
 import { useContext } from "react";
 import { PopUpName } from "../PopUpList";
-import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
+import { iPopUpContext, PopUpContext } from "../PopUpContext/PopUpContext";
 import { CSSTransition } from "react-transition-group";
 
 export default function SimpleErrorPopUp(): JSX.Element {

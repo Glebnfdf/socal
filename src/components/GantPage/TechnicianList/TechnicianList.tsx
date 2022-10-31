@@ -9,8 +9,8 @@ import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
 import { DragItemType } from "../../../utils/DragItemType";
 import isBeginTimeNotOld from "../../../utils/isBeginTimeNotOld";
 import Scrollbar from "../../../lib/scrollbar";
-import { iMapContext, MapContext } from "../MapProvider/MapProvider";
-import { iMapHeightContext, MapHeightContext } from "../MapHeightProvider/MapHeightProvider";
+import { iMapContext, MapContext } from "../GMap/MapProvider/MapProvider";
+import { iMapHeightContext, MapHeightContext } from "../GMap/MapHeightProvider/MapHeightProvider";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);

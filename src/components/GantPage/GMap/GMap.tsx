@@ -3,7 +3,7 @@ import "../../../../source/img/svgIcons/points.svg";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import MapComp from "./MapComp/MapComp";
 import { useContext, useEffect, useRef } from "react";
-import { iMapHeightContext, MapHeightContext } from "../MapHeightProvider/MapHeightProvider";
+import { iMapHeightContext, MapHeightContext } from "./MapHeightProvider/MapHeightProvider";
 import MapConstants from "./MapConstants";
 
 export default function GMap(): JSX.Element {

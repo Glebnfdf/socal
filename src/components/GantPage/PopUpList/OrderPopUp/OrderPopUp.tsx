@@ -7,19 +7,19 @@ import "../../../../../source/img/svgIcons/calendar-icon.svg";
 import "../../../../../source/img/svgIcons/clock-icon.svg";
 import "../../../../../source/img/svgIcons/trash.svg";
 import "../../../../../source/img/svgIcons/pen.svg";
-import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
+import { iPopUpContext, PopUpContext } from "../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
 import getTagColorClass from "../../../../utils/getTagColorClass";
-import { iOrderPopUpContext, OrderPopUpContext } from "../../../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
+import { iOrderPopUpContext, OrderPopUpContext } from "../OrderPopUpProvider/OrderPopUpContext";
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
 import Scrollbar from "../../../../lib/scrollbar";
 import Calendar from "react-calendar";
 import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
 import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
-import { iMapContext, MapContext } from "../../MapProvider/MapProvider";
-import { iMapHeightContext, MapHeightContext } from "../../MapHeightProvider/MapHeightProvider";
+import { iMapContext, MapContext } from "../../GMap/MapProvider/MapProvider";
+import { iMapHeightContext, MapHeightContext } from "../../GMap/MapHeightProvider/MapHeightProvider";
 import "./OrderPopUp.scss";
 
 interface iProps {
@@ -393,7 +393,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
             (popUpType === OrderPopUpType.Big ? " big" : " small") +
             (isShowPopUpAnim ? " popup-show-anim" : "")}
           style={popUpPosition}
-          onAnimationEnd={(): void => {console.log("onAnimationEnd"); setIsShowPopUpAnim(false)}}
+          onAnimationEnd={(): void => {setIsShowPopUpAnim(false)}}
         >
           <div className="close">
             <svg

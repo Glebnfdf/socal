@@ -6,11 +6,11 @@ import TechnicianList from "./TechnicianList/TechnicianList";
 import GantDataLoader from "./GantDataLoader/GantDataLoader";
 import OrderListModel from "./OrderListModel/OrderListModel";
 import TechnicianListModel from "./TechnicianListModel/TechnicianListModel";
-import PopUpContextProvider from "../PopUpContext/PopUpContext";
+import PopUpContextProvider from "./PopUpList/PopUpContext/PopUpContext";
 import GMap from "./GMap/GMap";
-import OrderPopUpProvider from "../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
-import MapProvider from "./MapProvider/MapProvider";
-import MapHeightProvider from "./MapHeightProvider/MapHeightProvider";
+import OrderPopUpProvider from "./PopUpList/OrderPopUpProvider/OrderPopUpContext";
+import MapProvider from "./GMap/MapProvider/MapProvider";
+import MapHeightProvider from "./GMap/MapHeightProvider/MapHeightProvider";
 
 export default function GantPage(): JSX.Element {
   return (

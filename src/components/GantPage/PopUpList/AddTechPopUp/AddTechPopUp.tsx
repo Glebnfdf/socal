@@ -4,7 +4,7 @@ import "../../../../../source/img/svgIcons/close-icon.svg";
 import "../../../../../source/img/svgIcons/union.svg";
 import Scrollbar from "../../../../lib/scrollbar";
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
-import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
+import { iPopUpContext, PopUpContext } from "../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList";
 import { iOrderPopUpInData, OrderPopUpType } from "../OrderPopUp/OrderPopUp";
 import { CSSTransition } from "react-transition-group";
