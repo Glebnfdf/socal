@@ -132,7 +132,7 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 1900px;
 
   .left {
     width: 352px;
@@ -366,7 +366,7 @@
   margin-top: 7px;
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 1900px;
   flex-grow: 1;
   min-height: 138px;
 
@@ -379,6 +379,10 @@
     left: 372px;
     content: " ";
     top: 0;
+
+    @media (max-width: 1910px) {
+      display: none;
+    }
   }
 
   .content {
