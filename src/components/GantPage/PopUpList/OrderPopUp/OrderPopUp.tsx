@@ -47,7 +47,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
   const smallPopUpWidth: number = 354;
   const paddingFromOrder: number = 8;
-  // const paddingTopFromMap: number = 28;
+  const paddingTopFromMap: number = 28;
   const paddingLeftFromMap: number = 10;
   const [popUpType, setPopUpType]: [st: OrderPopUpType, set: (st: OrderPopUpType) => void] =
     useState<OrderPopUpType>(incomingData ? incomingData.type : OrderPopUpType.Small);
@@ -78,6 +78,13 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const mapContext: iMapContext = useContext<iMapContext>(MapContext);
   const mapHeightContext: iMapHeightContext = useContext<iMapHeightContext>(MapHeightContext);
   const [isShowPopUpAnim, setIsShowPopUpAnim]: [st: boolean, set: (st: boolean) => void] = useState(true);
+  const mapResizeObserver: ResizeObserver = new ResizeObserver((): void => {
+    const popUpContainer: HTMLElement | null = document.getElementById("popup-order-container");
+    const mapElm: HTMLElement | null = document.getElementById("map");
+    if (popUpContainer && mapElm) {
+      popUpContainer.style.top = (mapElm.getBoundingClientRect().top + paddingTopFromMap).toString() + "px"
+    }
+  });
 
   let orderData: iOrder | null = null;
 
@@ -365,6 +372,17 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     const mainTechId: number | null = orderPopUpContext.getMainTechId();
     orderPopUpContext.setTechIds(mainTechId, null);
   }
+
+  useEffect((): void => {
+    const popUpContainer: HTMLElement | null = document.getElementById("popup-order-container");
+    const mapElm: HTMLElement | null = document.getElementById("map");
+    if (isPopUpOnMap && popUpContainer && mapElm) {
+      mapResizeObserver.observe(mapElm);
+    }
+    if (!isPopUpOnMap) {
+      mapResizeObserver.disconnect();
+    }
+  }, [isPopUpOnMap]);
 
   return (
     <>
@@ -658,8 +676,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                         setPopUpPosition({
                           position: "absolute",
                           left: (mapRect.x + paddingLeftFromMap).toString() + "px",
-                          // top: (mapRect.top + paddingTopFromMap).toString() + "px"
-                          top: "602px"
+                          top: (mapRect.top + paddingTopFromMap).toString() + "px"
                         });
                         setIsShowPopUpAnim(true);
                         setPopUpType(OrderPopUpType.Small);
