@@ -3,7 +3,10 @@
   z-index: 21;
   background-color: #fdfeff;
   height: 300px;
-  transition: height 300ms ease;
+
+  &.transition {
+    transition: height 300ms ease;
+  }
 
   .map-top-ine {
     height: 22px;
@@ -14,6 +17,10 @@
 
     .dots-icon {
       transform: rotate(90deg);
+
+      &:hover {
+        cursor: row-resize;
+      }
     }
   }
 
