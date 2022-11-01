@@ -21,6 +21,7 @@ import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPop
 import { iMapContext, MapContext } from "../../GMap/MapProvider/MapProvider";
 import { iMapHeightContext, MapHeightContext } from "../../GMap/MapHeightProvider/MapHeightProvider";
 import "./OrderPopUp.scss";
+import { iWhiteLayersContext, WhiteLayersContext } from "../../WhiteLayersProvider/WhiteLayersProvider";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -85,6 +86,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       popUpContainer.style.top = (mapElm.getBoundingClientRect().top + paddingTopFromMap).toString() + "px"
     }
   });
+  const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
 
   let orderData: iOrder | null = null;
 
@@ -405,6 +407,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 popUpContext.setData(PopUpName.none, null);
                 mapContext.setOrderId(null);
                 mapHeightContext.decreaseMap();
+                whiteLayersContext.hideAllWhite();
               }}
             >
               <use href="#close-icon"/>
@@ -657,6 +660,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       mapContext.setOrderId(null);
                       mapContext.setTechId(null);
                       mapHeightContext.decreaseMap();
+                      whiteLayersContext.hideAllWhite();
                     }}
                     >Delete search</div>
                   </>
