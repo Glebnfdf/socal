@@ -105,7 +105,7 @@ export default function TechnicianList(): JSX.Element {
         <div className="main-container main-container-two">
           <div id={"tech-scrollbar"} className="scroll-cont scroll-cont-bottom">
             <div className="scroll-content-wrapper">
-              <div className="content">
+              <div className="content-two">
                 {!techList ? null :
                   (
                     techList.map((technician: iTechnician): JSX.Element => {
