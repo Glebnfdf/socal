@@ -8,6 +8,7 @@ import { GrantLoaderContext } from "../GantDataLoader/GantDataLoader";
 import Calendar from "react-calendar";
 import "./header.scss";
 import "../../../../source/scss/calendar/calendar.scss";
+import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
 
 export default function Header(): JSX.Element {
   const [date, setDate]: [st: Date | null, set: (st: Date | null) => void] = useState<Date | null>(null);
@@ -15,6 +16,9 @@ export default function Header(): JSX.Element {
   const gantLoaderContext = useContext(GrantLoaderContext);
   const [calendarDate, setCalendarDate]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date);
   const isShowCalendar: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
+  const [isShowWhiteLayer, setIsShowWhiteLayer]: [st: boolean, set: (st: boolean) => void] =
+    useState(whiteLayersContext.data.showHeaderWhite);
 
   useEffect((): void => {
     setDate(gantLoaderContext.date);
@@ -60,9 +64,13 @@ export default function Header(): JSX.Element {
     };
   }, []);
 
+  useEffect((): void => {
+    setIsShowWhiteLayer(whiteLayersContext.data.showHeaderWhite);
+  }, [whiteLayersContext]);
+
   return (
     <header className="header">
-      <div className="header-blur header-blur-show"/>
+      <div className={isShowWhiteLayer ? "header-blur-show" : "header-blur"}/>
       <nav className="nav container">
         <div className="left">
           <div className="logo">

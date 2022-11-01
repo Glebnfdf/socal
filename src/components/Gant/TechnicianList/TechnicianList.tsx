@@ -11,6 +11,7 @@ import isBeginTimeNotOld from "../../../utils/isBeginTimeNotOld";
 import Scrollbar from "../../../lib/scrollbar";
 import { iMapContext, MapContext } from "../GMap/MapProvider/MapProvider";
 import { iMapHeightContext, MapHeightContext } from "../GMap/MapHeightProvider/MapHeightProvider";
+import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
@@ -19,6 +20,9 @@ export default function TechnicianList(): JSX.Element {
     useState<iTechnician[] | null>(null);
   const mapContext: iMapContext = useContext<iMapContext>(MapContext);
   const mapHeightContext: iMapHeightContext = useContext<iMapHeightContext>(MapHeightContext);
+  const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
+  const [isShowWhiteLayer, setIsShowWhiteLayer]: [st: boolean, set: (st: boolean) => void] =
+    useState(whiteLayersContext.data.showTechWhite);
 
   useEffect((): () => void => {
     let scrollbar: Scrollbar | null = null;
@@ -99,6 +103,10 @@ export default function TechnicianList(): JSX.Element {
     }
   }
 
+  useEffect((): void => {
+    setIsShowWhiteLayer(whiteLayersContext.data.showTechWhite);
+  }, [whiteLayersContext]);
+
   return (
     <section className="undispatched-bottom container">
       <div className="content">
@@ -111,7 +119,10 @@ export default function TechnicianList(): JSX.Element {
                     techList.map((technician: iTechnician): JSX.Element => {
                       return (
                         <div className="item" key={technician.id} data-tech-block-id={technician.id}>
-                          <div className="blur-item"></div>
+                          <div
+                            className={isShowWhiteLayer && whiteLayersContext.data.techId !== technician.id
+                              ? "blur-item-show" : "blur-item"}
+                          />
                           <div className="item-left"
                              onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {techDragOver(event)}}
                              onDrop={(event: React.DragEvent<HTMLDivElement>): void => {techDropHandler(event, technician.id)}}
