@@ -2,9 +2,10 @@ import * as React from "react";
 import "../../../../source/img/svgIcons/points.svg";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import MapComp from "./MapComp/MapComp";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { iMapHeightContext, MapHeightContext } from "./MapHeightProvider/MapHeightProvider";
 import MapConstants from "./MapConstants";
+import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
 
 export default function GMap(): JSX.Element {
   const mapHeightContext: iMapHeightContext = useContext<iMapHeightContext>(MapHeightContext);
@@ -12,6 +13,9 @@ export default function GMap(): JSX.Element {
   const initialMouseY: React.MutableRefObject<number> = useRef<number>(0);
   const initialMapHeight: React.MutableRefObject<number> = useRef<number>(0);
   const isMapHeightChange: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
+  const [isShowWhiteLayer, setIsShowWhiteLayer]: [st: boolean, set: (st: boolean) => void] =
+    useState(whiteLayersContext.data.showMapWhite);
 
   useEffect((): void => {
     if (!mapContainerRef.current) {
@@ -66,8 +70,13 @@ export default function GMap(): JSX.Element {
     }
   }
 
+  useEffect((): void => {
+    setIsShowWhiteLayer(whiteLayersContext.data.showMapWhite);
+  }, [whiteLayersContext]);
+
   return (
     <div className={"map-container transition"} ref={mapContainerRef}>
+      <div className={"map-white-layer" + (isShowWhiteLayer ? " show" : "")} />
       <div className={"map-top-ine"}>
         <div
           className={"dots-icon"}
