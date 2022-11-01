@@ -70,7 +70,7 @@ export default function Header(): JSX.Element {
 
   return (
     <header className="header">
-      <div className={isShowWhiteLayer ? "header-blur-show" : "header-blur"}/>
+      <div className={"header-blur" + (isShowWhiteLayer ? " show" : "")}/>
       <nav className="nav container">
         <div className="left">
           <div className="logo">

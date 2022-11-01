@@ -120,8 +120,9 @@ export default function TechnicianList(): JSX.Element {
                       return (
                         <div className="item" key={technician.id} data-tech-block-id={technician.id}>
                           <div
-                            className={isShowWhiteLayer && whiteLayersContext.data.techId !== technician.id
-                              ? "blur-item-show" : "blur-item"}
+                            className={"blur-item" +
+                              (isShowWhiteLayer && whiteLayersContext.data.techId !== technician.id ? " show" : "")
+                            }
                           />
                           <div className="item-left"
                              onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {techDragOver(event)}}
