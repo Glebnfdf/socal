@@ -5,6 +5,7 @@ import './main';
 const scrollbar = new Scrollbar();
 const scrollbarTwo = new Scrollbar();
 const scrollbarPopup = new Scrollbar();
+const scrollbarSearch = new Scrollbar();
 
 document.addEventListener('DOMContentLoaded', initMain);
 
@@ -22,5 +23,10 @@ function initMain() {
   const scrollContainerPopup = document.querySelector('.scroll-cont-popup');
   if (scrollContainerPopup) {
     scrollbarPopup.init(scrollContainerPopup);
+  }
+
+  const scrollContainerPopupSearch = document.querySelector('.scroll-search');
+  if (scrollContainerPopupSearch) {
+    scrollbarSearch.init(scrollContainerPopupSearch);
   }
 }

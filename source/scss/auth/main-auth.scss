@@ -197,10 +197,20 @@ $trans-options: 300ms ease;
       width: 60px;
       height: 85px;
       padding: 16px 22px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       font: {
         weight: 700;
         size: 1em;
       }
+
+      // if error
+      //&:focus {
+      //  border-color: #EE3E62 !important;
+      //}
     }
   }
 }
