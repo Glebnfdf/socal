@@ -4,7 +4,7 @@ import "../source/vendors/normalize-css/normalize.min.css";
 import "../source/scss/style.scss";
 import "./app.scss";
 import Authorization from "./components/Authorization/Authorization";
-import GantPage from "./components/GantPage/GantPage";
+import GantPage from "./components/Gant/GantPage/GantPage";
 
 function App(): JSX.Element {
   hideBeforeAppPreloader();
