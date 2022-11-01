@@ -1,5 +1,5 @@
 import * as React from "react";
-import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
+import { iPopUpContext, PopUpContext } from "./PopUpContext/PopUpContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import "./PopUpList.scss";
 import OrderPopUp, { iOrderPopUpInData } from "./OrderPopUp/OrderPopUp";

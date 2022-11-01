@@ -3,10 +3,14 @@ import Diagram from "../Diagram/Diagram";
 import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import { useContext, useEffect, useState } from "react";
 import Scrollbar from "../../../lib/scrollbar";
+import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
 
 export default function UnDispatched(): JSX.Element {
   const orderListContext: iOrderListContext = useContext(OrderListContext);
   const [orderListHaveOrder, setOrderListHaveOrder]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
+  const [isShowWhiteLayer, setIsShowWhiteLayer]: [st: boolean, set: (st: boolean) => void] =
+    useState(whiteLayersContext.data.showUnDisWhite);
 
   useEffect((): () => void => {
     let scrollbar: Scrollbar | null = null;
@@ -29,9 +33,13 @@ export default function UnDispatched(): JSX.Element {
     }
   }, [orderListContext.orderLst]);
 
+  useEffect((): void => {
+    setIsShowWhiteLayer(whiteLayersContext.data.showUnDisWhite);
+  }, [whiteLayersContext]);
+
   return (
     <section className="container undispatched">
-      <div className="undispatched-blur"></div>
+      <div className={"undispatched-blur" + (isShowWhiteLayer ? " show" : "")}></div>
       {/* Левая часть блока с легендой диаграммы */}
       <div className="left">
         <div className="top">

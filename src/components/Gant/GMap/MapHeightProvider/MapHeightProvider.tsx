@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import MapConstants from "../MapConstants";
 
 interface iProps {
   children: React.ReactNode
@@ -23,27 +24,28 @@ export const MapHeightContext: React.Context<iMapHeightContext> = React.createCo
 });
 
 export default function MapHeightProvider({children}: iProps): JSX.Element {
-  const mapHeightSmall: number = 300;
-  const mapHeightBig: number = 550;
   const [contextState, setContextState]: [st: iMapHeightContext, set: (st: iMapHeightContext) => void] =
     useState<iMapHeightContext>({
-      height: mapHeightSmall,
+      height: MapConstants.mapHeightSmall,
       increaseMap: increaseMap,
       decreaseMap: decreaseMap,
       setHeight: setHeight
     });
 
   function increaseMap(): void {
-    setContextState({...contextState, height: mapHeightBig});
+    setContextState({...contextState, height: MapConstants.mapHeightBig});
   }
 
   function decreaseMap(): void {
-    setContextState({...contextState, height: mapHeightSmall});
+    setContextState({...contextState, height: MapConstants.mapHeightSmall});
   }
 
   function setHeight(newHeight: number): void {
-    if (newHeight > mapHeightBig) {
-      newHeight = mapHeightBig;
+    if (newHeight > MapConstants.mapHeightBig) {
+      newHeight = MapConstants.mapHeightBig;
+    }
+    if (newHeight < MapConstants.mapMinHeight) {
+      newHeight = MapConstants.mapMinHeight;
     }
     setContextState({...contextState, height: newHeight});
   }

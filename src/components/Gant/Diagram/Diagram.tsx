@@ -3,11 +3,12 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { iOrder, iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import "./diagram.scss";
 import { DragItemType } from "../../../utils/DragItemType";
-import { iPopUpContext, PopUpContext } from "../../PopUpContext/PopUpContext";
+import { iPopUpContext, PopUpContext } from "../PopUpList/PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList/PopUpList";
 import { iOrderPopUpInData, OrderPopUpType } from "../PopUpList/OrderPopUp/OrderPopUp";
 import getTagColorClass from "../../../utils/getTagColorClass";
-import { iOrderPopUpContext, OrderPopUpContext } from "../../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
+import { iOrderPopUpContext, OrderPopUpContext } from "../PopUpList/OrderPopUpProvider/OrderPopUpContext";
+import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
 
 interface iProps {
   orderListProp: iOrder[] | null,
@@ -31,6 +32,7 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
   const scrollbarWidth: number = 0; // поставить 13, когда будет scrollbar;
   const numberOfHours: number = 15;
   let contResizeObserver: ResizeObserver;
+  const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
 
   function addLine2Order(orderList: iOrder[] | null): iOrderWithLine[] | null {
     if (!orderList) {
@@ -197,6 +199,7 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
                 container: container.current
               }
               popUpContext.setData(PopUpName.orderPopUp, transmittedData);
+              whiteLayersContext.showAllWhite();
           }}
           >
             <div className={"id"}>№ {order.id}</div>

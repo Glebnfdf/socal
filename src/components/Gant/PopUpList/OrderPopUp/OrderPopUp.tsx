@@ -7,19 +7,21 @@ import "../../../../../source/img/svgIcons/calendar-icon.svg";
 import "../../../../../source/img/svgIcons/clock-icon.svg";
 import "../../../../../source/img/svgIcons/trash.svg";
 import "../../../../../source/img/svgIcons/pen.svg";
-import { iPopUpContext, PopUpContext } from "../../../PopUpContext/PopUpContext";
+import { iPopUpContext, PopUpContext } from "../PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUpList";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
 import getTagColorClass from "../../../../utils/getTagColorClass";
-import { iOrderPopUpContext, OrderPopUpContext } from "../../../PopUpContext/OrderPopUpProvider/OrderPopUpContext";
+import { iOrderPopUpContext, OrderPopUpContext } from "../OrderPopUpProvider/OrderPopUpContext";
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
 import Scrollbar from "../../../../lib/scrollbar";
 import Calendar from "react-calendar";
 import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
 import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
-import { iMapContext, MapContext } from "../../MapProvider/MapProvider";
-import { iMapHeightContext, MapHeightContext } from "../../MapHeightProvider/MapHeightProvider";
+import { iMapContext, MapContext } from "../../GMap/MapProvider/MapProvider";
+import { iMapHeightContext, MapHeightContext } from "../../GMap/MapHeightProvider/MapHeightProvider";
+import "./OrderPopUp.scss";
+import { iWhiteLayersContext, WhiteLayersContext } from "../../WhiteLayersProvider/WhiteLayersProvider";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -46,7 +48,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
   const smallPopUpWidth: number = 354;
   const paddingFromOrder: number = 8;
-  // const paddingTopFromMap: number = 28;
+  const paddingTopFromMap: number = 28;
   const paddingLeftFromMap: number = 10;
   const [popUpType, setPopUpType]: [st: OrderPopUpType, set: (st: OrderPopUpType) => void] =
     useState<OrderPopUpType>(incomingData ? incomingData.type : OrderPopUpType.Small);
@@ -76,6 +78,15 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const [showMenu4SecondTech, setShowMenu4SecondTech]: [st: boolean, set: (st: boolean) => void] = useState(false);
   const mapContext: iMapContext = useContext<iMapContext>(MapContext);
   const mapHeightContext: iMapHeightContext = useContext<iMapHeightContext>(MapHeightContext);
+  const [isShowPopUpAnim, setIsShowPopUpAnim]: [st: boolean, set: (st: boolean) => void] = useState(true);
+  const mapResizeObserver: ResizeObserver = new ResizeObserver((): void => {
+    const popUpContainer: HTMLElement | null = document.getElementById("popup-order-container");
+    const mapElm: HTMLElement | null = document.getElementById("map");
+    if (popUpContainer && mapElm) {
+      popUpContainer.style.top = (mapElm.getBoundingClientRect().top + paddingTopFromMap).toString() + "px"
+    }
+  });
+  const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
 
   let orderData: iOrder | null = null;
 
@@ -364,13 +375,27 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     orderPopUpContext.setTechIds(mainTechId, null);
   }
 
+  useEffect((): void => {
+    const popUpContainer: HTMLElement | null = document.getElementById("popup-order-container");
+    const mapElm: HTMLElement | null = document.getElementById("map");
+    if (isPopUpOnMap && popUpContainer && mapElm) {
+      mapResizeObserver.observe(mapElm);
+    }
+    if (!isPopUpOnMap) {
+      mapResizeObserver.disconnect();
+    }
+  }, [isPopUpOnMap]);
+
   return (
     <>
       {incomingData && orderData &&
         <div
           id={"popup-order-container"}
-          className={"popup" + (popUpType === OrderPopUpType.Big ? " big" : " small")}
+          className={"popup" +
+            (popUpType === OrderPopUpType.Big ? " big" : " small") +
+            (isShowPopUpAnim ? " popup-show-anim" : "")}
           style={popUpPosition}
+          onAnimationEnd={(): void => {setIsShowPopUpAnim(false)}}
         >
           <div className="close">
             <svg
@@ -382,6 +407,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 popUpContext.setData(PopUpName.none, null);
                 mapContext.setOrderId(null);
                 mapHeightContext.decreaseMap();
+                whiteLayersContext.hideAllWhite();
               }}
             >
               <use href="#close-icon"/>
@@ -624,6 +650,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   <>
                     <div className="btn-save" onClick={(): void => {
                       setPopUpPosition({});
+                      setIsShowPopUpAnim(true);
                       setPopUpType(OrderPopUpType.Big);
                     }}>
                       Details
@@ -633,6 +660,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       mapContext.setOrderId(null);
                       mapContext.setTechId(null);
                       mapHeightContext.decreaseMap();
+                      whiteLayersContext.hideAllWhite();
                     }}
                     >Delete search</div>
                   </>
@@ -640,6 +668,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   <>
                     <div className="btn-save" onClick={(): void => {
                       setPopUpPosition({});
+                      setIsShowPopUpAnim(true);
                       setPopUpType(OrderPopUpType.Big);
                     }}>
                       Details
@@ -651,9 +680,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                         setPopUpPosition({
                           position: "absolute",
                           left: (mapRect.x + paddingLeftFromMap).toString() + "px",
-                          // top: (mapRect.top + paddingTopFromMap).toString() + "px"
-                          top: "602px"
+                          top: (mapRect.top + paddingTopFromMap).toString() + "px"
                         });
+                        setIsShowPopUpAnim(true);
                         setPopUpType(OrderPopUpType.Small);
                         setIsPopUpOnMap(true);
                         if (orderData) {
