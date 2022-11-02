@@ -626,6 +626,10 @@
 
   &.extra-width {
     width: calc(100% + 17px);
+
+    @media (max-width: 1910px) {
+      width: 100%;
+    }
   }
 }
 

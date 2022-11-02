@@ -3,11 +3,11 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { iOrder, iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import "./diagram.scss";
 import { DragItemType } from "../../../utils/DragItemType";
-import { iPopUpContext, PopUpContext } from "../PopUpList/PopUpContext/PopUpContext";
-import { PopUpName } from "../PopUpList/PopUpList";
-import { iOrderPopUpInData, OrderPopUpType } from "../PopUpList/OrderPopUp/OrderPopUp";
+import { iPopUpContext, PopUpContext } from "../PopUp/PopUpContext/PopUpContext";
+import { PopUpName } from "../PopUp/PopUpList/PopUpList";
+import { iOrderPopUpInData, OrderPopUpType } from "../PopUp/OrderPopUp/OrderPopUp";
 import getTagColorClass from "../../../utils/getTagColorClass";
-import { iOrderPopUpContext, OrderPopUpContext } from "../PopUpList/OrderPopUpProvider/OrderPopUpContext";
+import { iOrderPopUpContext, OrderPopUpContext } from "../PopUp/OrderPopUpProvider/OrderPopUpContext";
 import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
 
 interface iProps {
@@ -176,7 +176,20 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
   }
 
   useEffect((): void => {
-    setIsShowWhiteLayer(whiteLayersContext.data.showUnDisWhite);
+    if (whiteLayersContext.data.showUnDisWhite) {
+      if (isThisUnDisBlock) {
+        setIsShowWhiteLayer(true);
+      } else {
+        if (whiteLayersContext.data.techId !== null && whiteLayersContext.data.techId === technicianId) {
+          setIsShowWhiteLayer(false);
+        } else {
+          setIsShowWhiteLayer(true);
+        }
+      }
+    } else {
+      setIsShowWhiteLayer(false);
+    }
+    // setIsShowWhiteLayer(whiteLayersContext.data.showUnDisWhite);
     setClickedOrder(whiteLayersContext.data.orderId);
   }, [whiteLayersContext]);
 
@@ -227,7 +240,12 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
                 container: container.current
               }
               popUpContext.setData(PopUpName.orderPopUp, transmittedData);
-              whiteLayersContext.setWhite(true, true, true, true, order.id);
+              whiteLayersContext.setWhite(
+                true,
+                true,
+                true,
+                whiteLayersContext.data.techId === null,
+                order.id);
           }}
           >
             <div className={"id"}>№ {order.id}</div>
