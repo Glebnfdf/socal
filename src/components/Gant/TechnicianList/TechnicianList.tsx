@@ -108,90 +108,97 @@ export default function TechnicianList(): JSX.Element {
   }, [whiteLayersContext]);
 
   return (
-    <section className="undispatched-bottom container">
-      <div className="content">
-        <div className="main-container main-container-two">
-          <div id={"tech-scrollbar"} className="scroll-cont scroll-cont-bottom">
-            <div className="scroll-content-wrapper">
-              <div className="content-two">
-                {!techList ? null :
-                  (
-                    techList.map((technician: iTechnician): JSX.Element => {
-                      return (
-                        <div className="item" key={technician.id} data-tech-block-id={technician.id}>
-                          <div
-                            className={"blur-item" +
-                              (isShowWhiteLayer && whiteLayersContext.data.techId !== technician.id ? " show" : "")
-                            }
-                          />
-                          <div className="item-left"
-                             onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {techDragOver(event)}}
-                             onDrop={(event: React.DragEvent<HTMLDivElement>): void => {techDropHandler(event, technician.id)}}
-                          >
-                            <div className="item-left-top">
+    <section className="techlist-container">
+      <div className={"white-side-block" + (isShowWhiteLayer ? " show" : "")}></div>
+      <div className={"undispatched-bottom"}>
+        <div className={"blur-item" + (isShowWhiteLayer ? " show" : "")}></div>
+        <div className={"blur-item vertical-line" + (isShowWhiteLayer ? " show" : "")}></div>
+        <div className={"content" + (isShowWhiteLayer ? " show-white" : "")}>
+          <div className="main-container main-container-two">
+            <div id={"tech-scrollbar"} className="scroll-cont scroll-cont-bottom">
+              <div className="scroll-content-wrapper">
+                <div className="content-two">
+                  {!techList ? null :
+                    (
+                      techList.map((technician: iTechnician): JSX.Element => {
+                        return (
+                          <div className="item" key={technician.id} data-tech-block-id={technician.id}>
+                            <div className="item-left"
+                               onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {techDragOver(event)}}
+                               onDrop={(event: React.DragEvent<HTMLDivElement>): void => {techDropHandler(event, technician.id)}}
+                            >
                               <div
-                                className="dots"
-                                draggable={"true"}
-                                onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {
-                                  setAttr2DragTech(event, technician.id);
-                                }}
-                              >
-                                <svg width="8" height="19" viewBox="0 0 8 19" fill="none">
-                                  <use href="#points"/>
-                                </svg>
-                              </div>
-                              <div className="person">
-                                <img
-                                  // src={technician.avatar ? technician.avatar : "https://i.ibb.co/C1ZFCsr/person-1.png"}
-                                  src={"https://i.ibb.co/C1ZFCsr/person-1.png"}
-                                  alt="#"
-                                />
-                              </div>
-                              <div className="names">
-                                <p className="title">
-                                  Technicians
-                                </p>
-                                <p className="post-title">
-                                  {technician.name}
-                                </p>
-                              </div>
-                              <div className="item-left-bottom">
-                                <svg width="35" height="35" viewBox="0 0 35 35" fill="none" onClick={(): void => {
-                                  if (mapContext.getMapContextData().techId === technician.id) {
-                                    mapContext.setTechId(null);
-                                    mapHeightContext.decreaseMap();
-                                  } else {
-                                    mapContext.setTechId(technician.id);
-                                    mapHeightContext.increaseMap();
-                                  }
-                                }}>
-                                  <use href="#but"/>
-                                </svg>
+                                className={"blur-item extra-width" +
+                                  (isShowWhiteLayer && whiteLayersContext.data.techId !== technician.id ? " show" : "")
+                                }
+                              />
+                              <div className="item-left-top">
+                                <div
+                                  className="dots"
+                                  draggable={"true"}
+                                  onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {
+                                    setAttr2DragTech(event, technician.id);
+                                  }}
+                                >
+                                  <svg width="8" height="19" viewBox="0 0 8 19" fill="none">
+                                    <use href="#points"/>
+                                  </svg>
+                                </div>
+                                <div className="person">
+                                  <img
+                                    // src={technician.avatar ? technician.avatar : "https://i.ibb.co/C1ZFCsr/person-1.png"}
+                                    src={"https://i.ibb.co/C1ZFCsr/person-1.png"}
+                                    alt="#"
+                                  />
+                                </div>
+                                <div className="names">
+                                  <p className="title">
+                                    Technicians
+                                  </p>
+                                  <p className="post-title">
+                                    {technician.name}
+                                  </p>
+                                </div>
+                                <div className="item-left-bottom">
+                                  <svg width="35" height="35" viewBox="0 0 35 35" fill="none" onClick={(): void => {
+                                    if (mapContext.getMapContextData().techId === technician.id) {
+                                      mapContext.setTechId(null);
+                                      mapHeightContext.decreaseMap();
+                                    } else {
+                                      mapContext.setTechId(technician.id);
+                                      mapHeightContext.increaseMap();
+                                    }
+                                  }}>
+                                    <use href="#but"/>
+                                  </svg>
+                                </div>
                               </div>
                             </div>
+                            <div
+                              className="item-right item-right-first"
+                              onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {diagramDragOver(event)}}
+                              onDrop={(event: React.DragEvent<HTMLDivElement>): void => {orderDropHandler(event, technician.id)}}
+                            >
+                              <Diagram
+                                orderListProp={orderListContext.getOrdersByTechId(technician.id)}
+                                technicianId={technician.id}
+                                isThisUnDisBlock={false}
+                              />
+                            </div>
                           </div>
-                          <div
-                            className="item-right item-right-first"
-                            onDragOver={(event: React.DragEvent<HTMLDivElement>): void => {diagramDragOver(event)}}
-                            onDrop={(event: React.DragEvent<HTMLDivElement>): void => {orderDropHandler(event, technician.id)}}
-                          >
-                            <Diagram
-                              orderListProp={orderListContext.getOrdersByTechId(technician.id)}
-                              technicianId={technician.id}
-                            />
-                          </div>
-                        </div>
-                      )
-                  }))
-                }
+                        )
+                    }))
+                  }
+                </div>
               </div>
-            </div>
-            <div className="scroll-vtrack">
-              <div className="scroll-thumb"></div>
+              <div className="scroll-vtrack scroll-track-technical">
+                <div className="scroll-thumb"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div className={"white-side-block" + (isShowWhiteLayer ? " show" : "")}></div>
     </section>
   );
 }

@@ -51,6 +51,19 @@
       }
     }
 
+    &::after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      content: "";
+      background-color: white;
+      border-radius: 10px;
+      opacity: 0;
+      transition: opacity 300ms ease;
+    }
+
     .id {
       color: white;
       padding-right: 12px;
@@ -76,5 +89,9 @@
         size: 14px;
       }
     }
+  }
+
+  &.show-white .order:not(.clicked-order)::after {
+    opacity: 0.46;
   }
 }

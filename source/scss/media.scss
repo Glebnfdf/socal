@@ -6,8 +6,10 @@
     height: 31px !important;
   }
 
-  .container {
-    width: 1280px;
+  .container,
+  .undispatched,
+  .undispatched-bottom {
+    width: 1240px;
   }
   .undispatched .left {
     width: 234px;
@@ -34,7 +36,7 @@
   }
   .undispatched-bottom .content .item .item-left {
     padding: 14px 16px;
-    width: 234px;
+    width: 284px;
     margin-right: 0;
     align-items: center;
   }
@@ -71,7 +73,7 @@
     z-index: 20;
     background: #e4efff;
     min-height: 50vh;
-    left: 254px;
+    left: 234px;
     content: " ";
     top: 0;
   }

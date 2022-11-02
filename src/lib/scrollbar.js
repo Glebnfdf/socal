@@ -2,6 +2,8 @@ export default class Scrollbar {
   constructor() {
     this.thumbMinSize = 20;
     this.showScrollHandler = null;
+    this.timerEnable = false;
+    this.timerId = 0;
   }
 
   init(container) {
@@ -69,11 +71,21 @@ export default class Scrollbar {
     this.track = null;
     this.thumb = null;
     this.showScrollHandler = null;
+    clearTimeout(this.timerId);
   }
 
   resizeContHandle() {
-    this.setTrackVisible();
-    this.setThumbHeight();
+    // таймер - это костыль на непонятную историю: в процессе формирования Dom дерева в какой-то момент (не понятно
+    // почему) размер this.contentWrapper.scrollHeight становится большим, но после нормализуются, однако нормальное
+    // значение в библиотеку не поступает, поэтому библиотека оперирует предыдущим не верным состоянием и отсюда баги
+    if (!this.timerEnable) {
+      this.timerEnable = true;
+      this.timerId = setTimeout(() => {
+        this.timerEnable = false;
+        this.setTrackVisible();
+        this.setThumbHeight();
+      }, 50);
+    }
   }
 
   setTrackVisible() {
