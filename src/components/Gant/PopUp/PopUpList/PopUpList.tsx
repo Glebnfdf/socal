@@ -1,10 +1,10 @@
 import * as React from "react";
-import { iPopUpContext, PopUpContext } from "./PopUpContext/PopUpContext";
+import { iPopUpContext, PopUpContext } from "../PopUpContext/PopUpContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import "./PopUpList.scss";
-import OrderPopUp, { iOrderPopUpInData } from "./OrderPopUp/OrderPopUp";
-import SimpleErrorPopUp from "./SimpleErrorPopUp/SimpleErrorPopUp";
-import AddTechPopUp, { iAddTechInData } from "./AddTechPopUp/AddTechPopUp";
+import OrderPopUp, { iOrderPopUpInData } from "../OrderPopUp/OrderPopUp";
+import SimpleErrorPopUp from "../SimpleErrorPopUp/SimpleErrorPopUp";
+import AddTechPopUp, { iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
 
 export enum PopUpName {
   none,
