@@ -386,6 +386,22 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     }
   }, [isPopUpOnMap]);
 
+  function detailsClickHandler(orderData: iOrder | null): void {
+    setPopUpPosition({});
+    setIsShowPopUpAnim(true);
+    setPopUpType(OrderPopUpType.Big);
+    if (orderData) {
+      whiteLayersContext.setWhite(
+        true,
+        true,
+        true,
+        true,
+        orderData.id,
+        null
+      );
+    }
+  }
+
   return (
     <>
       {incomingData && orderData &&
@@ -433,6 +449,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     if (orderData) {
                       mapContext.setOrderId(orderData.id);
                       mapHeightContext.setHeight(deltaHeight);
+                      whiteLayersContext.setWhite(
+                        true,
+                        true,
+                        false,
+                        false,
+                        orderData.id,
+                        null
+                      );
                     }
                   }
                 }}
@@ -648,13 +672,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 isPopUpOnMap
                   ?
                   <>
-                    <div className="btn-save" onClick={(): void => {
-                      setPopUpPosition({});
-                      setIsShowPopUpAnim(true);
-                      setPopUpType(OrderPopUpType.Big);
-                    }}>
-                      Details
-                    </div>
+                    <div className="btn-save" onClick={(): void => {detailsClickHandler(orderData)}}>Details</div>
                     <div className="white-btn" onClick={(): void => {
                       popUpContext.setData(PopUpName.none, null);
                       mapContext.setOrderId(null);
@@ -666,13 +684,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   </>
                   :
                   <>
-                    <div className="btn-save" onClick={(): void => {
-                      setPopUpPosition({});
-                      setIsShowPopUpAnim(true);
-                      setPopUpType(OrderPopUpType.Big);
-                    }}>
-                      Details
-                    </div>
+                    <div className="btn-save" onClick={(): void => {detailsClickHandler(orderData)}}>Details</div>
                     <div className="btn-add-2" onClick={(): void => {
                       const map: HTMLElement | null = document.getElementById("map");
                       if (map) {
@@ -688,6 +700,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                         if (orderData) {
                           mapContext.setOrderId(orderData.id);
                           mapHeightContext.increaseMap();
+                          whiteLayersContext.setWhite(
+                            true,
+                            true,
+                            false,
+                            false,
+                            orderData.id,
+                            null
+                          );
                         }
                       }
                     }}

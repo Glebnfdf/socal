@@ -34,7 +34,7 @@ export default function UnDispatched(): JSX.Element {
   }, [orderListContext.orderLst]);
 
   useEffect((): void => {
-    setIsShowWhiteLayer(whiteLayersContext.data.showTechWhite);
+    setIsShowWhiteLayer(whiteLayersContext.data.showUnDisWhite);
   }, [whiteLayersContext]);
 
   return (
