@@ -12,14 +12,15 @@ import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/
 
 interface iProps {
   orderListProp: iOrder[] | null,
-  technicianId: number | null
+  technicianId: number | null,
+  isThisUnDisBlock: boolean
 }
 
 interface iOrderWithLine extends iOrder {
   line: number
 }
 
-export default function Diagram({orderListProp, technicianId}: iProps): JSX.Element {
+export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}: iProps): JSX.Element {
   const [orderListWithLine, setOrderListWithLine]: [st: iOrderWithLine[] | null, set: (st: iOrderWithLine[] | null) => void] =
     useState<iOrderWithLine[] | null>(addLine2Order(orderListProp));
   const popUpContext: iPopUpContext = useContext(PopUpContext);
@@ -29,10 +30,16 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
   const [, setSignal2Rerender]: [st: number, set: (st: number) => void] = useState(0);
   const iterator: React.MutableRefObject<number> = useRef<number>(0);
   const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
-  const scrollbarWidth: number = 0; // поставить 13, когда будет scrollbar;
   const numberOfHours: number = 15;
+  const whiteLayerMinHeight: number = isThisUnDisBlock ? 230 : 63;
+  const techDiagTopPadding: number = 17;
   let contResizeObserver: ResizeObserver;
   const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
+  const [clickedOrder, setClickedOrder]: [st: number | null, set: (st: number | null) => void] =
+    useState<number | null>(null);
+  const [isShowWhiteLayer, setIsShowWhiteLayer]: [st: boolean, set: (st: boolean) => void] =
+    useState(whiteLayersContext.data.showUnDisWhite);
+  const whiteLayerRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
   function addLine2Order(orderList: iOrder[] | null): iOrderWithLine[] | null {
     if (!orderList) {
@@ -52,8 +59,12 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
   useEffect((): () => void => {
     if (container.current) {
         contResizeObserver = new ResizeObserver((): void => {
-        iterator.current++;
-        setSignal2Rerender(iterator.current);
+          iterator.current++;
+          setSignal2Rerender(iterator.current);
+          resizeWhiteLayer();
+          if (container.current && !isThisUnDisBlock) {
+            container.current.style.top = techDiagTopPadding.toString() + "px";
+          }
       })
       contResizeObserver.observe(container.current);
     }
@@ -116,7 +127,7 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
       return 0
     }
 
-    const containerWidth: number = container.current.offsetWidth - scrollbarWidth;
+    const containerWidth: number = container.current.offsetWidth;
     const hourWidth: number = containerWidth / numberOfHours;
     return hourWidth / 60; // в одном часе 60 минут
   }
@@ -164,17 +175,34 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
     localStorage.setItem("order-time-begin", timeBegin === null ? "-1" : timeBegin);
   }
 
+  useEffect((): void => {
+    setIsShowWhiteLayer(whiteLayersContext.data.showUnDisWhite);
+    setClickedOrder(whiteLayersContext.data.orderId);
+  }, [whiteLayersContext]);
+
+  function resizeWhiteLayer(): void {
+    if (container.current && whiteLayerRef.current) {
+      const containerHeight: number = container.current.getBoundingClientRect().height;
+      whiteLayerRef.current.style.height =
+        (containerHeight < whiteLayerMinHeight ? whiteLayerMinHeight : containerHeight).toString() + "px";
+      if (!isThisUnDisBlock) {
+        whiteLayerRef.current.style.top = (techDiagTopPadding * -1).toString() + "px";
+      }
+     }
+  }
+
   return (
     <div
       ref={container}
-      className={"diagram cont"}
+      className={"diagram cont" + (isShowWhiteLayer ? " show-white" : "")}
       style={{height: getContainerHeight().toString() + "px"}}
     >
+      <div ref={whiteLayerRef} className={"undispatched-blur diagram-white" + (isShowWhiteLayer && isThisUnDisBlock ? " show" : "")}></div>
       {orderListWithLine && orderListWithLine.map((order: iOrderWithLine): JSX.Element => {
         return (
           <div
             key={order.id}
-            className={`diagram order ${getTagColorClass(order.type)}`}
+            className={`diagram order ${getTagColorClass(order.type)}` + (order.id === clickedOrder ? " clicked-order" : "")}
             data-order-id={order.id}
             data-tech-id={technicianId === null ? "null" : technicianId}
             data-time-begin={order.time_slot_from}
@@ -182,7 +210,7 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
             style={{
               left: getXPosition(order.time_slot_from).toString() + "px",
               top: getYPosition(order.line).toString() + "px",
-              width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px"
+              width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px",
             }}
             draggable={"true"}
             onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {setAttr2DragElm(event)}}
@@ -199,7 +227,7 @@ export default function Diagram({orderListProp, technicianId}: iProps): JSX.Elem
                 container: container.current
               }
               popUpContext.setData(PopUpName.orderPopUp, transmittedData);
-              whiteLayersContext.showAllWhite();
+              whiteLayersContext.setWhite(true, true, true, true, order.id);
           }}
           >
             <div className={"id"}>№ {order.id}</div>
