@@ -4,7 +4,7 @@ import "../../../../source/img/svgIcons/but.svg";
 import { useContext, useEffect, useState } from "react";
 import { iTechListContext, iTechnician, TechListContext } from "../TechnicianListModel/TechnicianListModel";
 import Diagram from "../Diagram/Diagram";
-import { iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
+import { iOrder, iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
 import { iOrderDropData, OrderDropData } from "../../../utils/OrderDropData";
 import { DragItemType } from "../../../utils/DragItemType";
 import isBeginTimeNotOld from "../../../utils/isBeginTimeNotOld";
@@ -161,12 +161,24 @@ export default function TechnicianList(): JSX.Element {
                                 </div>
                                 <div className="item-left-bottom">
                                   <svg width="35" height="35" viewBox="0 0 35 35" fill="none" onClick={(): void => {
-                                    if (mapContext.getMapContextData().techId === technician.id) {
-                                      mapContext.setTechId(null);
-                                      mapHeightContext.decreaseMap();
-                                    } else {
-                                      mapContext.setTechId(technician.id);
-                                      mapHeightContext.increaseMap();
+                                    const orders: iOrder[] | null = orderListContext.getOrdersByTechId(technician.id);
+                                    if (orders && orders.length > 0) {
+                                      if (mapContext.getMapContextData().techId === technician.id) {
+                                        mapContext.setTechId(null);
+                                        mapHeightContext.decreaseMap();
+                                        whiteLayersContext.hideAllWhite();
+                                      } else {
+                                        mapContext.setTechId(technician.id);
+                                        mapHeightContext.increaseMap();
+                                        whiteLayersContext.setWhite(
+                                          true,
+                                          true,
+                                          true,
+                                          false,
+                                          undefined,
+                                          technician.id
+                                        )
+                                      }
                                     }
                                   }}>
                                     <use href="#but"/>

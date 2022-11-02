@@ -176,7 +176,20 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
   }
 
   useEffect((): void => {
-    setIsShowWhiteLayer(whiteLayersContext.data.showUnDisWhite);
+    if (whiteLayersContext.data.showUnDisWhite) {
+      if (isThisUnDisBlock) {
+        setIsShowWhiteLayer(true);
+      } else {
+        if (whiteLayersContext.data.techId !== null && whiteLayersContext.data.techId === technicianId) {
+          setIsShowWhiteLayer(false);
+        } else {
+          setIsShowWhiteLayer(true);
+        }
+      }
+    } else {
+      setIsShowWhiteLayer(false);
+    }
+    // setIsShowWhiteLayer(whiteLayersContext.data.showUnDisWhite);
     setClickedOrder(whiteLayersContext.data.orderId);
   }, [whiteLayersContext]);
 
@@ -227,7 +240,12 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
                 container: container.current
               }
               popUpContext.setData(PopUpName.orderPopUp, transmittedData);
-              whiteLayersContext.setWhite(true, true, true, true, order.id);
+              whiteLayersContext.setWhite(
+                true,
+                true,
+                true,
+                whiteLayersContext.data.techId === null,
+                order.id);
           }}
           >
             <div className={"id"}>№ {order.id}</div>

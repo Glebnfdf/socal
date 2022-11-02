@@ -21,7 +21,10 @@ import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPop
 import { iMapContext, MapContext } from "../../GMap/MapProvider/MapProvider";
 import { iMapHeightContext, MapHeightContext } from "../../GMap/MapHeightProvider/MapHeightProvider";
 import "./OrderPopUp.scss";
-import { iWhiteLayersContext, WhiteLayersContext } from "../../WhiteLayersProvider/WhiteLayersProvider";
+import {
+  iWhiteLayersContext,
+  WhiteLayersContext
+} from "../../WhiteLayersProvider/WhiteLayersProvider";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -359,7 +362,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
     if (mainTechId === null) {
       isValid = false;
-      popUpContext.setData(PopUpName.simpleError, null)
+      popUpContext.setData(PopUpName.simpleError, null);
+      mapContext.setOrderId(null);
+      mapContext.setTechId(null);
+      mapHeightContext.decreaseMap();
     }
 
     if (!orderData || !isValid) {
@@ -395,9 +401,8 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
         true,
         true,
         true,
-        true,
-        orderData.id,
-        null
+        undefined,
+        orderData.id
       );
     }
   }
@@ -422,8 +427,18 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
               onClick={(): void => {
                 popUpContext.setData(PopUpName.none, null);
                 mapContext.setOrderId(null);
-                mapHeightContext.decreaseMap();
-                whiteLayersContext.hideAllWhite();
+                if (mapContext.getMapContextData().techId === null) {
+                  mapHeightContext.decreaseMap();
+                  whiteLayersContext.hideAllWhite();
+                } else {
+                  whiteLayersContext.setWhite(
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    null
+                  );
+                }
               }}
             >
               <use href="#close-icon"/>
@@ -452,10 +467,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                       whiteLayersContext.setWhite(
                         true,
                         true,
+                        undefined,
                         false,
-                        false,
-                        orderData.id,
-                        null
+                        orderData.id
                       );
                     }
                   }
@@ -703,10 +717,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                           whiteLayersContext.setWhite(
                             true,
                             true,
+                            true,
                             false,
-                            false,
-                            orderData.id,
-                            null
+                            orderData.id
                           );
                         }
                       }

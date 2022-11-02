@@ -5,7 +5,10 @@ import { useContext } from "react";
 import { PopUpName } from "../PopUpList/PopUpList";
 import { iPopUpContext, PopUpContext } from "../PopUpContext/PopUpContext";
 import { CSSTransition } from "react-transition-group";
-import { iWhiteLayersContext, WhiteLayersContext } from "../../WhiteLayersProvider/WhiteLayersProvider";
+import {
+  iWhiteLayersContext,
+  WhiteLayersContext
+} from "../../WhiteLayersProvider/WhiteLayersProvider";
 
 export default function SimpleErrorPopUp(): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);

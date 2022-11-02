@@ -19,7 +19,7 @@ export interface iWhiteLayersContext {
   ) => void
 }
 
-interface iWhiteLayersData {
+export interface iWhiteLayersData {
   showHeaderWhite: boolean,
   showUnDisWhite: boolean,
   showTechWhite: boolean,
