@@ -32,14 +32,15 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
   const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
   const numberOfHours: number = 15;
   const whiteLayerMinHeight: number = isThisUnDisBlock ? 230 : 63;
-  const techDiagTopPadding: number = 17;
+  const techDiagTPadding: number = 17;
+  const techDiagBPadding: number = 22;
   const contResizeObserver: React.MutableRefObject<ResizeObserver> =
     useRef<ResizeObserver>(new ResizeObserver((): void => {
       iterator.current++;
       setSignal2Rerender(iterator.current);
       resizeWhiteLayer();
       if (container.current && !isThisUnDisBlock) {
-        container.current.style.top = techDiagTopPadding.toString() + "px";
+        container.current.style.top = techDiagTPadding.toString() + "px";
       }
   }));
   const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
@@ -117,7 +118,7 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
       }
     });
 
-    return maxLineNumber * lineHeight;
+    return maxLineNumber * lineHeight + (!isThisUnDisBlock ? techDiagBPadding : 0);
   }
 
   function getMinuteWidth(): number {
@@ -197,7 +198,7 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
       whiteLayerRef.current.style.height =
         (containerHeight < whiteLayerMinHeight ? whiteLayerMinHeight : containerHeight).toString() + "px";
       if (!isThisUnDisBlock) {
-        whiteLayerRef.current.style.top = (techDiagTopPadding * -1).toString() + "px";
+        whiteLayerRef.current.style.top = (techDiagTPadding * -1).toString() + "px";
       }
      }
   }
