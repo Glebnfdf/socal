@@ -1,11 +1,12 @@
 import * as React from "react";
 import { useFetch } from "../../../hooks/useFetch";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import iOrderResponse, { iOrderResponseRaw } from "../../../APIInterfaces/iOrderResponse";
 import iTechResponse, { iTechResponseRaw } from "../../../APIInterfaces/iTechResponse";
 import { iOrder } from "../OrderListModel/OrderListModel";
 import { iTechnician } from "../TechnicianListModel/TechnicianListModel";
 import twoDigitOutput from "../../../utils/twoDigitsOutput";
+import { iPrldOnPageContext, PrldOnPageContext } from "../../Preloader/PrldOnPageContext/PrldOnPageContext";
 
 interface iProps {
   children: React.ReactNode
@@ -18,7 +19,6 @@ interface iGrantLoaderContext {
   changeDate: (newDate: Date) => void
   getSelectedDate: () => Date
 }
-
 
 export const GrantLoaderContext: React.Context<iGrantLoaderContext> = React.createContext<iGrantLoaderContext>({
   orderList: [],
@@ -44,6 +44,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   const gantDate: React.MutableRefObject<Date> = useRef<Date>(new Date());
   const orderList: React.MutableRefObject<iOrderResponse[] | null> = useRef<iOrderResponse[] | null>(null);
   const techList: React.MutableRefObject<iTechResponse[] | null> = useRef<iTechResponse[] | null>(null);
+  const prldOnPageContext: iPrldOnPageContext = useContext<iPrldOnPageContext>(PrldOnPageContext);
   const [grantLoaderState, setGrantLoaderState]: [st: iGrantLoaderContext, set: (st: iGrantLoaderContext) => void] =
     useState<iGrantLoaderContext>({
       orderList: [],
@@ -61,6 +62,12 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   }, []);
 
   useEffect((): void => {
+    if (isLoading) {
+      prldOnPageContext.showPreloader();
+    } else {
+      prldOnPageContext.hidePreloader();
+    }
+
     if (!isLoading) {
       if (response && response.status === 200 && data && loadingStage.current !== null) {
         saveRespData(response.url, data);
