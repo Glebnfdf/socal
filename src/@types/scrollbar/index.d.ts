@@ -11,5 +11,9 @@ declare module "scrollbar" {
     scroll2Top(): void;
 
     showScrollListener(showScrollHandler: (isShow: boolean) => void): void;
+
+    scrollToTop(): void;
+
+    scrollToBottom(): void;
   }
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import "../../../../source/img/svgIcons/points.svg";
 import "../../../../source/img/svgIcons/but.svg";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { iTechListContext, iTechnician, TechListContext } from "../TechnicianListModel/TechnicianListModel";
 import Diagram from "../Diagram/Diagram";
 import { iOrder, iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
@@ -23,19 +23,15 @@ export default function TechnicianList(): JSX.Element {
   const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
   const [isShowWhiteLayer, setIsShowWhiteLayer]: [st: boolean, set: (st: boolean) => void] =
     useState(whiteLayersContext.data.showTechWhite);
+  const scrollbar: React.MutableRefObject<Scrollbar> = useRef<Scrollbar>(new Scrollbar());
 
   useEffect((): () => void => {
-    let scrollbar: Scrollbar | null = null;
     const techScrollContainer: HTMLElement | null = document.getElementById("tech-scrollbar");
     if (techScrollContainer) {
-      scrollbar = new Scrollbar();
-      scrollbar.init(techScrollContainer);
+      scrollbar.current.init(techScrollContainer);
     }
-
     return (): void => {
-      if (scrollbar) {
-        scrollbar.destroy();
-      }
+      scrollbar.current.destroy();
     };
   }, []);
 
@@ -92,6 +88,19 @@ export default function TechnicianList(): JSX.Element {
       event.dataTransfer.dropEffect = "move";
     } else {
       event.dataTransfer.dropEffect = "none";
+    }
+
+    const techScrollContainer: HTMLElement | null = document.getElementById("tech-scrollbar");
+    if (!techScrollContainer) {
+      return;
+    }
+    const techSContainerRect: DOMRect = techScrollContainer.getBoundingClientRect();
+    if (event.pageY >= techSContainerRect.y && event.pageY <= techSContainerRect.y + 20) {
+      scrollbar.current.scrollToTop();
+    }
+    if (event.pageY <= techSContainerRect.y + techSContainerRect.height  &&
+        event.pageY >= techSContainerRect.y + techSContainerRect.height - 20) {
+      scrollbar.current.scrollToBottom();
     }
   }
 
