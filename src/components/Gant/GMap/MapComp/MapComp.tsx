@@ -21,6 +21,8 @@ export default function MapComp(): JSX.Element {
       map.current = new window.google.maps.Map(div4MapRef.current, {
         center: mapCenter,
         zoom: defaultZoom,
+        disableDefaultUI: true,
+        zoomControl: true
       });
     }
   }, [div4MapRef.current]);
