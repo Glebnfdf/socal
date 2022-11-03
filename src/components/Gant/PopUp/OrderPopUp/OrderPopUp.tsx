@@ -40,6 +40,7 @@ export interface iOrderPopUpInData {
   orderId: number,
   orderElm: HTMLElement | null,
   container: HTMLElement | null,
+  isPopUpOnMap: boolean,
   mainTechId?: number | null,
   secondTechId?: number | null
 }
@@ -55,9 +56,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const paddingLeftFromMap: number = 10;
   const [popUpType, setPopUpType]: [st: OrderPopUpType, set: (st: OrderPopUpType) => void] =
     useState<OrderPopUpType>(incomingData ? incomingData.type : OrderPopUpType.Small);
+  const popUpTypeRef: React.MutableRefObject<OrderPopUpType> =
+    useRef<OrderPopUpType>(incomingData ? incomingData.type : OrderPopUpType.Small);
   const [popUpPosition, setPopUpPosition]: [st: React.CSSProperties, set: (st: React.CSSProperties) => void] =
     useState<React.CSSProperties>({display: "none"});
-  const [isPopUpOnMap, setIsPopUpOnMap]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  const [isPopUpOnMap, setIsPopUpOnMap]: [st: boolean, set: (st: boolean) => void] =
+    useState(incomingData ? incomingData.isPopUpOnMap : false);
+  const isPopUpOnMapRef: React.MutableRefObject<boolean> =
+    useRef<boolean>(incomingData ? incomingData.isPopUpOnMap : false);
   const [beginTime, setBeginTime]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date());
   const [endTime, setEndTime]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date());
   const [mainTech, setMainTech]: [st: iTechnician | null, set: (st: iTechnician | null) => void] =
@@ -82,14 +88,26 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const mapContext: iMapContext = useContext<iMapContext>(MapContext);
   const mapHeightContext: iMapHeightContext = useContext<iMapHeightContext>(MapHeightContext);
   const [isShowPopUpAnim, setIsShowPopUpAnim]: [st: boolean, set: (st: boolean) => void] = useState(true);
-  const mapResizeObserver: ResizeObserver = new ResizeObserver((): void => {
-    const popUpContainer: HTMLElement | null = document.getElementById("popup-order-container");
-    const mapElm: HTMLElement | null = document.getElementById("map");
-    if (popUpContainer && mapElm) {
-      popUpContainer.style.top = (mapElm.getBoundingClientRect().top + paddingTopFromMap).toString() + "px"
-    }
-  });
   const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
+
+  const mapResizeObserver: React.MutableRefObject<ResizeObserver> =
+    useRef<ResizeObserver>(new ResizeObserver((): void => {
+      const popUpContainer: HTMLElement | null = document.getElementById("popup-order-container");
+      const mapElm: HTMLElement | null = document.getElementById("map");
+      if (popUpContainer && mapElm) {
+        popUpContainer.style.top = (mapElm.getBoundingClientRect().top + paddingTopFromMap).toString() + "px"
+      }
+  }));
+
+  const docResizeObserver: React.MutableRefObject<ResizeObserver> =
+    useRef<ResizeObserver>(new ResizeObserver((): void => {
+      if (isPopUpOnMapRef.current) {
+        setPopUpPosOnMap();
+      }
+      if (popUpTypeRef.current === OrderPopUpType.Small && !isPopUpOnMapRef.current) {
+        setPopUpPosOnOrder();
+      }
+  }));
 
   let orderData: iOrder | null = null;
 
@@ -137,13 +155,24 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
         isShowMenu4SecondTech.current = true;
       }
     }
+
+    if (!isPopUpOnMapRef.current) {
+      mapContext.setOrderId(null);
+    }
     document.addEventListener("click", pageClickHandler);
+    const bodyElm: HTMLElement | null = document.querySelector("body");
+    if (bodyElm) {
+      docResizeObserver.current.observe(bodyElm);
+    }
     return (): void => {
       document.removeEventListener("click", pageClickHandler);
+      docResizeObserver.current.disconnect();
+      mapResizeObserver.current.disconnect();
     };
   }, []);
 
   useEffect((): () => void => {
+    popUpTypeRef.current = popUpType;
     let scrollbar: Scrollbar | null = null;
 
     const showScrollHandler = (isShow: boolean): void => {
@@ -168,19 +197,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
   useEffect((): void => {
     if (incomingData) {
-      if (incomingData.orderElm && incomingData.container && popUpType === OrderPopUpType.Small) {
-        const orderElmRect: DOMRect = incomingData.orderElm.getBoundingClientRect();
-        const container4Order: DOMRect = incomingData.container.getBoundingClientRect();
-        const sizeFromLeftOfOrder: number = orderElmRect.x - container4Order.x;
-        const sizeFromRightOfOrder: number =
-          (container4Order.x +  container4Order.width) - (orderElmRect.x + orderElmRect.width);
-        setPopUpPosition({
-          position: "absolute",
-          left: sizeFromLeftOfOrder >= sizeFromRightOfOrder
-            ? (orderElmRect.x - smallPopUpWidth - paddingFromOrder).toString() + "px"
-            : (orderElmRect.x + orderElmRect.width + paddingFromOrder).toString() + "px",
-          top: orderElmRect.y
-        });
+      if (incomingData.isPopUpOnMap) {
+        setPopUpPosOnMap()
+      } else {
+        setPopUpPosOnOrder();
       }
 
       if (incomingData.type === OrderPopUpType.Big) {
@@ -372,6 +392,13 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       return;
     }
 
+    whiteLayersContext.setWhite(
+      false,
+      false,
+      whiteLayersContext.data.techId !== null,
+      false,
+      null
+    );
     orderListContext.updateOrder(orderData.id, mainTechId, secondTechId, orderBeginTime, orderEndTime);
     popUpContext.setData(PopUpName.none, null)
   }
@@ -382,19 +409,20 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   }
 
   useEffect((): void => {
-    const popUpContainer: HTMLElement | null = document.getElementById("popup-order-container");
+    isPopUpOnMapRef.current = isPopUpOnMap;
     const mapElm: HTMLElement | null = document.getElementById("map");
-    if (isPopUpOnMap && popUpContainer && mapElm) {
-      mapResizeObserver.observe(mapElm);
+    if (isPopUpOnMap && mapElm) {
+      mapResizeObserver.current.observe(mapElm);
     }
     if (!isPopUpOnMap) {
-      mapResizeObserver.disconnect();
+      mapResizeObserver.current.disconnect();
     }
   }, [isPopUpOnMap]);
 
   function detailsClickHandler(orderData: iOrder | null): void {
     setPopUpPosition({});
     setIsShowPopUpAnim(true);
+    setIsPopUpOnMap(false);
     setPopUpType(OrderPopUpType.Big);
     if (orderData) {
       whiteLayersContext.setWhite(
@@ -404,6 +432,37 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
         undefined,
         orderData.id
       );
+    }
+  }
+
+  function setPopUpPosOnMap(): void {
+    const map: HTMLElement | null = document.getElementById("map");
+    if (map) {
+      const mapRect: DOMRect = map.getBoundingClientRect();
+      setPopUpPosition({
+        position: "absolute",
+        left: (mapRect.x + paddingLeftFromMap).toString() + "px",
+        top: (mapRect.top + paddingTopFromMap).toString() + "px"
+      });
+    }
+  }
+
+  function setPopUpPosOnOrder(): void {
+    if (incomingData) {
+      if (incomingData.orderElm && incomingData.container && popUpType === OrderPopUpType.Small) {
+        const orderElmRect: DOMRect = incomingData.orderElm.getBoundingClientRect();
+        const container4Order: DOMRect = incomingData.container.getBoundingClientRect();
+        const sizeFromLeftOfOrder: number = orderElmRect.x - container4Order.x;
+        const sizeFromRightOfOrder: number =
+          (container4Order.x + container4Order.width) - (orderElmRect.x + orderElmRect.width);
+        setPopUpPosition({
+          position: "absolute",
+          left: sizeFromLeftOfOrder >= sizeFromRightOfOrder
+            ? (orderElmRect.x - smallPopUpWidth - paddingFromOrder).toString() + "px"
+            : (orderElmRect.x + orderElmRect.width + paddingFromOrder).toString() + "px",
+          top: orderElmRect.y
+        });
+      }
     }
   }
 
@@ -546,7 +605,12 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <use href="#clock-icon"/>
                   </svg>
                   <div className={"time-drop-menu-cont" + (showBeginTimeDrop ? "" : " hide")}>
-                    <TimeDropMenu dateProp={beginTime} changeHour={beginTChangeHour} changeMinute={beginTChangeMinute}/>
+                    <TimeDropMenu
+                      dateProp={beginTime}
+                      changeHour={beginTChangeHour}
+                      changeMinute={beginTChangeMinute}
+                      isMenuShow={showBeginTimeDrop}
+                    />
                   </div>
                 </div>
                 <div className={"time-to time" + (isEndTimeWrong ? " time-error" : "")}>
@@ -567,7 +631,12 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <use href="#clock-icon"/>
                   </svg>
                   <div className={"time-drop-menu-cont" + (showEndTimeDrop ? "" : " hide")}>
-                    <TimeDropMenu dateProp={endTime} changeHour={endTChangeHour} changeMinute={endTChangeMinute}/>
+                    <TimeDropMenu
+                      dateProp={endTime}
+                      changeHour={endTChangeHour}
+                      changeMinute={endTChangeMinute}
+                      isMenuShow={showEndTimeDrop}
+                    />
                   </div>
                 </div>
               </div>
@@ -700,28 +769,20 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   <>
                     <div className="btn-save" onClick={(): void => {detailsClickHandler(orderData)}}>Details</div>
                     <div className="btn-add-2" onClick={(): void => {
-                      const map: HTMLElement | null = document.getElementById("map");
-                      if (map) {
-                        const mapRect: DOMRect = map.getBoundingClientRect();
-                        setPopUpPosition({
-                          position: "absolute",
-                          left: (mapRect.x + paddingLeftFromMap).toString() + "px",
-                          top: (mapRect.top + paddingTopFromMap).toString() + "px"
-                        });
-                        setIsShowPopUpAnim(true);
-                        setPopUpType(OrderPopUpType.Small);
-                        setIsPopUpOnMap(true);
-                        if (orderData) {
-                          mapContext.setOrderId(orderData.id);
-                          mapHeightContext.increaseMap();
-                          whiteLayersContext.setWhite(
-                            true,
-                            true,
-                            true,
-                            false,
-                            orderData.id
-                          );
-                        }
+                      setPopUpPosOnMap()
+                      setIsShowPopUpAnim(true);
+                      setPopUpType(OrderPopUpType.Small);
+                      setIsPopUpOnMap(true);
+                      if (orderData) {
+                        mapContext.setOrderId(orderData.id);
+                        mapHeightContext.increaseMap();
+                        whiteLayersContext.setWhite(
+                          true,
+                          true,
+                          true,
+                          false,
+                          orderData.id
+                        );
                       }
                     }}
                     >Mark on the map</div>

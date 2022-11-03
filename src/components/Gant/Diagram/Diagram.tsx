@@ -32,8 +32,17 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
   const lineHeight: number = 30 + 6; // 30 - высота блока заявки, 6 - отступ между рядами заявок
   const numberOfHours: number = 15;
   const whiteLayerMinHeight: number = isThisUnDisBlock ? 230 : 63;
-  const techDiagTopPadding: number = 17;
-  let contResizeObserver: ResizeObserver;
+  const techDiagTPadding: number = 17;
+  const techDiagBPadding: number = 22;
+  const contResizeObserver: React.MutableRefObject<ResizeObserver> =
+    useRef<ResizeObserver>(new ResizeObserver((): void => {
+      iterator.current++;
+      setSignal2Rerender(iterator.current);
+      resizeWhiteLayer();
+      if (container.current && !isThisUnDisBlock) {
+        container.current.style.top = techDiagTPadding.toString() + "px";
+      }
+  }));
   const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
   const [clickedOrder, setClickedOrder]: [st: number | null, set: (st: number | null) => void] =
     useState<number | null>(null);
@@ -58,20 +67,10 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
 
   useEffect((): () => void => {
     if (container.current) {
-        contResizeObserver = new ResizeObserver((): void => {
-          iterator.current++;
-          setSignal2Rerender(iterator.current);
-          resizeWhiteLayer();
-          if (container.current && !isThisUnDisBlock) {
-            container.current.style.top = techDiagTopPadding.toString() + "px";
-          }
-      })
-      contResizeObserver.observe(container.current);
+      contResizeObserver.current.observe(container.current);
     }
     return (): void => {
-      if (contResizeObserver) {
-        contResizeObserver.disconnect();
-      }
+      contResizeObserver.current.disconnect();
     };
   }, []);
 
@@ -119,7 +118,7 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
       }
     });
 
-    return maxLineNumber * lineHeight;
+    return maxLineNumber * lineHeight + (!isThisUnDisBlock ? techDiagBPadding : 0);
   }
 
   function getMinuteWidth(): number {
@@ -199,7 +198,7 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
       whiteLayerRef.current.style.height =
         (containerHeight < whiteLayerMinHeight ? whiteLayerMinHeight : containerHeight).toString() + "px";
       if (!isThisUnDisBlock) {
-        whiteLayerRef.current.style.top = (techDiagTopPadding * -1).toString() + "px";
+        whiteLayerRef.current.style.top = (techDiagTPadding * -1).toString() + "px";
       }
      }
   }
@@ -237,7 +236,8 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
                 type: OrderPopUpType.Small,
                 orderId: order.id,
                 orderElm: event.currentTarget as HTMLElement,
-                container: container.current
+                container: container.current,
+                isPopUpOnMap: false
               }
               popUpContext.setData(PopUpName.orderPopUp, transmittedData);
               whiteLayersContext.setWhite(
@@ -245,7 +245,8 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
                 true,
                 true,
                 whiteLayersContext.data.techId === null,
-                order.id);
+                order.id
+              );
           }}
           >
             <div className={"id"}>№ {order.id}</div>

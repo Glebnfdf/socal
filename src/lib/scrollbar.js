@@ -84,7 +84,7 @@ export default class Scrollbar {
         this.timerEnable = false;
         this.setTrackVisible();
         this.setThumbHeight();
-      }, 50);
+      }, 100);
     }
   }
 
@@ -157,5 +157,21 @@ export default class Scrollbar {
 
   showScrollListener = (_showScrollHandler) => {
     this.showScrollHandler = _showScrollHandler;
+  }
+
+  scrollToTop() {
+    if (this.contentWrapper.scrollTop - 0.1 < 0) {
+      this.contentWrapper.scrollTop = 0;
+    } else {
+      this.contentWrapper.scrollTop -= 0.1;
+    }
+  }
+
+  scrollToBottom() {
+    if (this.contentWrapper.scrollTop + 0.1 > this.contentWrapper.scrollTop + this.contentWrapper.offsetHeight) {
+      this.contentWrapper.scrollTop = this.contentWrapper.scrollTop + this.contentWrapper.offsetHeight;
+    } else {
+      this.contentWrapper.scrollTop += 0.1;
+    }
   }
 }

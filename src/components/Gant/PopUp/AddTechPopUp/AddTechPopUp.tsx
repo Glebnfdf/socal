@@ -57,6 +57,7 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
             orderId: incomingData.orderId,
             orderElm: null,
             container: null,
+            isPopUpOnMap: false,
             mainTechId: incomingData.mainTechId,
             secondTechId: incomingData.secondTechId
           }
@@ -125,6 +126,7 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
                             orderId: incomingData.orderId,
                             orderElm: null,
                             container: null,
+                            isPopUpOnMap: false,
                             mainTechId: incomingData.operationType === AddTechOperationType.AddMainTech
                               ? technician.id : incomingData.mainTechId,
                             secondTechId: incomingData.operationType === AddTechOperationType.AddSecondTech

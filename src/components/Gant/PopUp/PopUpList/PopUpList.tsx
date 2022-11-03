@@ -43,7 +43,8 @@ export default function PopUpList(): JSX.Element {
         if (Object.prototype.hasOwnProperty.call(transmittedData.current as object, "type") &&
             Object.prototype.hasOwnProperty.call(transmittedData.current as object, "orderId") &&
             Object.prototype.hasOwnProperty.call(transmittedData.current as object, "orderElm") &&
-            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "container")) {
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "container") &&
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "isPopUpOnMap")) {
           data4PopUp = transmittedData.current;
         }
         return <OrderPopUp incomingData={data4PopUp as iOrderPopUpInData}/>
