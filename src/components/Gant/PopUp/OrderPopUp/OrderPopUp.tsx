@@ -605,7 +605,12 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <use href="#clock-icon"/>
                   </svg>
                   <div className={"time-drop-menu-cont" + (showBeginTimeDrop ? "" : " hide")}>
-                    <TimeDropMenu dateProp={beginTime} changeHour={beginTChangeHour} changeMinute={beginTChangeMinute}/>
+                    <TimeDropMenu
+                      dateProp={beginTime}
+                      changeHour={beginTChangeHour}
+                      changeMinute={beginTChangeMinute}
+                      isMenuShow={showBeginTimeDrop}
+                    />
                   </div>
                 </div>
                 <div className={"time-to time" + (isEndTimeWrong ? " time-error" : "")}>
@@ -626,7 +631,12 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                     <use href="#clock-icon"/>
                   </svg>
                   <div className={"time-drop-menu-cont" + (showEndTimeDrop ? "" : " hide")}>
-                    <TimeDropMenu dateProp={endTime} changeHour={endTChangeHour} changeMinute={endTChangeMinute}/>
+                    <TimeDropMenu
+                      dateProp={endTime}
+                      changeHour={endTChangeHour}
+                      changeMinute={endTChangeMinute}
+                      isMenuShow={showEndTimeDrop}
+                    />
                   </div>
                 </div>
               </div>
