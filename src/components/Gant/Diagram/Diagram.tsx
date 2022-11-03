@@ -33,7 +33,15 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
   const numberOfHours: number = 15;
   const whiteLayerMinHeight: number = isThisUnDisBlock ? 230 : 63;
   const techDiagTopPadding: number = 17;
-  let contResizeObserver: ResizeObserver;
+  const contResizeObserver: React.MutableRefObject<ResizeObserver> =
+    useRef<ResizeObserver>(new ResizeObserver((): void => {
+      iterator.current++;
+      setSignal2Rerender(iterator.current);
+      resizeWhiteLayer();
+      if (container.current && !isThisUnDisBlock) {
+        container.current.style.top = techDiagTopPadding.toString() + "px";
+      }
+  }));
   const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
   const [clickedOrder, setClickedOrder]: [st: number | null, set: (st: number | null) => void] =
     useState<number | null>(null);
@@ -58,20 +66,10 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
 
   useEffect((): () => void => {
     if (container.current) {
-        contResizeObserver = new ResizeObserver((): void => {
-          iterator.current++;
-          setSignal2Rerender(iterator.current);
-          resizeWhiteLayer();
-          if (container.current && !isThisUnDisBlock) {
-            container.current.style.top = techDiagTopPadding.toString() + "px";
-          }
-      })
-      contResizeObserver.observe(container.current);
+      contResizeObserver.current.observe(container.current);
     }
     return (): void => {
-      if (contResizeObserver) {
-        contResizeObserver.disconnect();
-      }
+      contResizeObserver.current.disconnect();
     };
   }, []);
 
