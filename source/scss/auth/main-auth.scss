@@ -260,10 +260,12 @@ $trans-options: 300ms ease;
       background: rgba(255, 255, 255, 0.25);
       border-radius: 30px;
       margin-left: -25.5px;
-      margin-top: 440px;
+      margin-top: 450px;
     }
 
     .next-btn {
+      height: 59px;
+
       &.disable {
         opacity: 0.3;
         cursor: none;
