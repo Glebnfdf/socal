@@ -40,6 +40,7 @@ export interface iOrderPopUpInData {
   orderId: number,
   orderElm: HTMLElement | null,
   container: HTMLElement | null,
+  isPopUpOnMap: boolean,
   mainTechId?: number | null,
   secondTechId?: number | null
 }
@@ -59,8 +60,10 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     useRef<OrderPopUpType>(incomingData ? incomingData.type : OrderPopUpType.Small);
   const [popUpPosition, setPopUpPosition]: [st: React.CSSProperties, set: (st: React.CSSProperties) => void] =
     useState<React.CSSProperties>({display: "none"});
-  const [isPopUpOnMap, setIsPopUpOnMap]: [st: boolean, set: (st: boolean) => void] = useState(false);
-  const isPopUpOnMapRef: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const [isPopUpOnMap, setIsPopUpOnMap]: [st: boolean, set: (st: boolean) => void] =
+    useState(incomingData ? incomingData.isPopUpOnMap : false);
+  const isPopUpOnMapRef: React.MutableRefObject<boolean> =
+    useRef<boolean>(incomingData ? incomingData.isPopUpOnMap : false);
   const [beginTime, setBeginTime]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date());
   const [endTime, setEndTime]: [st: Date, set: (st: Date) => void] = useState<Date>(new Date());
   const [mainTech, setMainTech]: [st: iTechnician | null, set: (st: iTechnician | null) => void] =
@@ -86,6 +89,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
   const mapHeightContext: iMapHeightContext = useContext<iMapHeightContext>(MapHeightContext);
   const [isShowPopUpAnim, setIsShowPopUpAnim]: [st: boolean, set: (st: boolean) => void] = useState(true);
   const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
+
   const mapResizeObserver: React.MutableRefObject<ResizeObserver> =
     useRef<ResizeObserver>(new ResizeObserver((): void => {
       const popUpContainer: HTMLElement | null = document.getElementById("popup-order-container");
@@ -100,7 +104,6 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       if (isPopUpOnMapRef.current) {
         setPopUpPosOnMap();
       }
-
       if (popUpTypeRef.current === OrderPopUpType.Small && !isPopUpOnMapRef.current) {
         setPopUpPosOnOrder();
       }
@@ -153,7 +156,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       }
     }
 
-    mapContext.setOrderId(null);
+    if (!isPopUpOnMapRef.current) {
+      mapContext.setOrderId(null);
+    }
     document.addEventListener("click", pageClickHandler);
     const bodyElm: HTMLElement | null = document.querySelector("body");
     if (bodyElm) {
@@ -192,7 +197,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
 
   useEffect((): void => {
     if (incomingData) {
-      setPopUpPosOnOrder();
+      if (incomingData.isPopUpOnMap) {
+        setPopUpPosOnMap()
+      } else {
+        setPopUpPosOnOrder();
+      }
 
       if (incomingData.type === OrderPopUpType.Big) {
         setPopUpPosition({});

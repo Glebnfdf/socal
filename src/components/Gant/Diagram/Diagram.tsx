@@ -235,7 +235,8 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
                 type: OrderPopUpType.Small,
                 orderId: order.id,
                 orderElm: event.currentTarget as HTMLElement,
-                container: container.current
+                container: container.current,
+                isPopUpOnMap: false
               }
               popUpContext.setData(PopUpName.orderPopUp, transmittedData);
               whiteLayersContext.setWhite(
@@ -243,7 +244,8 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
                 true,
                 true,
                 whiteLayersContext.data.techId === null,
-                order.id);
+                order.id
+              );
           }}
           >
             <div className={"id"}>№ {order.id}</div>
