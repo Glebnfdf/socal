@@ -392,6 +392,13 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       return;
     }
 
+    whiteLayersContext.setWhite(
+      false,
+      false,
+      whiteLayersContext.data.techId !== null,
+      false,
+      null
+    );
     orderListContext.updateOrder(orderData.id, mainTechId, secondTechId, orderBeginTime, orderEndTime);
     popUpContext.setData(PopUpName.none, null)
   }
