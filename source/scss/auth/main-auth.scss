@@ -263,6 +263,13 @@ $trans-options: 300ms ease;
       margin-top: 440px;
     }
 
+    .next-btn {
+      &.disable {
+        opacity: 0.3;
+        cursor: none;
+      }
+    }
+
     .auth-bottom-two {
       position: absolute;
       width: 403px;
@@ -355,6 +362,7 @@ $trans-options: 300ms ease;
       }
     }
   }
+
   .back-btn {
     font-weight: 500 !important;
     font-size: 14px !important;
