@@ -153,6 +153,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       }
     }
 
+    mapContext.setOrderId(null);
     document.addEventListener("click", pageClickHandler);
     const bodyElm: HTMLElement | null = document.querySelector("body");
     if (bodyElm) {
