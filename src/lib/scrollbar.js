@@ -84,7 +84,7 @@ export default class Scrollbar {
         this.timerEnable = false;
         this.setTrackVisible();
         this.setThumbHeight();
-      }, 50);
+      }, 100);
     }
   }
 
