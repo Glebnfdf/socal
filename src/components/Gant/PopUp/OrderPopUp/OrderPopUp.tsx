@@ -538,11 +538,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
             <div className="contacts">
               <div className="top">
                 <div className="name">{orderData.main_contact_name}</div>
-                <div className="description"><span className={"dot-separator"}>&#9679;</span> Service#3 (Toshiba)</div>
+                <div className="description"><span className={"dot-separator"}>&#9679;</span> {orderData.appliance}</div>
               </div>
               <div className="bottom">
                 <div className="phone">{orderData.main_contact_phone}</div>
-                <div className="mail"><span className={"dot-separator"}>&#9679;</span> mail@mail.com</div>
+                <div className="mail"><span className={"dot-separator"}>&#9679;</span> {orderData.main_contact_email}</div>
               </div>
             </div>
           </div>
@@ -553,20 +553,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 <div className="main-container">
                   <div id="order-popup-info-scroll" className="scroll-cont scroll-cont-popup">
                     <div className="scroll-content-wrapper">
-                      <div className="content">
-                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                        deleniti atque
-                        Corpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique
-                        sunt in
-                        culpa qui
-                        officia deserunt mollitia animi, id est Laborum et dolorum fuga.
-                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum
-                        deleniti atque
-                        Corpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique
-                        sunt in
-                        culpa qui
-                        officia deserunt mollitia animi, id est Laborum et dolorum fuga.
-                      </div>
+                      <div className="content">{orderData.description}</div>
                     </div>
                     <div className="scroll-vtrack border-radius">
                       <div className="scroll-thumb"></div>
@@ -644,7 +631,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 {mainTech &&
                   <div className="added-technical">
                     <div className="left">
-                      <div className="person"><img src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#" /></div>
+                      <div className="person"><img src={mainTech.avatar === null ? "https://i.ibb.co/C1ZFCsr/person-1.png" : mainTech.avatar} alt="#" /></div>
                       <div className="names">
                         <p className="top">Technicianc</p>
                         <p className="name">{mainTech.name}</p>
@@ -684,7 +671,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 {secondTech &&
                   <div className="added-technical">
                     <div className="left">
-                      <div className="person"><img src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#" /></div>
+                      <div className="person"><img src={secondTech.avatar === null ? "https://i.ibb.co/C1ZFCsr/person-1.png" : secondTech.avatar} alt="#" /></div>
                       <div className="names">
                         <p className="top">Technicianc</p>
                         <p className="name">{secondTech.name}</p>
