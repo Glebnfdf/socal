@@ -481,25 +481,6 @@
             width: 35px;
             height: 35px;
           }
-
-          .block-null-img {
-            width: 35px;
-            height: 35px;
-            background: #37DCA1;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            font-family: $main-font;
-            color: #fff;
-            font-style: normal;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 130%;
-            text-align: center;
-            letter-spacing: 0.02em;
-          }
         }
 
         .names {
@@ -707,4 +688,23 @@
   &.show {
     opacity: 0.46;
   }
+}
+
+.tech-avatar-txt-cont {
+  width: 35px;
+  height: 35px;
+  background: #37DCA1;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: $main-font;
+  color: #fff;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.02em;
 }
