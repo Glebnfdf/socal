@@ -8,6 +8,7 @@ import { iPopUpContext, PopUpContext } from "../PopUpContext/PopUpContext";
 import { iOrderPopUpInData, OrderPopUpType } from "../OrderPopUp/OrderPopUp";
 import { CSSTransition } from "react-transition-group";
 import { PopUpName } from "../PopUpList/PopUpListNames";
+import TechAvatar from "../../TechAvatar/TechAvatar";
 
 interface iProps {
   incomingData: iAddTechInData | null
@@ -110,7 +111,9 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
                   return (
                     <li className="item" key={technician.id}>
                       <div className="left">
-                        <img className="person-img" src={technician.avatar === null ? "https://i.ibb.co/C1ZFCsr/person-1.png" : technician.avatar} alt="#"/>
+                        <div className={"tech-avatar-in-add-tech-popup"}>
+                          <TechAvatar url={technician.avatar} techName={technician.name}/>
+                        </div>
                         <div className="names">
                           <div className="title-technical">Technician</div>
                           <div className="name">{technician.name}</div>
