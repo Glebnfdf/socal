@@ -25,6 +25,7 @@ import {
   WhiteLayersContext
 } from "../../WhiteLayersProvider/WhiteLayersProvider";
 import { PopUpName } from "../PopUpList/PopUpListNames";
+import TechAvatar from "../../TechAvatar/TechAvatar";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -631,7 +632,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 {mainTech &&
                   <div className="added-technical">
                     <div className="left">
-                      <div className="person"><img src={mainTech.avatar === null ? "https://i.ibb.co/C1ZFCsr/person-1.png" : mainTech.avatar} alt="#" /></div>
+                      <div className="person">
+                        <TechAvatar url={mainTech.avatar} techName={mainTech.name}/>
+                      </div>
                       <div className="names">
                         <p className="top">Technicianc</p>
                         <p className="name">{mainTech.name}</p>
@@ -671,7 +674,9 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                 {secondTech &&
                   <div className="added-technical">
                     <div className="left">
-                      <div className="person"><img src={secondTech.avatar === null ? "https://i.ibb.co/C1ZFCsr/person-1.png" : secondTech.avatar} alt="#" /></div>
+                      <div className="person">
+                        <TechAvatar url={secondTech.avatar} techName={secondTech.name}/>
+                      </div>
                       <div className="names">
                         <p className="top">Technicianc</p>
                         <p className="name">{secondTech.name}</p>
