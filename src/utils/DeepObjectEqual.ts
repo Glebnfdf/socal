@@ -11,7 +11,7 @@ export default function DeepObjectEqual(object1: Record<string, unknown>, object
     const object1Value: unknown = object1[key];
     const object2Value: unknown = object2[key];
 
-    if (typeof object1Value !== object2Value) {
+    if (typeof object1Value !== typeof object2Value) {
       return false;
     }
 

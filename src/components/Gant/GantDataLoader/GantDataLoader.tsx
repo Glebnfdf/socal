@@ -7,6 +7,7 @@ import { iOrder } from "../OrderListModel/OrderListModel";
 import { iTechnician } from "../TechnicianListModel/TechnicianListModel";
 import twoDigitOutput from "../../../utils/twoDigitsOutput";
 import { iPrldOnPageContext, PrldOnPageContext } from "../../Preloader/PrldOnPageContext/PrldOnPageContext";
+import DeepObjectEqual from "../../../utils/DeepObjectEqual";
 
 interface iProps {
   children: React.ReactNode
@@ -44,7 +45,10 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   const gantDate: React.MutableRefObject<Date> = useRef<Date>(new Date());
   const orderList: React.MutableRefObject<iOrderResponse[] | null> = useRef<iOrderResponse[] | null>(null);
   const techList: React.MutableRefObject<iTechResponse[] | null> = useRef<iTechResponse[] | null>(null);
+  const prevOrderListResp: React.MutableRefObject<iOrderResponse[] | null> = useRef<iOrderResponse[] | null>(null);
+  const prevTechListResp: React.MutableRefObject<iTechResponse[] | null> = useRef<iTechResponse[] | null>(null);
   const prldOnPageContext: iPrldOnPageContext = useContext<iPrldOnPageContext>(PrldOnPageContext);
+  const updateDataTimer: React.MutableRefObject<number> = useRef<number>(0);
   const [grantLoaderState, setGrantLoaderState]: [st: iGrantLoaderContext, set: (st: iGrantLoaderContext) => void] =
     useState<iGrantLoaderContext>({
       orderList: [],
@@ -54,43 +58,57 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
       getSelectedDate: getSelectedDate
     });
 
-  useEffect((): void => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    (async (): Promise<void> => {
-      await updateData();
-    })();
+  useEffect((): () => void => {
+    loadData(true);
+    return (): void => {
+      clearTimeout(updateDataTimer.current);
+    }
   }, []);
 
   useEffect((): void => {
     if (!isLoading) {
       if (response && response.status === 200 && data) {
-        if (response.url.includes(urlList[2])) {
-          prldOnPageContext.hidePreloader();
-        }
         saveRespData(response.url, data);
         loadingStage.current++;
         const isAllDataLoaded: boolean = loadingStage.current === urlList.length;
         if (isAllDataLoaded) {
+          prldOnPageContext.hidePreloader();
           if (orderList.current && techList.current && gantDate.current) {
-            setGrantLoaderState({
-              ...grantLoaderState,
-              orderList: addTechInOrder(orderList.current, techList.current),
-              techList: addOrderInTechList(techList.current),
-              date: gantDate.current
-            })
+            let isNewData: boolean = false;
+            if (prevOrderListResp.current && prevTechListResp.current) {
+              if (!DeepObjectEqual({...orderList.current}, {...prevOrderListResp.current})) {
+                isNewData = true;
+              }
+              if (!DeepObjectEqual({...techList.current}, {...prevTechListResp.current})) {
+                isNewData = true;
+              }
+            } else {
+              isNewData = true;
+            }
+
+            if (isNewData) {
+              prevOrderListResp.current = [...orderList.current];
+              prevTechListResp.current = [...techList.current];
+              setGrantLoaderState({
+                ...grantLoaderState,
+                orderList: addTechInOrder(orderList.current, techList.current),
+                techList: addOrderInTechList(techList.current),
+                date: gantDate.current
+              });
+            }
           }
         } else {
           // eslint-disable-next-line @typescript-eslint/no-floating-promises
           (async (): Promise<void> => {
-            await updateData();
+            await updateData(true);
           })();
         }
       }
     }
   }, [isLoading]);
 
-  async function updateData(): Promise<void> {
-    if (loadingStage.current === 0) {
+  async function updateData(showPreloader: boolean): Promise<void> {
+    if (loadingStage.current === 0 && showPreloader) {
       prldOnPageContext.showPreloader();
     }
     const url = urlList[loadingStage.current] + "?" +
@@ -172,15 +190,27 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
 
   function changeDateHandler(newDate: Date): void {
     gantDate.current = newDate;
-    loadingStage.current = 0;
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    (async (): Promise<void> => {
-      await updateData();
-    })();
+    loadData(true);
   }
 
   function getSelectedDate(): Date {
     return gantDate.current;
+  }
+
+  function addTimer2UpdateData(): void {
+    updateDataTimer.current = window.setTimeout((): void => {
+      loadData(false);
+    }, 5 * 60 * 1000); // 5 мин
+  }
+
+  function loadData(showPreloader: boolean): void {
+    loadingStage.current = 0;
+    clearTimeout(updateDataTimer.current);
+    addTimer2UpdateData();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    (async (): Promise<void> => {
+      await updateData(showPreloader);
+    })();
   }
 
   return (
