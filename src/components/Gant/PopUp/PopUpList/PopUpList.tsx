@@ -5,13 +5,7 @@ import "./PopUpList.scss";
 import OrderPopUp, { iOrderPopUpInData } from "../OrderPopUp/OrderPopUp";
 import SimpleErrorPopUp from "../SimpleErrorPopUp/SimpleErrorPopUp";
 import AddTechPopUp, { iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
-
-export enum PopUpName {
-  none,
-  orderPopUp,
-  simpleError,
-  addTech
-}
+import { PopUpName } from "./PopUpListNames";
 
 export default function PopUpList(): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);

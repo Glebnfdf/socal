@@ -18,32 +18,32 @@ import PreloaderOnPage from "../../Preloader/PreloaderOnPage/PreloaderOnPage";
 export default function GantPage(): JSX.Element {
   return (
     <PrldOnPageProvider>
-      <GantDataLoader>
-        <OrderListModel>
-          <TechnicianListModel>
-            <PopUpContextProvider>
+      <PopUpContextProvider>
+        <GantDataLoader>
+          <OrderListModel>
+            <TechnicianListModel>
               <OrderPopUpProvider>
                 <MapProvider>
                   <MapHeightProvider>
                     <WhiteLayersProvider>
-                        <Header/>
-                        <main className="main">
-                          <PreloaderOnPage/>
-                          <div className="blur-main"/>
-                          <UnDispatched/>
-                          <TechnicianList />
-                          <GMap/>
-                        </main>
-                        <footer className="container" />
-                        <PopUpList/>
+                      <Header/>
+                      <main className="main">
+                        <PreloaderOnPage/>
+                        <div className="blur-main"/>
+                        <UnDispatched/>
+                        <TechnicianList />
+                        <GMap/>
+                      </main>
+                      <footer className="container" />
+                      <PopUpList/>
                       </WhiteLayersProvider>
                   </MapHeightProvider>
                 </MapProvider>
               </OrderPopUpProvider>
-            </PopUpContextProvider>
-          </TechnicianListModel>
-        </OrderListModel>
-      </GantDataLoader>
+            </TechnicianListModel>
+          </OrderListModel>
+        </GantDataLoader>
+      </PopUpContextProvider>
     </PrldOnPageProvider>
   );
 }

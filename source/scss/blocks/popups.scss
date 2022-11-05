@@ -932,3 +932,12 @@
     color: #FFFFFF;
   }
 }
+
+#add-tech-scroll-cont {
+  position: relative;
+  height: 100%;
+
+  .scroll-vtrack {
+    border-radius: 100px;
+  }
+}

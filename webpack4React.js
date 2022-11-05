@@ -48,6 +48,13 @@ module.exports = (env, argv) => {
           }
         },
         {
+          test: /favicon\.ico$/i,
+          type: 'asset/resource',
+          generator: {
+            filename: 'favicon.ico'
+          }
+        },
+        {
           test: /\.(woff|woff2|ttf|otf|eot)$/i,
           type: 'asset/resource',
           generator: {

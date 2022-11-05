@@ -5,9 +5,11 @@ import "../../../../../source/img/svgIcons/union.svg";
 import Scrollbar from "../../../../lib/scrollbar";
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
 import { iPopUpContext, PopUpContext } from "../PopUpContext/PopUpContext";
-import { PopUpName } from "../PopUpList/PopUpList";
 import { iOrderPopUpInData, OrderPopUpType } from "../OrderPopUp/OrderPopUp";
 import { CSSTransition } from "react-transition-group";
+import { PopUpName } from "../PopUpList/PopUpListNames";
+import TechAvatar from "../../TechAvatar/TechAvatar";
+import TechBGCollection from "../../../../utils/TechBGCollection";
 
 interface iProps {
   incomingData: iAddTechInData | null
@@ -86,8 +88,8 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
           />
         </div>
         <main className="main-container">
-          <div id={"add-tech-scroll-cont"} className="scroll-search">
-            <div className="scroll-content-wrapper scroll-search scroll-content-wrapper-popup-add">
+          <div id={"add-tech-scroll-cont"}>
+            <div className="scroll-content-wrapper scroll-content-wrapper-popup-add">
               <ul className="list">
                 {techListContext.techList.map((technician: iTechnician): JSX.Element | null => {
                   let isShowTechInList: boolean = true;
@@ -110,7 +112,13 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
                   return (
                     <li className="item" key={technician.id}>
                       <div className="left">
-                        <img className="person-img" src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#"/>
+                        <div className={"tech-avatar-in-add-tech-popup"}>
+                          <TechAvatar
+                            url={technician.avatar}
+                            techName={technician.name}
+                            bgColor={TechBGCollection.getInstance().getBGColor(technician.id)}
+                          />
+                        </div>
                         <div className="names">
                           <div className="title-technical">Technician</div>
                           <div className="name">{technician.name}</div>

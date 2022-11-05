@@ -1,12 +1,16 @@
 import * as React from "react";
-import { useFetch } from "../../../hooks/useFetch";
 import { useContext, useEffect, useRef, useState } from "react";
+import { useFetch } from "../../../hooks/useFetch";
 import iOrderResponse, { iOrderResponseRaw } from "../../../APIInterfaces/iOrderResponse";
 import iTechResponse, { iTechResponseRaw } from "../../../APIInterfaces/iTechResponse";
 import { iOrder } from "../OrderListModel/OrderListModel";
 import { iTechnician } from "../TechnicianListModel/TechnicianListModel";
 import twoDigitOutput from "../../../utils/twoDigitsOutput";
 import { iPrldOnPageContext, PrldOnPageContext } from "../../Preloader/PrldOnPageContext/PrldOnPageContext";
+import DeepObjectEqual from "../../../utils/DeepObjectEqual";
+import { iPopUpContext, PopUpContext } from "../PopUp/PopUpContext/PopUpContext";
+import { PopUpName } from "../PopUp/PopUpList/PopUpListNames";
+import TechBGCollection from "../../../utils/TechBGCollection";
 
 interface iProps {
   children: React.ReactNode
@@ -44,7 +48,13 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   const gantDate: React.MutableRefObject<Date> = useRef<Date>(new Date());
   const orderList: React.MutableRefObject<iOrderResponse[] | null> = useRef<iOrderResponse[] | null>(null);
   const techList: React.MutableRefObject<iTechResponse[] | null> = useRef<iTechResponse[] | null>(null);
+  const prevOrderListResp: React.MutableRefObject<iOrderResponse[] | null> = useRef<iOrderResponse[] | null>(null);
+  const prevTechListResp: React.MutableRefObject<iTechResponse[] | null> = useRef<iTechResponse[] | null>(null);
   const prldOnPageContext: iPrldOnPageContext = useContext<iPrldOnPageContext>(PrldOnPageContext);
+  const updateDataTimer: React.MutableRefObject<number> = useRef<number>(0);
+  const needToUpdateData: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const popUpContext: iPopUpContext = useContext(PopUpContext);
+  const currentPopUp: React.MutableRefObject<PopUpName> = useRef<PopUpName>(PopUpName.none);
   const [grantLoaderState, setGrantLoaderState]: [st: iGrantLoaderContext, set: (st: iGrantLoaderContext) => void] =
     useState<iGrantLoaderContext>({
       orderList: [],
@@ -54,50 +64,65 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
       getSelectedDate: getSelectedDate
     });
 
-  useEffect((): void => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    (async (): Promise<void> => {
-      await updateData();
-    })();
+  useEffect((): () => void => {
+    loadData(true);
+    return (): void => {
+      clearTimeout(updateDataTimer.current);
+    }
   }, []);
 
   useEffect((): void => {
-    if (isLoading) {
-      prldOnPageContext.showPreloader();
-    } else {
-      prldOnPageContext.hidePreloader();
-    }
-
     if (!isLoading) {
-      if (response && response.status === 200 && data && loadingStage.current !== null) {
+      if (response && response.status === 200 && data) {
         saveRespData(response.url, data);
         loadingStage.current++;
         const isAllDataLoaded: boolean = loadingStage.current === urlList.length;
         if (isAllDataLoaded) {
+          prldOnPageContext.hidePreloader();
           if (orderList.current && techList.current && gantDate.current) {
-            setGrantLoaderState({
-              ...grantLoaderState,
-              orderList: addTechInOrder(orderList.current, techList.current),
-              techList: addOrderInTechList(techList.current),
-              date: gantDate.current
-            })
+            let isNewData: boolean = false;
+            if (prevOrderListResp.current && prevTechListResp.current) {
+              if (!DeepObjectEqual({...orderList.current}, {...prevOrderListResp.current})) {
+                isNewData = true;
+              }
+              if (!DeepObjectEqual({...techList.current}, {...prevTechListResp.current})) {
+                isNewData = true;
+              }
+            } else {
+              isNewData = true;
+            }
+
+            if (isNewData) {
+              prevOrderListResp.current = [...orderList.current];
+              prevTechListResp.current = [...techList.current];
+              popUpContext.setData(PopUpName.none, null);
+              const newTechList: iTechnician[] = addOrderInTechList(addFakeTechData(techList.current));
+              TechBGCollection.getInstance().addTechnicians(newTechList);
+              setGrantLoaderState({
+                ...grantLoaderState,
+                orderList: addTechInOrder(addFakeOrderData(orderList.current), techList.current),
+                techList: newTechList,
+                date: gantDate.current
+              });
+            }
           }
         } else {
           // eslint-disable-next-line @typescript-eslint/no-floating-promises
           (async (): Promise<void> => {
-            await updateData();
+            await updateData(true);
           })();
         }
       }
     }
   }, [isLoading]);
 
-  async function updateData(): Promise<void> {
-    if (loadingStage.current !== null && gantDate.current) {
-      const url = urlList[loadingStage.current] + "?" +
-        getGetParams(urlList[loadingStage.current], gantDate.current).toString();
-      await requestData(url);
+  async function updateData(showPreloader: boolean): Promise<void> {
+    if (loadingStage.current === 0 && showPreloader) {
+      prldOnPageContext.showPreloader();
     }
+    const url = urlList[loadingStage.current] + "?" +
+      getGetParams(urlList[loadingStage.current], gantDate.current).toString();
+    await requestData(url);
   }
 
   function getGetParams(url: string, date: Date): URLSearchParams {
@@ -174,15 +199,65 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
 
   function changeDateHandler(newDate: Date): void {
     gantDate.current = newDate;
-    loadingStage.current = 0;
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    (async (): Promise<void> => {
-      await updateData();
-    })();
+    loadData(true);
   }
 
   function getSelectedDate(): Date {
     return gantDate.current;
+  }
+
+  function addTimer2UpdateData(): void {
+    updateDataTimer.current = window.setTimeout((): void => {
+      needToUpdateData.current = true;
+      if (currentPopUp.current === PopUpName.none) {
+        loadData(false);
+      }
+    }, 5 * 60 * 1000); // 5 мин
+  }
+
+  function loadData(showPreloader: boolean): void {
+    loadingStage.current = 0;
+    clearTimeout(updateDataTimer.current);
+    needToUpdateData.current = false;
+    addTimer2UpdateData();
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    (async (): Promise<void> => {
+      await updateData(showPreloader);
+    })();
+  }
+
+  useEffect((): void => {
+    currentPopUp.current = popUpContext.data.name;
+    if (currentPopUp.current === PopUpName.none && needToUpdateData.current) {
+      loadData(false);
+    }
+  }, [popUpContext]);
+
+  function addFakeOrderData(orderList: iOrderResponse[]): iOrderResponse[] {
+    orderList.forEach((order: iOrderResponse): void => {
+      if (!Object.prototype.hasOwnProperty.call(order, "appliance")) {
+        order.appliance = "Service#3 (Toshiba)";
+      }
+      if (!Object.prototype.hasOwnProperty.call(order, "main_contact_email")) {
+        order.appliance = "mail@mail.com";
+      }
+      if (!Object.prototype.hasOwnProperty.call(order, "description")) {
+        order.appliance = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Corpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa quiofficia deserunt mollitia animi, id est Laborum et dolorum fuga. At vero eos et ccusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Сorpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa qui officia deserunt mollitia animi, id est Laborum et dolorum fuga.";
+      }
+    });
+    return orderList;
+  }
+
+  function addFakeTechData(techList: iTechResponse[]): iTechResponse[] {
+    techList.forEach((technician: iTechResponse): void => {
+      if (!Object.prototype.hasOwnProperty.call(technician, "avatar")) {
+        technician.avatar = "https://i.ibb.co/C1ZFCsr/person-1.png";
+      }
+      if (!Object.prototype.hasOwnProperty.call(technician, "non_working_times")) {
+        technician.non_working_times = null;
+      }
+    });
+    return techList;
   }
 
   return (

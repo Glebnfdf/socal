@@ -4,11 +4,11 @@ import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListMode
 import markerIconRed from "../../../../../source/img/map-marker-red.svg";
 import markerIconBlue from "../../../../../source/img/map-marker-blue.svg";
 import { iOrderPopUpInData, OrderPopUpType } from "../../PopUp/OrderPopUp/OrderPopUp";
-import { PopUpName } from "../../PopUp/PopUpList/PopUpList";
 import { iOrderPopUpContext, OrderPopUpContext } from "../../PopUp/OrderPopUpProvider/OrderPopUpContext";
 import { iPopUpContext, PopUpContext } from "../../PopUp/PopUpContext/PopUpContext";
 import { iWhiteLayersContext, WhiteLayersContext } from "../../WhiteLayersProvider/WhiteLayersProvider";
 import { iMapContext, MapContext } from "../MapProvider/MapProvider";
+import { PopUpName } from "../../PopUp/PopUpList/PopUpListNames";
 
 interface iProps {
   order: iOrder | null,
