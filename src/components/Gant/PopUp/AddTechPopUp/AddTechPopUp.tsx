@@ -110,7 +110,7 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
                   return (
                     <li className="item" key={technician.id}>
                       <div className="left">
-                        <img className="person-img" src="https://i.ibb.co/C1ZFCsr/person-1.png" alt="#"/>
+                        <img className="person-img" src={technician.avatar === null ? "https://i.ibb.co/C1ZFCsr/person-1.png" : technician.avatar} alt="#"/>
                         <div className="names">
                           <div className="title-technical">Technician</div>
                           <div className="name">{technician.name}</div>
