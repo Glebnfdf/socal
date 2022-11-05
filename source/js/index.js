@@ -25,7 +25,7 @@ function initMain() {
     scrollbarPopup.init(scrollContainerPopup);
   }
 
-  const scrollContainerPopupSearch = document.querySelector('.scroll-search');
+  const scrollContainerPopupSearch = document.getElementById("add-tech-scroll-cont");
   if (scrollContainerPopupSearch) {
     scrollbarSearch.init(scrollContainerPopupSearch);
   }

@@ -88,8 +88,8 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
           />
         </div>
         <main className="main-container">
-          <div id={"add-tech-scroll-cont"} className="scroll-search">
-            <div className="scroll-content-wrapper scroll-search scroll-content-wrapper-popup-add">
+          <div id={"add-tech-scroll-cont"}>
+            <div className="scroll-content-wrapper scroll-content-wrapper-popup-add">
               <ul className="list">
                 {techListContext.techList.map((technician: iTechnician): JSX.Element | null => {
                   let isShowTechInList: boolean = true;
