@@ -190,7 +190,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
 
   return (
     <div className={"auth-form-cont"}>
-      <div className="auth-bottom"></div>
+      <div className="auth-bottom-two"></div>
       <p className="title">Insert code from<br/>SMS</p>
       <p className="action-label sms">We send sms to<br/>{phoneNumber}</p>
       <div className={"sms-inputs-cont"}>
@@ -237,7 +237,6 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
       </div>
       <button
         type={"button"}
-        // className={"button auth-btn light-btn resend-code-btn"}
         className={"button auth-btn light-btn resend-code-btn"}
         onClick={(): void => {
           if (isShowCountDown) {
@@ -254,7 +253,6 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
       </button>
       <button
         type={"button"}
-        // className={"button auth-btn white-btn"}
         className={"button auth-btn white-btn back-btn"}
         onClick={(): void => {changeScreen(AuthScreenName.InsertPhone)}}
       >

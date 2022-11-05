@@ -1,6 +1,5 @@
 import * as React from "react";
 import AuthScreenMng from "../AuthScreenMng/AuthScreenMng";
-// import "./authPage.scss";
 import AuthLogo from "../../../../source/img/logo/logo-for-auth.svg";
 
 export default function AuthPage(): JSX.Element {
@@ -11,7 +10,7 @@ export default function AuthPage(): JSX.Element {
         <div>
           <div className="right">
             <div className="auth-logo">
-              <img src={AuthLogo}/>
+              <img src={AuthLogo} alt={"logo"}/>
             </div>
             <AuthScreenMng/>
           </div>
