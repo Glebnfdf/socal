@@ -2,13 +2,13 @@ import * as React from "react";
 import "../../../../../source/img/svgIcons/error-icon.svg";
 import "../../../../../source/img/svgIcons/close-icon.svg";
 import { useContext } from "react";
-import { PopUpName } from "../PopUpList/PopUpList";
 import { iPopUpContext, PopUpContext } from "../PopUpContext/PopUpContext";
 import { CSSTransition } from "react-transition-group";
 import {
   iWhiteLayersContext,
   WhiteLayersContext
 } from "../../WhiteLayersProvider/WhiteLayersProvider";
+import { PopUpName } from "../PopUpList/PopUpListNames";
 
 export default function SimpleErrorPopUp(): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);

@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useFetch } from "../../../hooks/useFetch";
 import { useContext, useEffect, useRef, useState } from "react";
+import { useFetch } from "../../../hooks/useFetch";
 import iOrderResponse, { iOrderResponseRaw } from "../../../APIInterfaces/iOrderResponse";
 import iTechResponse, { iTechResponseRaw } from "../../../APIInterfaces/iTechResponse";
 import { iOrder } from "../OrderListModel/OrderListModel";
@@ -8,6 +8,8 @@ import { iTechnician } from "../TechnicianListModel/TechnicianListModel";
 import twoDigitOutput from "../../../utils/twoDigitsOutput";
 import { iPrldOnPageContext, PrldOnPageContext } from "../../Preloader/PrldOnPageContext/PrldOnPageContext";
 import DeepObjectEqual from "../../../utils/DeepObjectEqual";
+import { iPopUpContext, PopUpContext } from "../PopUp/PopUpContext/PopUpContext";
+import { PopUpName } from "../PopUp/PopUpList/PopUpListNames";
 
 interface iProps {
   children: React.ReactNode
@@ -49,6 +51,9 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   const prevTechListResp: React.MutableRefObject<iTechResponse[] | null> = useRef<iTechResponse[] | null>(null);
   const prldOnPageContext: iPrldOnPageContext = useContext<iPrldOnPageContext>(PrldOnPageContext);
   const updateDataTimer: React.MutableRefObject<number> = useRef<number>(0);
+  const needToUpdateData: React.MutableRefObject<boolean> = useRef<boolean>(false);
+  const popUpContext: iPopUpContext = useContext(PopUpContext);
+  const currentPopUp: React.MutableRefObject<PopUpName> = useRef<PopUpName>(PopUpName.none);
   const [grantLoaderState, setGrantLoaderState]: [st: iGrantLoaderContext, set: (st: iGrantLoaderContext) => void] =
     useState<iGrantLoaderContext>({
       orderList: [],
@@ -89,6 +94,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
             if (isNewData) {
               prevOrderListResp.current = [...orderList.current];
               prevTechListResp.current = [...techList.current];
+              popUpContext.setData(PopUpName.none, null);
               setGrantLoaderState({
                 ...grantLoaderState,
                 orderList: addTechInOrder(orderList.current, techList.current),
@@ -199,19 +205,30 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
 
   function addTimer2UpdateData(): void {
     updateDataTimer.current = window.setTimeout((): void => {
-      loadData(false);
+      needToUpdateData.current = true;
+      if (currentPopUp.current === PopUpName.none) {
+        loadData(false);
+      }
     }, 5 * 60 * 1000); // 5 мин
   }
 
   function loadData(showPreloader: boolean): void {
     loadingStage.current = 0;
     clearTimeout(updateDataTimer.current);
+    needToUpdateData.current = false;
     addTimer2UpdateData();
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async (): Promise<void> => {
       await updateData(showPreloader);
     })();
   }
+
+  useEffect((): void => {
+    currentPopUp.current = popUpContext.data.name;
+    if (currentPopUp.current === PopUpName.none && needToUpdateData.current) {
+      loadData(false);
+    }
+  }, [popUpContext]);
 
   return (
     <GrantLoaderContext.Provider value={grantLoaderState}>

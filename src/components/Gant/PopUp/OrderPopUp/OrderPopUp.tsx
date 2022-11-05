@@ -8,7 +8,6 @@ import "../../../../../source/img/svgIcons/clock-icon.svg";
 import "../../../../../source/img/svgIcons/trash.svg";
 import "../../../../../source/img/svgIcons/pen.svg";
 import { iPopUpContext, PopUpContext } from "../PopUpContext/PopUpContext";
-import { PopUpName } from "../PopUpList/PopUpList";
 import { iOrder, iOrderListContext, OrderListContext } from "../../OrderListModel/OrderListModel";
 import getTagColorClass from "../../../../utils/getTagColorClass";
 import { iOrderPopUpContext, OrderPopUpContext } from "../OrderPopUpProvider/OrderPopUpContext";
@@ -25,6 +24,7 @@ import {
   iWhiteLayersContext,
   WhiteLayersContext
 } from "../../WhiteLayersProvider/WhiteLayersProvider";
+import { PopUpName } from "../PopUpList/PopUpListNames";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null

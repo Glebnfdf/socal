@@ -4,11 +4,11 @@ import { iOrder, iOrderListContext, OrderListContext } from "../OrderListModel/O
 import "./diagram.scss";
 import { DragItemType } from "../../../utils/DragItemType";
 import { iPopUpContext, PopUpContext } from "../PopUp/PopUpContext/PopUpContext";
-import { PopUpName } from "../PopUp/PopUpList/PopUpList";
 import { iOrderPopUpInData, OrderPopUpType } from "../PopUp/OrderPopUp/OrderPopUp";
 import getTagColorClass from "../../../utils/getTagColorClass";
 import { iOrderPopUpContext, OrderPopUpContext } from "../PopUp/OrderPopUpProvider/OrderPopUpContext";
 import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
+import { PopUpName } from "../PopUp/PopUpList/PopUpListNames";
 
 interface iProps {
   orderListProp: iOrder[] | null,

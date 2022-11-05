@@ -1,5 +1,5 @@
 import * as React from "react";
-import { PopUpName } from "../PopUpList/PopUpList";
+import { PopUpName } from "../PopUpList/PopUpListNames";
 import { useState } from "react";
 
 interface iProps {
