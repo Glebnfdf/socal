@@ -62,6 +62,18 @@
   </symbol>
 </svg>
 
+<!--Прелоадер перед загрузкой react приложения -->
+<div id="before-app-preloader">
+  <div class="preloader-cont">
+    <svg width="63" height="64" viewBox="0 0 63 64" class="gear-big" fill="none">
+      <use href="#preloader-icon" />
+    </svg>
+    <svg width="43" height="46" viewBox="0 0 63 64" class="gear-small" fill="none">
+      <use href="#preloader-icon" />
+    </svg>
+  </div>
+</div>
+
 <div id="react-app-cont">
 </div>
 
@@ -72,18 +84,15 @@
   <main class="main">
     <!-- добавить класс blur-main-show чтобы показать прелоадер -->
     <div class="blur-main blur-main-show">
-
-      <!--Прелоадер перед загрузкой react приложения -->
-      <div id="before-app-preloader">
-        <div class="preloader-cont">
-          <svg width="63" height="64" viewBox="0 0 63 64" class="gear-big" fill="none">
-            <use href="#preloader-icon" />
-          </svg>
-          <svg width="43" height="46" viewBox="0 0 63 64" class="gear-small" fill="none">
-            <use href="#preloader-icon" />
-          </svg>
-        </div>
+      <div class="preloader-cont main-preloader">
+        <svg width="63" height="64" viewBox="0 0 63 64" class="gear-big" fill="none">
+          <use href="#preloader-icon"/>
+        </svg>
+        <svg width="43" height="46" viewBox="0 0 63 64" class="gear-small" fill="none">
+          <use href="#preloader-icon"/>
+        </svg>
       </div>
+
     </div>
 
     <!--index/hero.html-->
