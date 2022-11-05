@@ -5,6 +5,10 @@ import "../source/scss/style.scss";
 import "./app.scss";
 import Authorization from "./components/Authorization/Authorization";
 import GantPage from "./components/Gant/GantPage/GantPage";
+import "../source/img/favicon/favicon-16x16.png";
+import "../source/img/favicon/favicon-32x32.png";
+import "../source/img/favicon/favicon-96x96.png";
+import "../source/img/favicon/favicon.ico";
 
 function App(): JSX.Element {
   hideBeforeAppPreloader();
