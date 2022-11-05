@@ -97,8 +97,8 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
               popUpContext.setData(PopUpName.none, null);
               setGrantLoaderState({
                 ...grantLoaderState,
-                orderList: addTechInOrder(orderList.current, techList.current),
-                techList: addOrderInTechList(techList.current),
+                orderList: addTechInOrder(addFakeOrderData(orderList.current), techList.current),
+                techList: addOrderInTechList(addFakeTechData(techList.current)),
                 date: gantDate.current
               });
             }
@@ -229,6 +229,33 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
       loadData(false);
     }
   }, [popUpContext]);
+
+  function addFakeOrderData(orderList: iOrderResponse[]): iOrderResponse[] {
+    orderList.forEach((order: iOrderResponse): void => {
+      if (!Object.prototype.hasOwnProperty.call(order, "appliance")) {
+        order.appliance = "Service#3 (Toshiba)";
+      }
+      if (!Object.prototype.hasOwnProperty.call(order, "main_contact_email")) {
+        order.appliance = "mail@mail.com";
+      }
+      if (!Object.prototype.hasOwnProperty.call(order, "description")) {
+        order.appliance = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Corpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa quiofficia deserunt mollitia animi, id est Laborum et dolorum fuga. At vero eos et ccusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Сorpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa qui officia deserunt mollitia animi, id est Laborum et dolorum fuga.";
+      }
+    });
+    return orderList;
+  }
+
+  function addFakeTechData(techList: iTechResponse[]): iTechResponse[] {
+    techList.forEach((technician: iTechResponse): void => {
+      if (!Object.prototype.hasOwnProperty.call(technician, "avatar")) {
+        technician.avatar = "https://i.ibb.co/C1ZFCsr/person-1.png";
+      }
+      if (!Object.prototype.hasOwnProperty.call(technician, "non_working_times")) {
+        technician.non_working_times = null;
+      }
+    });
+    return techList;
+  }
 
   return (
     <GrantLoaderContext.Provider value={grantLoaderState}>

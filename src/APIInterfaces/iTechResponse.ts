@@ -6,7 +6,7 @@ export default interface iTechResponse {
   main_queue: iOrderResponse[] | null,
   second_queue: iOrderResponse[] | null,
   avatar: string | null,
-  nonWorkingTimes: TimeSlot[] | null
+  non_working_times: TimeSlot[] | null
 }
 
 interface TimeSlot {
