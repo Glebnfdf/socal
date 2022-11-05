@@ -27,6 +27,31 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   const num4: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
   const digits: RegExp = /\d/;
   const forbiddenSymbols: RegExp = /[.,e+-]/i;
+  const resendTimer: React.MutableRefObject<number> = useRef<number>(0);
+  const Delay4Resend: number = 60;
+  const countDown: React.MutableRefObject<number> = useRef<number>(Delay4Resend);
+  const [resendCountDown, setResendCountDown]: [st: number, set: (st: number) => void] = useState(countDown.current);
+  const [isShowCountDown, setIsShowCountDown]: [st: boolean, set: (st: boolean) => void] = useState(false);
+
+  useEffect((): () => void => {
+    addResendTimer();
+    return (): void => {
+      clearInterval(resendTimer.current);
+    };
+  }, []);
+
+  function addResendTimer(): void {
+    resendTimer.current = window.setInterval((): void => {
+      if (countDown.current - 1 > 0) {
+        countDown.current -= 1;
+        setResendCountDown(countDown.current);
+      } else {
+        countDown.current -= 1;
+        setIsShowCountDown(false);
+        clearInterval(resendTimer.current);
+      }
+    }, 1000);
+  }
 
   const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     const keyIsNotControlKey: boolean = event.key.length === 1;
@@ -158,6 +183,8 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
         body: JSON.stringify({ "phone": convertPhone2Num(phoneNumber) })
       };
       await requestData(url, request);
+      countDown.current = Delay4Resend;
+      addResendTimer();
     })();
   }
 
@@ -212,9 +239,18 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
         type={"button"}
         // className={"button auth-btn light-btn resend-code-btn"}
         className={"button auth-btn light-btn resend-code-btn"}
-        onClick={(): void => {resendSMS()}}
+        onClick={(): void => {
+          if (isShowCountDown) {
+            return;
+          }
+          if (countDown.current === 0) {
+            resendSMS();
+          } else {
+            setIsShowCountDown(true);
+          }
+        }}
       >
-        Resend Code
+        Resend Code{isShowCountDown ? ` (${resendCountDown})` : ""}
       </button>
       <button
         type={"button"}
