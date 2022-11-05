@@ -211,7 +211,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
       <button
         type={"button"}
         // className={"button auth-btn light-btn resend-code-btn"}
-        className={"resend-btn"}
+        className={"button auth-btn light-btn resend-code-btn"}
         onClick={(): void => {resendSMS()}}
       >
         Resend Code
@@ -219,7 +219,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
       <button
         type={"button"}
         // className={"button auth-btn white-btn"}
-        className={"back-btn"}
+        className={"button auth-btn white-btn back-btn"}
         onClick={(): void => {changeScreen(AuthScreenName.InsertPhone)}}
       >
         Come back

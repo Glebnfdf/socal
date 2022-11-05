@@ -70,7 +70,7 @@ export default function InsertPhone({changeScreen, phoneNumber, setPhoneNumber}:
       </div>
       <button
         type={"button"}
-        className={"button auth-btn blue-btn" + (phoneNumber.length === 0 || showErr ? " disable" : "")}
+        className={"button auth-btn blue-btn next-btn" + (phoneNumber.length === 0 || showErr ? " disable" : "")}
         onClick={(): void => {sendPhone2Server()}}
       >
         Next
