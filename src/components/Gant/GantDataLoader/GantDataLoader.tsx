@@ -10,6 +10,7 @@ import { iPrldOnPageContext, PrldOnPageContext } from "../../Preloader/PrldOnPag
 import DeepObjectEqual from "../../../utils/DeepObjectEqual";
 import { iPopUpContext, PopUpContext } from "../PopUp/PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUp/PopUpList/PopUpListNames";
+import TechBGCollection from "../../../utils/TechBGCollection";
 
 interface iProps {
   children: React.ReactNode
@@ -95,10 +96,12 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
               prevOrderListResp.current = [...orderList.current];
               prevTechListResp.current = [...techList.current];
               popUpContext.setData(PopUpName.none, null);
+              const newTechList: iTechnician[] = addOrderInTechList(addFakeTechData(techList.current));
+              TechBGCollection.getInstance().addTechnicians(newTechList);
               setGrantLoaderState({
                 ...grantLoaderState,
                 orderList: addTechInOrder(addFakeOrderData(orderList.current), techList.current),
-                techList: addOrderInTechList(addFakeTechData(techList.current)),
+                techList: newTechList,
                 date: gantDate.current
               });
             }

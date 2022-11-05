@@ -13,6 +13,7 @@ import { iMapContext, MapContext } from "../GMap/MapProvider/MapProvider";
 import { iMapHeightContext, MapHeightContext } from "../GMap/MapHeightProvider/MapHeightProvider";
 import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
 import TechAvatar from "../TechAvatar/TechAvatar";
+import TechBGCollection from "../../../utils/TechBGCollection";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
@@ -155,7 +156,11 @@ export default function TechnicianList(): JSX.Element {
                                   </svg>
                                 </div>
                                 <div className="person">
-                                  <TechAvatar url={technician.avatar} techName={technician.name}/>
+                                  <TechAvatar
+                                    url={technician.avatar}
+                                    techName={technician.name}
+                                    bgColor={TechBGCollection.getInstance().getBGColor(technician.id)}
+                                  />
                                 </div>
                                 <div className="names">
                                   <p className="title">

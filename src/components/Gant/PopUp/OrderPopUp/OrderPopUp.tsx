@@ -26,6 +26,7 @@ import {
 } from "../../WhiteLayersProvider/WhiteLayersProvider";
 import { PopUpName } from "../PopUpList/PopUpListNames";
 import TechAvatar from "../../TechAvatar/TechAvatar";
+import TechBGCollection from "../../../../utils/TechBGCollection";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -633,7 +634,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   <div className="added-technical">
                     <div className="left">
                       <div className="person">
-                        <TechAvatar url={mainTech.avatar} techName={mainTech.name}/>
+                        <TechAvatar
+                          url={mainTech.avatar}
+                          techName={mainTech.name}
+                          bgColor={TechBGCollection.getInstance().getBGColor(mainTech.id)}
+                        />
                       </div>
                       <div className="names">
                         <p className="top">Technicianc</p>
@@ -675,7 +680,11 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   <div className="added-technical">
                     <div className="left">
                       <div className="person">
-                        <TechAvatar url={secondTech.avatar} techName={secondTech.name}/>
+                        <TechAvatar
+                          url={secondTech.avatar}
+                          techName={secondTech.name}
+                          bgColor={TechBGCollection.getInstance().getBGColor(secondTech.id)}
+                        />
                       </div>
                       <div className="names">
                         <p className="top">Technicianc</p>

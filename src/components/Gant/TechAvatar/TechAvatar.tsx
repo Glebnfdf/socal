@@ -2,10 +2,11 @@ import * as React from "react";
 
 interface iProps {
   url: string | null,
-  techName: string
+  techName: string,
+  bgColor: string
 }
 
-export default function TechAvatar({url, techName}: iProps): JSX.Element {
+export default function TechAvatar({url, techName, bgColor}: iProps): JSX.Element {
   function getFirstLetter(name: string): string {
     return name[0].toUpperCase();
   }
@@ -16,7 +17,7 @@ export default function TechAvatar({url, techName}: iProps): JSX.Element {
     );
   } else {
     return (
-      <div className="tech-avatar-txt-cont">{getFirstLetter(techName)}</div>
+      <div className="tech-avatar-txt-cont" style={{backgroundColor: "#" + bgColor}}>{getFirstLetter(techName)}</div>
     );
   }
 }

@@ -9,6 +9,7 @@ import { iOrderPopUpInData, OrderPopUpType } from "../OrderPopUp/OrderPopUp";
 import { CSSTransition } from "react-transition-group";
 import { PopUpName } from "../PopUpList/PopUpListNames";
 import TechAvatar from "../../TechAvatar/TechAvatar";
+import TechBGCollection from "../../../../utils/TechBGCollection";
 
 interface iProps {
   incomingData: iAddTechInData | null
@@ -112,7 +113,11 @@ export default function AddTechPopUp({incomingData}: iProps): JSX.Element {
                     <li className="item" key={technician.id}>
                       <div className="left">
                         <div className={"tech-avatar-in-add-tech-popup"}>
-                          <TechAvatar url={technician.avatar} techName={technician.name}/>
+                          <TechAvatar
+                            url={technician.avatar}
+                            techName={technician.name}
+                            bgColor={TechBGCollection.getInstance().getBGColor(technician.id)}
+                          />
                         </div>
                         <div className="names">
                           <div className="title-technical">Technician</div>
