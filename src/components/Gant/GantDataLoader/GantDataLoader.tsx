@@ -62,14 +62,11 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   }, []);
 
   useEffect((): void => {
-    if (isLoading) {
-      prldOnPageContext.showPreloader();
-    } else {
-      prldOnPageContext.hidePreloader();
-    }
-
     if (!isLoading) {
-      if (response && response.status === 200 && data && loadingStage.current !== null) {
+      if (response && response.status === 200 && data) {
+        if (response.url.includes(urlList[2])) {
+          prldOnPageContext.hidePreloader();
+        }
         saveRespData(response.url, data);
         loadingStage.current++;
         const isAllDataLoaded: boolean = loadingStage.current === urlList.length;
@@ -93,11 +90,12 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   }, [isLoading]);
 
   async function updateData(): Promise<void> {
-    if (loadingStage.current !== null && gantDate.current) {
-      const url = urlList[loadingStage.current] + "?" +
-        getGetParams(urlList[loadingStage.current], gantDate.current).toString();
-      await requestData(url);
+    if (loadingStage.current === 0) {
+      prldOnPageContext.showPreloader();
     }
+    const url = urlList[loadingStage.current] + "?" +
+      getGetParams(urlList[loadingStage.current], gantDate.current).toString();
+    await requestData(url);
   }
 
   function getGetParams(url: string, date: Date): URLSearchParams {
