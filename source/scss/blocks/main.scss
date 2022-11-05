@@ -539,11 +539,22 @@
       }
 
       .item-right {
+        position: relative;
         width: 100%;
         padding-left: 3px;
         z-index: 20;
         display: flex;
         flex-wrap: wrap;
+
+        .not-working-time {
+          width: 1099px;
+          height: 100%;
+          position: absolute;
+          background: #FFFFFF;
+          z-index: 40;
+          // for test
+          margin-left: 403px;
+        }
 
         &.vertical-align {
           align-items: center;
