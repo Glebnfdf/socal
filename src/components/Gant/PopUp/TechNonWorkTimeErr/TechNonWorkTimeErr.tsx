@@ -8,6 +8,8 @@ import { iTechListContext, iTechnician, TechListContext } from "../../Technician
 import { iTimeSlot } from "../../../../APIInterfaces/iTechResponse";
 import getDateWithSlash from "../../../../utils/getDateWithSlash";
 import twoDigitOutput from "../../../../utils/twoDigitsOutput";
+import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
+import { iOrderPopUpContext, OrderPopUpContext } from "../OrderPopUpProvider/OrderPopUpContext";
 
 interface iProps {
   incomingData: iNonWorkTimeErrIdData
@@ -23,6 +25,7 @@ export interface iNonWorkTimeErrIdData {
 export default function TechNonWorkTimeErr({incomingData}: iProps): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
   const whiteLayersContext: iWhiteLayersContext = useContext<iWhiteLayersContext>(WhiteLayersContext);
+  const orderPopUpContext: iOrderPopUpContext = useContext(OrderPopUpContext);
   const [technicianData, setTechnicianData]: [st: iTechnician | null, set: (st: iTechnician | null) => void] =
     useState<iTechnician | null>(null);
   const techListContext: iTechListContext = useContext(TechListContext);
@@ -78,7 +81,17 @@ export default function TechNonWorkTimeErr({incomingData}: iProps): JSX.Element 
         >{nonWorkingTime ? getDateWithSlash(nonWorkingTime) : ""}</span> at <span
         >{nonWorkingTime ? `${twoDigitOutput(nonWorkingTime.getHours())}:${twoDigitOutput(nonWorkingTime.getMinutes())}` : ""}</span>
         </div>
-        <div className="btn-find" onClick={(): void => {closePopUpHandler()}}>
+        <div className="btn-find" onClick={(): void => {
+          orderPopUpContext.setTechIds(null, null);
+          orderPopUpContext.setTimes(incomingData.orderBeginTime, incomingData.orderEndTime);
+          const transmittedData: iAddTechInData = {
+            orderId: incomingData.orderId,
+            operationType: AddTechOperationType.AddMainTech,
+            mainTechId: null,
+            secondTechId: null
+          }
+          popUpContext.setData(PopUpName.addTech, transmittedData);
+        }}>
           Find a technician
         </div>
       </div>
