@@ -3,53 +3,57 @@
 <head>
   <%= _.template(require('../includes/common/head.html').default)({}) %>
   <title>Socal</title>
+  <style>
+    .preloader-cont {
+      position: relative;
+      width: 90px;
+      height: 95px;
+    }
+
+    .preloader-cont .gear-big {
+      position: absolute;
+      left: 0;
+      top: 29px;
+      color: #0F244A;
+      animation: rotate-gear 1500ms linear infinite;
+    }
+
+    .preloader-cont .gear-small {
+      position: absolute;
+      left: 46px;
+      top: 0;
+      color: #0866FB;
+      animation: rotate-gear 1500ms linear infinite reverse;
+    }
+
+    @keyframes rotate-gear {
+      from {
+        transform: rotate(0);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #before-app-preloader {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .svg-preloader {
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+
+    #before-app-preloader.disable-preloader {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-<style>
-  .preloader-cont {
-    position: relative;
-    width: 90px;
-    height: 95px;
-  }
-
-  .preloader-cont .gear-big {
-    position: absolute;
-    left: 0;
-    top: 29px;
-    color: #0F244A;
-    animation: rotate-gear 1500ms linear infinite;
-  }
-
-  .preloader-cont .gear-small {
-    position: absolute;
-    left: 46px;
-    top: 0;
-    color: #0866FB;
-    animation: rotate-gear 1500ms linear infinite reverse;
-  }
-
-  @keyframes rotate-gear {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  #before-app-preloader {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .svg-preloader {
-    position: absolute;
-    width: 0;
-    height: 0;
-  }
-</style>
 <!--Прелоадер - SVG -->
 <svg xmlns="http://www.w3.org/2000/svg" class="svg-preloader" aria-hidden="true" style="position: absolute; width: 0; height: 0">
   <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 63 64" fill="none" id="preloader-icon">
@@ -63,7 +67,7 @@
 </svg>
 
 <!--Прелоадер перед загрузкой react приложения -->
-<div id="before-app-preloader">
+<div id="before-app-preloader" class="disable-preloader">
   <div class="preloader-cont">
     <svg width="63" height="64" viewBox="0 0 63 64" class="gear-big" fill="none">
       <use href="#preloader-icon" />
@@ -75,34 +79,33 @@
 </div>
 
 <div id="react-app-cont">
-</div>
+  <div class="overflow">
+    <!--header.html-->
+    <%= _.template(require('../includes/common/header.html').default)({version:
+    htmlWebpackPlugin.options.custom.version,}) %>
+    <main class="main">
+      <!-- добавить класс blur-main-show чтобы показать прелоадер -->
+      <div class="blur-main">
+        <div class="preloader-cont main-preloader">
+          <svg width="63" height="64" viewBox="0 0 63 64" class="gear-big" fill="none">
+            <use href="#preloader-icon"/>
+          </svg>
+          <svg width="43" height="46" viewBox="0 0 63 64" class="gear-small" fill="none">
+            <use href="#preloader-icon"/>
+          </svg>
+        </div>
 
-<div class="overflow">
-  <!--header.html-->
-  <%= _.template(require('../includes/common/header.html').default)({version:
-  htmlWebpackPlugin.options.custom.version,}) %>
-  <main class="main">
-    <!-- добавить класс blur-main-show чтобы показать прелоадер -->
-    <div class="blur-main blur-main-show">
-      <div class="preloader-cont main-preloader">
-        <svg width="63" height="64" viewBox="0 0 63 64" class="gear-big" fill="none">
-          <use href="#preloader-icon"/>
-        </svg>
-        <svg width="43" height="46" viewBox="0 0 63 64" class="gear-small" fill="none">
-          <use href="#preloader-icon"/>
-        </svg>
       </div>
 
-    </div>
+      <!--index/hero.html-->
+      <%= _.template(require('../includes/index/undispatched.html').default)({}) %>
 
-    <!--index/hero.html-->
-    <%= _.template(require('../includes/index/undispatched.html').default)({}) %>
-
-    <!--google map-->
-    <%= _.template(require('../includes/index/google-map.html').default)({}) %>
-  </main>
-  <!--footer.html-->
-  <%= _.template(require('../includes/common/footer.html').default)({}) %>
+      <!--google map-->
+      <%= _.template(require('../includes/index/google-map.html').default)({}) %>
+    </main>
+    <!--footer.html-->
+    <%= _.template(require('../includes/common/footer.html').default)({}) %>
+  </div>
 </div>
 </body>
 </html>
