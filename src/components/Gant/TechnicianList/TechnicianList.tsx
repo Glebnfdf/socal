@@ -14,6 +14,7 @@ import { iMapHeightContext, MapHeightContext } from "../GMap/MapHeightProvider/M
 import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
 import TechAvatar from "../TechAvatar/TechAvatar";
 import TechBGCollection from "../../../utils/TechBGCollection";
+import notCrossNonWorkTimes from "../../../utils/notCrossNonWorkTimes";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
@@ -56,6 +57,13 @@ export default function TechnicianList(): JSX.Element {
 
     const orderDropData: iOrderDropData = OrderDropData(event);
     if (!orderDropData.dataIsValid) {
+      return;
+    }
+
+    const techData: iTechnician | null = techListContext.getTechDataById(technicianId);
+    if (techData && techData.non_working_times && techData.non_working_times.length > 0 &&
+        !notCrossNonWorkTimes(techData.non_working_times, orderDropData.timeBegin, orderDropData.timeEnd)
+    ) {
       return;
     }
 
