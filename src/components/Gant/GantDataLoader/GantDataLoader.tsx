@@ -239,10 +239,10 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
         order.appliance = "Service#3 (Toshiba)";
       }
       if (!Object.prototype.hasOwnProperty.call(order, "main_contact_email")) {
-        order.appliance = "mail@mail.com";
+        order.main_contact_email = "mail@mail.com";
       }
       if (!Object.prototype.hasOwnProperty.call(order, "description")) {
-        order.appliance = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Corpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa quiofficia deserunt mollitia animi, id est Laborum et dolorum fuga. At vero eos et ccusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Сorpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa qui officia deserunt mollitia animi, id est Laborum et dolorum fuga.";
+        order.description = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Corpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa quiofficia deserunt mollitia animi, id est Laborum et dolorum fuga. At vero eos et ccusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Сorpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa qui officia deserunt mollitia animi, id est Laborum et dolorum fuga.";
       }
     });
     return orderList;
