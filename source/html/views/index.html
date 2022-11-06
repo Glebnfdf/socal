@@ -78,15 +78,15 @@
   </div>
 </div>
 
-<div id="react-app-cont">
-  <div class="overflow">
+<div class="overflow">
+  <div id="react-app-cont">
     <!--header.html-->
     <%= _.template(require('../includes/common/header.html').default)({version:
     htmlWebpackPlugin.options.custom.version,}) %>
     <main class="main">
       <!-- добавить класс blur-main-show чтобы показать прелоадер -->
       <div class="blur-main">
-        <div class="preloader-cont main-preloader">
+        <div class="preloader-cont">
           <svg width="63" height="64" viewBox="0 0 63 64" class="gear-big" fill="none">
             <use href="#preloader-icon"/>
           </svg>

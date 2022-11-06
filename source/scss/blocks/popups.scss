@@ -527,8 +527,9 @@
 
   .button-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-end;
+    gap: 12px;
   }
 
   .btn-add-2 {
@@ -586,6 +587,11 @@
 
   .scroll-vtrack {
     background: #E9F1FF !important;
+    width: 6px;
+
+    .scroll-thumb {
+      left: 0;
+    }
   }
 
   .title {

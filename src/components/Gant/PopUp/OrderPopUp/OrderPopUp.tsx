@@ -14,19 +14,19 @@ import { iOrderPopUpContext, OrderPopUpContext } from "../OrderPopUpProvider/Ord
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
 import Scrollbar from "../../../../lib/scrollbar";
 import Calendar from "react-calendar";
-import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
 import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
 import { iMapContext, MapContext } from "../../GMap/MapProvider/MapProvider";
 import { iMapHeightContext, MapHeightContext } from "../../GMap/MapHeightProvider/MapHeightProvider";
 import "./OrderPopUp.scss";
-import {
-  iWhiteLayersContext,
-  WhiteLayersContext
-} from "../../WhiteLayersProvider/WhiteLayersProvider";
+import { iWhiteLayersContext, WhiteLayersContext } from "../../WhiteLayersProvider/WhiteLayersProvider";
 import { PopUpName } from "../PopUpList/PopUpListNames";
 import TechAvatar from "../../TechAvatar/TechAvatar";
 import TechBGCollection from "../../../../utils/TechBGCollection";
+import getDateWithSlash from "../../../../utils/getDateWithSlash";
+import notCrossNonWorkTimes from "../../../../utils/notCrossNonWorkTimes";
+import { iNonWorkTimeErrIdData } from "../TechNonWorkTimeErr/TechNonWorkTimeErr";
+import { iTimeSlot } from "../../../../APIInterfaces/iTechResponse";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -239,11 +239,6 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     }
   }, [orderPopUpContext]);
 
-  function getDate(date: Date): string {
-    // dd/mm/yyyy
-    return `${twoDigitOutput(date.getDate())}/${twoDigitOutput(date.getMonth() + 1)}/${date.getFullYear()}`
-  }
-
   function getTime(date: Date): string {
     return new Intl.DateTimeFormat("en-US", {
       hour: "2-digit",
@@ -390,6 +385,14 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       mapHeightContext.decreaseMap();
     }
 
+    if (!checkTechNonWorkTime(mainTechId, orderBeginTime, orderEndTime)) {
+      isValid = false;
+    }
+
+    if (!checkTechNonWorkTime(secondTechId, orderBeginTime, orderEndTime)) {
+      isValid = false;
+    }
+
     if (!orderData || !isValid) {
       return;
     }
@@ -403,6 +406,35 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
     );
     orderListContext.updateOrder(orderData.id, mainTechId, secondTechId, orderBeginTime, orderEndTime);
     popUpContext.setData(PopUpName.none, null)
+  }
+
+  function checkTechNonWorkTime(techId: number | null, orderBeginTime: Date, orderEndTime: Date): boolean {
+    if (techId === null || !incomingData) {
+      return true;
+    }
+    const techData: iTechnician | null = techListContext.getTechDataById(techId);
+    if (!techData) {
+      return true;
+    }
+    const techNonWorkingTime: iTimeSlot[] | null = techData.non_working_times;
+    if (!techNonWorkingTime || techNonWorkingTime.length === 0) {
+      return true;
+    }
+    if (!notCrossNonWorkTimes(techNonWorkingTime, orderBeginTime, orderEndTime)) {
+      mapContext.setOrderId(null);
+      mapContext.setTechId(null);
+      mapHeightContext.decreaseMap();
+      whiteLayersContext.showAllWhite();
+      const transmittedData: iNonWorkTimeErrIdData = {
+        orderId: incomingData.orderId,
+        techId: techId,
+        orderBeginTime: orderBeginTime,
+        orderEndTime: orderEndTime
+      }
+      popUpContext.setData(PopUpName.techTimeErr, transmittedData);
+      return false;
+    }
+    return true;
   }
 
   function removeSecondTech(): void {
@@ -568,7 +600,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   isShowCalendar.current = false;
                   setShowCalendar(true);
                 }}>
-                  <p className="title">{getDate(beginTime)}</p>
+                  <p className="title">{getDateWithSlash(beginTime)}</p>
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <use href="#calendar-icon"/>
                   </svg>
@@ -780,7 +812,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                         whiteLayersContext.setWhite(
                           true,
                           true,
-                          true,
+                          false,
                           false,
                           orderData.id
                         );

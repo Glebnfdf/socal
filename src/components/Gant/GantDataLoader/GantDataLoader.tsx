@@ -50,6 +50,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   const techList: React.MutableRefObject<iTechResponse[] | null> = useRef<iTechResponse[] | null>(null);
   const prevOrderListResp: React.MutableRefObject<iOrderResponse[] | null> = useRef<iOrderResponse[] | null>(null);
   const prevTechListResp: React.MutableRefObject<iTechResponse[] | null> = useRef<iTechResponse[] | null>(null);
+  const prevData: React.MutableRefObject<Date> = useRef<Date>(gantDate.current);
   const prldOnPageContext: iPrldOnPageContext = useContext<iPrldOnPageContext>(PrldOnPageContext);
   const updateDataTimer: React.MutableRefObject<number> = useRef<number>(0);
   const needToUpdateData: React.MutableRefObject<boolean> = useRef<boolean>(false);
@@ -88,6 +89,9 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
               if (!DeepObjectEqual({...techList.current}, {...prevTechListResp.current})) {
                 isNewData = true;
               }
+              if (prevData.current.getTime() !== gantDate.current.getTime()) {
+                isNewData = true;
+              }
             } else {
               isNewData = true;
             }
@@ -95,6 +99,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
             if (isNewData) {
               prevOrderListResp.current = [...orderList.current];
               prevTechListResp.current = [...techList.current];
+              prevData.current = new Date(gantDate.current.getTime());
               popUpContext.setData(PopUpName.none, null);
               const newTechList: iTechnician[] = addOrderInTechList(addFakeTechData(techList.current));
               TechBGCollection.getInstance().addTechnicians(newTechList);
@@ -239,10 +244,10 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
         order.appliance = "Service#3 (Toshiba)";
       }
       if (!Object.prototype.hasOwnProperty.call(order, "main_contact_email")) {
-        order.appliance = "mail@mail.com";
+        order.main_contact_email = "mail@mail.com";
       }
       if (!Object.prototype.hasOwnProperty.call(order, "description")) {
-        order.appliance = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Corpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa quiofficia deserunt mollitia animi, id est Laborum et dolorum fuga. At vero eos et ccusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Сorpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa qui officia deserunt mollitia animi, id est Laborum et dolorum fuga.";
+        order.description = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Corpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa quiofficia deserunt mollitia animi, id est Laborum et dolorum fuga. At vero eos et ccusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque Сorpti quos dolores et quas molestias excuri sint occaecati cupiditate non Provident, similique sunt in culpa qui officia deserunt mollitia animi, id est Laborum et dolorum fuga.";
       }
     });
     return orderList;

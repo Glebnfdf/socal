@@ -1,7 +1,7 @@
 import * as React from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "../../../../source/img/svgIcons/points.svg";
 import "../../../../source/img/svgIcons/but.svg";
-import { useContext, useEffect, useRef, useState } from "react";
 import { iTechListContext, iTechnician, TechListContext } from "../TechnicianListModel/TechnicianListModel";
 import Diagram from "../Diagram/Diagram";
 import { iOrder, iOrderListContext, OrderListContext } from "../OrderListModel/OrderListModel";
@@ -14,6 +14,10 @@ import { iMapHeightContext, MapHeightContext } from "../GMap/MapHeightProvider/M
 import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
 import TechAvatar from "../TechAvatar/TechAvatar";
 import TechBGCollection from "../../../utils/TechBGCollection";
+import notCrossNonWorkTimes from "../../../utils/notCrossNonWorkTimes";
+import { iPopUpContext, PopUpContext } from "../PopUp/PopUpContext/PopUpContext";
+import { PopUpName } from "../PopUp/PopUpList/PopUpListNames";
+import { iNonWorkTimeErrIdData } from "../PopUp/TechNonWorkTimeErr/TechNonWorkTimeErr";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
@@ -26,6 +30,7 @@ export default function TechnicianList(): JSX.Element {
   const [isShowWhiteLayer, setIsShowWhiteLayer]: [st: boolean, set: (st: boolean) => void] =
     useState(whiteLayersContext.data.showTechWhite);
   const scrollbar: React.MutableRefObject<Scrollbar> = useRef<Scrollbar>(new Scrollbar());
+  const popUpContext: iPopUpContext = useContext(PopUpContext);
 
   useEffect((): () => void => {
     const techScrollContainer: HTMLElement | null = document.getElementById("tech-scrollbar");
@@ -56,6 +61,24 @@ export default function TechnicianList(): JSX.Element {
 
     const orderDropData: iOrderDropData = OrderDropData(event);
     if (!orderDropData.dataIsValid) {
+      return;
+    }
+
+    const techData: iTechnician | null = techListContext.getTechDataById(technicianId);
+    if (techData && techData.non_working_times && techData.non_working_times.length > 0 &&
+        !notCrossNonWorkTimes(techData.non_working_times, orderDropData.timeBegin, orderDropData.timeEnd)
+    ) {
+      mapContext.setOrderId(null);
+      mapContext.setTechId(null);
+      mapHeightContext.decreaseMap();
+      whiteLayersContext.showAllWhite();
+      const transmittedData: iNonWorkTimeErrIdData = {
+        orderId: orderDropData.orderId,
+        techId: technicianId,
+        orderBeginTime: orderDropData.timeBegin,
+        orderEndTime: orderDropData.timeEnd
+      }
+      popUpContext.setData(PopUpName.techTimeErr, transmittedData);
       return;
     }
 

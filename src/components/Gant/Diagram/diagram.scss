@@ -94,4 +94,9 @@
   &.show-white .order:not(.clicked-order)::after {
     opacity: 0.46;
   }
+
+  .non-working-time {
+    position: absolute;
+    background-color: white;
+  }
 }

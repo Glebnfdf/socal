@@ -6,12 +6,12 @@ export default interface iTechResponse {
   main_queue: iOrderResponse[] | null,
   second_queue: iOrderResponse[] | null,
   avatar: string | null,
-  non_working_times: TimeSlot[] | null
+  non_working_times: iTimeSlot[] | null
 }
 
-interface TimeSlot {
-  time_slot_from: string,
-  time_slot_to: string
+export interface iTimeSlot {
+  start: string,
+  finish: string
 }
 
 export interface iTechResponseRaw {

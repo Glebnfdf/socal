@@ -9,6 +9,8 @@ import getTagColorClass from "../../../utils/getTagColorClass";
 import { iOrderPopUpContext, OrderPopUpContext } from "../PopUp/OrderPopUpProvider/OrderPopUpContext";
 import { iWhiteLayersContext, WhiteLayersContext } from "../WhiteLayersProvider/WhiteLayersProvider";
 import { PopUpName } from "../PopUp/PopUpList/PopUpListNames";
+import { iTechListContext, iTechnician, TechListContext } from "../TechnicianListModel/TechnicianListModel";
+import { iTimeSlot } from "../../../APIInterfaces/iTechResponse";
 
 interface iProps {
   orderListProp: iOrder[] | null,
@@ -49,6 +51,8 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
   const [isShowWhiteLayer, setIsShowWhiteLayer]: [st: boolean, set: (st: boolean) => void] =
     useState(whiteLayersContext.data.showUnDisWhite);
   const whiteLayerRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const techListContext: iTechListContext = useContext(TechListContext);
+  const technicianData: React.MutableRefObject<iTechnician | null> = useRef<iTechnician | null>(null);
 
   function addLine2Order(orderList: iOrder[] | null): iOrderWithLine[] | null {
     if (!orderList) {
@@ -203,6 +207,12 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
      }
   }
 
+  useEffect((): void => {
+    if (technicianId !== null) {
+      technicianData.current = techListContext.getTechDataById(technicianId);
+    }
+  }, [techListContext]);
+
   return (
     <div
       ref={container}
@@ -222,7 +232,7 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
             style={{
               left: getXPosition(order.time_slot_from).toString() + "px",
               top: getYPosition(order.line).toString() + "px",
-              width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px",
+              width: getOrderWidth(order.time_slot_from, order.time_slot_to).toString() + "px"
             }}
             draggable={"true"}
             onDragStart={(event: React.DragEvent<HTMLDivElement>): void => {setAttr2DragElm(event)}}
@@ -253,6 +263,25 @@ export default function Diagram({orderListProp, technicianId, isThisUnDisBlock}:
             <div className={"address"}>{order.address}</div>
           </div>
       )})}
+      {
+        !isThisUnDisBlock && technicianId !== null &&
+        technicianData.current &&
+        technicianData.current.non_working_times &&
+        technicianData.current.non_working_times.length > 0 &&
+        technicianData.current.non_working_times.map((timeSlot: iTimeSlot, index: number): JSX.Element => {
+          return (
+            <div
+              className={"non-working-time"}
+              key={index}
+              style={{
+                left: getXPosition(timeSlot.start).toString() + "px",
+                top: (techDiagTPadding * -1).toString() + "px",
+                width: getOrderWidth(timeSlot.start, timeSlot.finish).toString() + "px",
+                height: (getContainerHeight() < whiteLayerMinHeight ? whiteLayerMinHeight : getContainerHeight()).toString() + "px"
+              }}
+            />
+        )})
+      }
     </div>
   );
 }

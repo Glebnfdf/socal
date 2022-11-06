@@ -2,5 +2,6 @@ export enum PopUpName {
   none,
   orderPopUp,
   simpleError,
-  addTech
+  addTech,
+  techTimeErr
 }
