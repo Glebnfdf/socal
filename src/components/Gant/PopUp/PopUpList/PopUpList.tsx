@@ -6,6 +6,7 @@ import OrderPopUp, { iOrderPopUpInData } from "../OrderPopUp/OrderPopUp";
 import SimpleErrorPopUp from "../SimpleErrorPopUp/SimpleErrorPopUp";
 import AddTechPopUp, { iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
 import { PopUpName } from "./PopUpListNames";
+import TechNonWorkTimeErr from "../TechNonWorkTimeErr/TechNonWorkTimeErr";
 
 export default function PopUpList(): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
@@ -52,6 +53,8 @@ export default function PopUpList(): JSX.Element {
           data4PopUp = transmittedData.current;
         }
         return <AddTechPopUp incomingData={data4PopUp as iAddTechInData}/>
+      case PopUpName.techTimeErr:
+        return <TechNonWorkTimeErr/>
       default:
         return null
     }
