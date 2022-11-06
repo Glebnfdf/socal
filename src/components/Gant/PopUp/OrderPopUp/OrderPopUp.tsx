@@ -20,10 +20,7 @@ import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPop
 import { iMapContext, MapContext } from "../../GMap/MapProvider/MapProvider";
 import { iMapHeightContext, MapHeightContext } from "../../GMap/MapHeightProvider/MapHeightProvider";
 import "./OrderPopUp.scss";
-import {
-  iWhiteLayersContext,
-  WhiteLayersContext
-} from "../../WhiteLayersProvider/WhiteLayersProvider";
+import { iWhiteLayersContext, WhiteLayersContext } from "../../WhiteLayersProvider/WhiteLayersProvider";
 import { PopUpName } from "../PopUpList/PopUpListNames";
 import TechAvatar from "../../TechAvatar/TechAvatar";
 import TechBGCollection from "../../../../utils/TechBGCollection";

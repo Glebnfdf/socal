@@ -17,6 +17,7 @@ import TechBGCollection from "../../../utils/TechBGCollection";
 import notCrossNonWorkTimes from "../../../utils/notCrossNonWorkTimes";
 import { iPopUpContext, PopUpContext } from "../PopUp/PopUpContext/PopUpContext";
 import { PopUpName } from "../PopUp/PopUpList/PopUpListNames";
+import { iNonWorkTimeErrIdData } from "../PopUp/TechNonWorkTimeErr/TechNonWorkTimeErr";
 
 export default function TechnicianList(): JSX.Element {
   const techListContext: iTechListContext = useContext(TechListContext);
@@ -71,7 +72,11 @@ export default function TechnicianList(): JSX.Element {
       mapContext.setTechId(null);
       mapHeightContext.decreaseMap();
       whiteLayersContext.showAllWhite();
-      popUpContext.setData(PopUpName.techTimeErr, null);
+      const transmittedData: iNonWorkTimeErrIdData = {
+        orderId: orderDropData.orderId,
+        techId: technicianId
+      }
+      popUpContext.setData(PopUpName.techTimeErr, transmittedData);
       return;
     }
 

@@ -6,7 +6,7 @@ import OrderPopUp, { iOrderPopUpInData } from "../OrderPopUp/OrderPopUp";
 import SimpleErrorPopUp from "../SimpleErrorPopUp/SimpleErrorPopUp";
 import AddTechPopUp, { iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
 import { PopUpName } from "./PopUpListNames";
-import TechNonWorkTimeErr from "../TechNonWorkTimeErr/TechNonWorkTimeErr";
+import TechNonWorkTimeErr, { iNonWorkTimeErrIdData } from "../TechNonWorkTimeErr/TechNonWorkTimeErr";
 
 export default function PopUpList(): JSX.Element {
   const popUpContext: iPopUpContext = useContext(PopUpContext);
@@ -54,7 +54,11 @@ export default function PopUpList(): JSX.Element {
         }
         return <AddTechPopUp incomingData={data4PopUp as iAddTechInData}/>
       case PopUpName.techTimeErr:
-        return <TechNonWorkTimeErr/>
+        if (Object.prototype.hasOwnProperty.call(transmittedData.current as object, "orderId") &&
+          Object.prototype.hasOwnProperty.call(transmittedData.current as object, "techId")) {
+          data4PopUp = transmittedData.current;
+        }
+        return <TechNonWorkTimeErr incomingData={data4PopUp as iNonWorkTimeErrIdData}/>
       default:
         return null
     }
