@@ -5,6 +5,9 @@ import { iWhiteLayersContext, WhiteLayersContext } from "../../WhiteLayersProvid
 import { PopUpName } from "../PopUpList/PopUpListNames";
 import { CSSTransition } from "react-transition-group";
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
+import { iTimeSlot } from "../../../../APIInterfaces/iTechResponse";
+import getDateWithSlash from "../../../../utils/getDateWithSlash";
+import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 
 interface iProps {
   incomingData: iNonWorkTimeErrIdData
@@ -12,7 +15,9 @@ interface iProps {
 
 export interface iNonWorkTimeErrIdData {
   orderId: number,
-  techId: number
+  techId: number,
+  orderBeginTime: Date,
+  orderEndTime: Date
 }
 
 export default function TechNonWorkTimeErr({incomingData}: iProps): JSX.Element {
@@ -21,6 +26,8 @@ export default function TechNonWorkTimeErr({incomingData}: iProps): JSX.Element 
   const [technicianData, setTechnicianData]: [st: iTechnician | null, set: (st: iTechnician | null) => void] =
     useState<iTechnician | null>(null);
   const techListContext: iTechListContext = useContext(TechListContext);
+  const [nonWorkingTime, setNonWorkingTime]: [st: Date | null, set: (st: Date | null) => void] =
+    useState<Date | null>(null);
 
   function closePopUpHandler(): void {
     popUpContext.setData(PopUpName.none, null);
@@ -28,8 +35,27 @@ export default function TechNonWorkTimeErr({incomingData}: iProps): JSX.Element 
   }
 
   useEffect((): void => {
-    setTechnicianData(techListContext.getTechDataById(incomingData.techId));
+    const technician: iTechnician | null = techListContext.getTechDataById(incomingData.techId);
+    if (technician) {
+      setTechnicianData(technician);
+      if (technician.non_working_times && technician.non_working_times.length > 0) {
+        setNonWorkingTime(getNonWorkingTime(technician.non_working_times, incomingData.orderBeginTime, incomingData.orderEndTime));
+      }
+    }
   }, [incomingData]);
+
+  function getNonWorkingTime(techNonWorkingTimes: iTimeSlot[], orderBeginTime: Date, orderEndTime: Date): Date | null {
+    for (let i = 0; i < techNonWorkingTimes.length; i++) {
+      const techTmeSlotStart: Date = new Date(techNonWorkingTimes[i].start);
+      const techTmeSlotEnd: Date = new Date(techNonWorkingTimes[i].finish);
+      if (orderBeginTime.getTime() > techTmeSlotStart.getTime() && orderBeginTime.getTime() < techTmeSlotEnd.getTime() ||
+        orderEndTime.getTime() > techTmeSlotStart.getTime() && orderEndTime.getTime() < techTmeSlotEnd.getTime()
+      ) {
+        return new Date(techTmeSlotStart.getTime());
+      }
+    }
+  return null;
+  }
 
   return (
     <CSSTransition in={true} timeout={300} classNames={"popup-transition"} appear unmountOnExit={true}>
@@ -46,7 +72,11 @@ export default function TechNonWorkTimeErr({incomingData}: iProps): JSX.Element 
           <p className="title">Error!</p>
         </div>
         <div className="text">
-          Technician <span>{technicianData ? technicianData.name : ""}</span> must be added to this order <span>№ {incomingData.orderId}</span>, but it is busy on <span>04/14/2022</span> at <span>16:00</span>
+          Technician <span
+        >{technicianData ? technicianData.name : ""}</span> must be added to this order <span
+        >№ {incomingData.orderId}</span>, but it is busy on <span
+        >{nonWorkingTime ? getDateWithSlash(nonWorkingTime) : ""}</span> at <span
+        >{nonWorkingTime ? `${twoDigitOutput(nonWorkingTime.getHours())}:${twoDigitOutput(nonWorkingTime.getMinutes())}` : ""}</span>
         </div>
         <div className="btn-find" onClick={(): void => {closePopUpHandler()}}>
           Find a technician

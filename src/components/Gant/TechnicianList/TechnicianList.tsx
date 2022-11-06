@@ -74,7 +74,9 @@ export default function TechnicianList(): JSX.Element {
       whiteLayersContext.showAllWhite();
       const transmittedData: iNonWorkTimeErrIdData = {
         orderId: orderDropData.orderId,
-        techId: technicianId
+        techId: technicianId,
+        orderBeginTime: orderDropData.timeBegin,
+        orderEndTime: orderDropData.timeEnd
       }
       popUpContext.setData(PopUpName.techTimeErr, transmittedData);
       return;

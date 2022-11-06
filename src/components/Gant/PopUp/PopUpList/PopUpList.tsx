@@ -55,7 +55,9 @@ export default function PopUpList(): JSX.Element {
         return <AddTechPopUp incomingData={data4PopUp as iAddTechInData}/>
       case PopUpName.techTimeErr:
         if (Object.prototype.hasOwnProperty.call(transmittedData.current as object, "orderId") &&
-          Object.prototype.hasOwnProperty.call(transmittedData.current as object, "techId")) {
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "techId") &&
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "orderBeginTime") &&
+            Object.prototype.hasOwnProperty.call(transmittedData.current as object, "orderEndTime")) {
           data4PopUp = transmittedData.current;
         }
         return <TechNonWorkTimeErr incomingData={data4PopUp as iNonWorkTimeErrIdData}/>

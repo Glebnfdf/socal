@@ -14,7 +14,6 @@ import { iOrderPopUpContext, OrderPopUpContext } from "../OrderPopUpProvider/Ord
 import { iTechListContext, iTechnician, TechListContext } from "../../TechnicianListModel/TechnicianListModel";
 import Scrollbar from "../../../../lib/scrollbar";
 import Calendar from "react-calendar";
-import twoDigitOutput from "../../../../utils/twoDigitsOutput";
 import TimeDropMenu from "./TimeDropMenu/TimeDropMenu";
 import { AddTechOperationType, iAddTechInData } from "../AddTechPopUp/AddTechPopUp";
 import { iMapContext, MapContext } from "../../GMap/MapProvider/MapProvider";
@@ -24,6 +23,7 @@ import { iWhiteLayersContext, WhiteLayersContext } from "../../WhiteLayersProvid
 import { PopUpName } from "../PopUpList/PopUpListNames";
 import TechAvatar from "../../TechAvatar/TechAvatar";
 import TechBGCollection from "../../../../utils/TechBGCollection";
+import getDateWithSlash from "../../../../utils/getDateWithSlash";
 
 interface iProps {
   incomingData: iOrderPopUpInData | null
@@ -235,11 +235,6 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
       setSecondTech(null);
     }
   }, [orderPopUpContext]);
-
-  function getDate(date: Date): string {
-    // dd/mm/yyyy
-    return `${twoDigitOutput(date.getDate())}/${twoDigitOutput(date.getMonth() + 1)}/${date.getFullYear()}`
-  }
 
   function getTime(date: Date): string {
     return new Intl.DateTimeFormat("en-US", {
@@ -565,7 +560,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                   isShowCalendar.current = false;
                   setShowCalendar(true);
                 }}>
-                  <p className="title">{getDate(beginTime)}</p>
+                  <p className="title">{getDateWithSlash(beginTime)}</p>
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <use href="#calendar-icon"/>
                   </svg>
