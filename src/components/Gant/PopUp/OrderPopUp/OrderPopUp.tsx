@@ -780,7 +780,7 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
                         whiteLayersContext.setWhite(
                           true,
                           true,
-                          true,
+                          false,
                           false,
                           orderData.id
                         );
