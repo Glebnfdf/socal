@@ -586,6 +586,11 @@
 
   .scroll-vtrack {
     background: #E9F1FF !important;
+    width: 6px;
+
+    .scroll-thumb {
+      left: 0;
+    }
   }
 
   .title {
