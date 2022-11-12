@@ -66,9 +66,10 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
       }
 
       const input: HTMLInputElement = event.target as HTMLInputElement;
-      const isInputHaveAlreadyNum: boolean = input.value.length > 0;
-      if (digits.test(event.key) && isInputHaveAlreadyNum) {
-        remOldNumBeforeAddNew(input);
+      if (digits.test(event.key)) {
+        input.value = event.key;
+        autoFocusOnNextField(input);
+        event.preventDefault();
       }
     }
   }
@@ -77,17 +78,12 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
     event.preventDefault();
   }
 
-  function remOldNumBeforeAddNew(input: HTMLInputElement): void {
-    input.value = "";
-  }
-
   const keyUpHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     const keyIsNotControlKey: boolean = event.key.length === 1;
     const input: HTMLInputElement = event.target as HTMLInputElement;
 
     if (keyIsNotControlKey) {
       if (digits.test(event.key)) {
-        autoFocusOnNextField(input);
         setWrongSMS(false);
 
         const isAllInputHaveNum: boolean =
@@ -147,14 +143,14 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
       if (isLoading) {
         prevSMS.current = smsCode;
         return;
-      } else {
-        prevSMS.current = "";
       }
       doRequest(smsCode);
     }
   }
 
   function doRequest(smsCode: string): void {
+    prevSMS.current = "";
+
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async (): Promise<void> => {
       const url: string = "/api/auth/login";
