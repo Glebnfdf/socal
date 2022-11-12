@@ -572,11 +572,23 @@ export default function OrderPopUp({incomingData}: iProps): JSX.Element {
             <div className="contacts">
               <div className="top">
                 <div className="name">{orderData.main_contact_name}</div>
-                <div className="description"><span className={"dot-separator"}>&#9679;</span> {orderData.appliance}</div>
+                {
+                  orderData.appliance && orderData.appliance.length > 0 &&
+                    <>
+                      <div className={"dot-separator"}>&#9679;</div>
+                      <div className="description">{orderData.appliance}</div>
+                    </>
+                }
               </div>
               <div className="bottom">
                 <div className="phone">{orderData.main_contact_phone}</div>
-                <div className="mail"><span className={"dot-separator"}>&#9679;</span> {orderData.main_contact_email}</div>
+                {
+                  orderData.main_contact_email && orderData.main_contact_email.length > 0 &&
+                  <>
+                    <div className={"dot-separator"}>&#9679;</div>
+                    <div className="mail">{orderData.main_contact_email}</div>
+                  </>
+                }
               </div>
             </div>
           </div>
