@@ -26,7 +26,6 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   const num3: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
   const num4: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null);
   const digits: RegExp = /\d/;
-  const forbiddenSymbols: RegExp = /[.,e+-]/i;
   const resendTimer: React.MutableRefObject<number> = useRef<number>(0);
   const Delay4Resend: number = 60;
   const countDown: React.MutableRefObject<number> = useRef<number>(Delay4Resend);
@@ -61,21 +60,13 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   const keyDownHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     const keyIsNotControlKey: boolean = event.key.length === 1;
     if (keyIsNotControlKey) {
-      if (forbiddenSymbols.test(event.key)) {
-        prohibitSpecialSymbols(event);
-      }
-
       const input: HTMLInputElement = event.target as HTMLInputElement;
       if (digits.test(event.key)) {
         input.value = event.key;
         autoFocusOnNextField(input);
-        event.preventDefault();
       }
+      event.preventDefault();
     }
-  }
-
-  function prohibitSpecialSymbols(event: React.KeyboardEvent<HTMLInputElement>): void {
-    event.preventDefault();
   }
 
   const keyUpHandler = (event: React.KeyboardEvent<HTMLInputElement>): void => {
