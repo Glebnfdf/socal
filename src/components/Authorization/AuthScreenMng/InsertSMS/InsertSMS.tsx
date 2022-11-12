@@ -32,6 +32,11 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   const countDown: React.MutableRefObject<number> = useRef<number>(Delay4Resend);
   const [resendCountDown, setResendCountDown]: [st: number, set: (st: number) => void] = useState(countDown.current);
   const [isShowCountDown, setIsShowCountDown]: [st: boolean, set: (st: boolean) => void] = useState(false);
+  // Компонент useFetch не поспевает за большим количеством запросов/ответов. Он генерирует запросы как надо, но из-за
+  // того, что ответы от сервера приходят с задержкой, состояние useFetch меняется не моментально и какие-то ответы
+  // пропускаются, поэтому написан костыль: запросы посылаются только когда isLoading = false, а до этого храним запрос
+  // в очереди на отправку. По хорошему, запросы должны идти последовательно, а не сразу пачкой по нажатию на клавиши
+  const prevSMS: React.MutableRefObject<string> = useRef<string>("");
 
   useEffect((): () => void => {
     addResendTimer();
@@ -139,20 +144,29 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   function sendSMSCode(): void {
     if (num1.current && num2.current && num3.current && num4.current) {
       const smsCode: string = num1.current.value + num2.current.value + num3.current.value + num4.current.value;
-
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      (async (): Promise<void> => {
-        const url: string = "/api/auth/login";
-        const request: RequestInit = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ "phone": convertPhone2Num(phoneNumber), "code": smsCode })
-        };
-        await requestData(url, request, false);
-      })();
+      if (isLoading) {
+        prevSMS.current = smsCode;
+        return;
+      } else {
+        prevSMS.current = "";
+      }
+      doRequest(smsCode);
     }
+  }
+
+  function doRequest(smsCode: string): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    (async (): Promise<void> => {
+      const url: string = "/api/auth/login";
+      const request: RequestInit = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ "phone": convertPhone2Num(phoneNumber), "code": smsCode })
+      };
+      await requestData(url, request, false);
+    })();
   }
 
   useEffect((): void => {
@@ -165,7 +179,11 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
           }
           break;
         case 400:
-          setWrongSMS(true);
+          if (prevSMS.current.length > 0) {
+            doRequest(prevSMS.current);
+          } else {
+            setWrongSMS(true);
+          }
           break;
       }
     }
