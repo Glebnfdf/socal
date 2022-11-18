@@ -129,7 +129,7 @@ export default function OrderListModel({children}: iProps): JSX.Element {
   ): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async (): Promise<void> => {
-      const url: string = "/api/schedule/update";
+      const url: string = "/api/v2/schedule/update";
       if (technicianId === null) {
         return;
       }

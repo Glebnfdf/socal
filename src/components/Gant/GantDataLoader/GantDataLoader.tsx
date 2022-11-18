@@ -43,7 +43,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
     response?: Response | undefined,
     requestData: (url: string, request?: RequestInit, useRedirectFor401?: boolean) => Promise<void>
   } = useFetch();
-  const urlList = ["/api/schedule/tasks", "/api/schedule/technics", "/api/technics"];
+  const urlList = ["/api/v2/schedule/tasks", "/api/v2/schedule/technics", "/api/v2/technics"];
   const loadingStage: React.MutableRefObject<number> = useRef<number>(0);
   const gantDate: React.MutableRefObject<Date> = useRef<Date>(new Date());
   const orderList: React.MutableRefObject<iOrderResponse[] | null> = useRef<iOrderResponse[] | null>(null);
@@ -131,7 +131,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
   }
 
   function getGetParams(url: string, date: Date): URLSearchParams {
-    // urlList[2] = /technics/all
+    // urlList[2] = /technics
     if (url === urlList[2]) {
       return new URLSearchParams({
         date: shortDateFormat(date)
@@ -162,7 +162,7 @@ export default function GantDataLoader({children}: iProps): JSX.Element {
       orderList.current = [...orderList.current, ...((data as iOrderResponseRaw).data.items)];
     }
 
-    // техники /technics/all
+    // техники /technics
     if (url.includes(urlList[2])) {
       techList.current = (data as iTechResponseRaw).data.items;
     }

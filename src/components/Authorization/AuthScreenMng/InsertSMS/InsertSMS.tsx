@@ -144,7 +144,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async (): Promise<void> => {
-      const url: string = "/api/auth/login";
+      const url: string = "/api/v2/auth/login";
       const request: RequestInit = {
         method: "POST",
         headers: {
@@ -157,7 +157,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   }
 
   useEffect((): void => {
-    if (!isLoading && response && response.url.includes("/api/auth/login")) {
+    if (!isLoading && response && response.url.includes("/api/v2/auth/login")) {
       switch (response.status) {
         case 200:
           if (data) {
@@ -179,7 +179,7 @@ export default function InsertSMS({changeScreen, phoneNumber}: iProps): JSX.Elem
   function resendSMS(): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async (): Promise<void> => {
-      const url: string = "/api/auth/register";
+      const url: string = "/api/v2/auth/register";
       const request: RequestInit = {
         method: "POST",
         headers: {
